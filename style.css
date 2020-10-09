@@ -1,190 +1,31 @@
-/* *, html {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
-    background-color: black;
-}
-
-/* for scrollbars */
-/* body::-webkit-scrollbar {
-    width: 0.5em;
-  }
-   
-  body::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  }
-   
-  body::-webkit-scrollbar-thumb {
-    background-color: rgb(240, 232, 232);
-    outline: 1px solid slategrey;
-  }
-
-
-  body::-webkit-scrollbar-thumb:hover {
-    background-color: slategrey;
-  }
-
-
-
-
-  .clientwork{
-    color:white;
-    margin-left:25px;
-  }
-
-  .clientwork a{
-    color: black;
-  }
-
-/* For popups */
-.loader{
-    display:none;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
-    color:white;
-    animation: glitch 1s linear infinite;
-}
-
-
-@keyframes glitch{
-    2%,64%{
-      transform: translate(2px,0) skew(0deg);
-    }
-    4%,60%{
-      transform: translate(-2px,0) skew(0deg);
-    }
-    62%{
-      transform: translate(0,0) skew(5deg); 
-    }
-  }
-   */
-
-  /* .loader:before,
-  .loader:after{
-    content: attr(title);
-    position: absolute;
-    left: 0;
-  }
-  
-  .loader:before{
-    animation: glitchTop 1s linear infinite;
-    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-  }
-  
-  @keyframes glitchTop{
-    2%,64%{
-      transform: translate(2px,-2px);
-    }
-    4%,60%{
-      transform: translate(-2px,2px);
-    }
-    62%{
-      transform: translate(13px,-1px) skew(-13deg); 
-    }
-  }
-  
-  .loader:after{
-    animation: glitchBotom 1.5s linear infinite;
-    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-    -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-  }
-  
-  @keyframes glitchBotom{
-    2%,64%{
-      transform: translate(-2px,0);
-    }
-    4%,60%{
-      transform: translate(-2px,0);
-    }
-    62%{
-      transform: translate(-22px,5px) skew(21deg); 
-    }
-  }
-  
-footer{
-    
-    padding-top: 20px;
-}
-
-.social-media{
-    background-color: white;
-    width: 95%;
-    margin-left: 35px;
-    padding-top: 60px;
-    padding-bottom: 60px;
-    margin-bottom:20px;
-}
-
-
-.social-media > a{
-    width:40%;
-    color: black;
-    text-decoration: none;
-    font-family: 'Bungee Hairline', cursive;
-    font-weight: bolder;
-    font-size: 1.2rem;
-}
-
-.git{
-    margin-left: 40px;
-    margin-right: 20px;
-    }
-    
-    #top > a{
-        color:black;
-        float:right;
-        font-family: 'Bungee', cursive;
-        font-size: 1rem;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        text-decoration: none;
-    }
-    
-    #top > a:hover{
-      text-decoration:underline;
-    }  */
- 
 body, html {
-  height: 100%
+  height: 100%;
+  margin: 0;
 }
 
 .bgimg {
-  /* Background image */
-  background-image: url('/w3images/forestbridge.jpg');
-  /* Full-screen */
+  background-image: url('./construction.png');
   height: 100%;
-  /* Center the background image */
   background-position: center;
-  /* Scale and zoom in the image */
   background-size: cover;
-  /* Add position: relative to enable absolutely positioned elements inside the image (place text) */
   position: relative;
-  /* Add a white text color to all elements inside the .bgimg container */
   color: white;
-  /* Add a font */
   font-family: "Courier New", Courier, monospace;
-  /* Set the font-size to 25 pixels */
   font-size: 25px;
 }
 
-/* Position text in the top-left corner */
 .topleft {
   position: absolute;
   top: 0;
   left: 16px;
 }
 
-/* Position text in the bottom-left corner */
 .bottomleft {
   position: absolute;
   bottom: 0;
   left: 16px;
 }
 
-/* Position text in the middle */
 .middle {
   position: absolute;
   top: 50%;
@@ -193,7 +34,6 @@ body, html {
   text-align: center;
 }
 
-/* Style the <hr> element */
 hr {
   margin: auto;
   width: 40%;
