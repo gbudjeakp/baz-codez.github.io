@@ -18,9 +18,12 @@ body{
   margin-top: 10rem;
   padding-bottom: 20rem;
 }
+
 .introText{
   color: yellow;
 }
+
+
 #projects{
   color: black;
 }
@@ -34,11 +37,33 @@ body{
 }
 
 
+.techStack{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: sandybrown;
+  border: transparent;
+  border-radius: 2rem;
+}
+
+.animation-move{
+padding: 1rem;
+  text-align: center;
+}
+
+#contact{
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+}
+
+#context{
+  padding-top: 1rem;
+}
 
 .footer{
   text-align: center;
   padding-top: 2rem;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
 }
 
 footer{
