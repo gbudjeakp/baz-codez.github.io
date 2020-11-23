@@ -3,29 +3,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
   <title>The Amature Web Developer</title>
 </head>
 <body>
 
-  <!-- Navigation menu -->
+  <div class="container">
+    <!-- Content here -->
+    
+     <!-- Navigation menu -->
+     <!-- Just an image -->
+<nav class="navbar">
+ <div>
+  <img src="..." width="30" height="30" alt="" loading="lazy">
+   AWD
+ </div>
 <div>
-  <nav>
-    <ul>
-      <li>Home</li>
-      <li>Projects</li>
-      <li>About</li>
-      <li>Contacts</li>
-    </ul>
-  </nav>
+  
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link" href="#Home">Home</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#projects">Projects</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#About">About</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#contact">Contact</a>
+    </li>
+
+  </ul>
 </div>
-   
+</nav>
+
+
 
   <!-- Introduction page that describes the developer(me) -->
-  <div>
-    <h1></h1>
+  <div id="Home">
+    <h1>Hi <span class="introText">there,</span></h1>
+    <h4>I am Sebastian Gbudje, a front-End Web Developer who likes to create beautiful, responsive and, optimized web applications as well as slick UI/UX designs. </h4>
+   
+    <!-- for social media links and icons -->
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+  </div>
+ 
+  
+  
+  
+
+  <!-- This handles the projects page -->
+
+  <div id="projects" >
+
+   <h2 class="title">UI/UX Designs</h2>
+
+   <div class="card-deck">
+    <div class="card">
+      <img src="/public/Popuri Music Player.png" class="card-img-top" alt="popuri ui" loading="lazy">
+      <div class="card-body">
+        <h5 class="card-title">popuri Music</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="/public/Podcast App.png" class="card-img-top" alt="podcast Ui" loading="lazy">
+      <div class="card-body">
+        <h5 class="card-title">Podcast</h5>
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <p class="card-text"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="/public/Zindo Landing Page.png" class="card-img-top" alt="landingpage ui" loading="lazy">
+      <div class="card-body">
+        <h5 class="card-title">Zindo</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        <p class="card-text"></p>
+      </div>
+    </div>
+
   </div>
   
+
+  <div>
+
+    <h2 class="title">Web Apps</h2>
+    <hr>
+
+    <div class="card-deck">
+      <div class="card">
+        <a href="https://www.w3schools.com/howto/howto_css_icon_bar.asp" target="_blank">
+        <img src="..." class="card-img-top" alt="..." loading="lazy">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </a>
+
+      <div class="card">
+        <a href="https://www.w3schools.com/howto/howto_css_icon_bar.asp" target="_blank">
+        <img src="..." class="card-img-top" alt="..." loading="lazy">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </a>
+
+    <div class="card">
+      <a href="https://www.w3schools.com/howto/howto_css_icon_bar.asp" target="_blank">
+      <img src="../" class="card-img-top" alt="..." loading="lazy">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <p class="card-text"></p>
+      </div>
+    </div>
+    </a>
+    </div>
+
+   </div>
+
+
+   
+  <div>
+    <h2 class="title">Client Work</h2>
+    <div class="card" style="width: 18rem;">
+      <a href="https://www.emergingleadersconnect.com/" target="_blank">
+      <img src="/public/ELC.png" class="card-img-top" alt="ELC webpage" loading="lazy">
+      <div class="card-body">
+        <h5 class="card-title">Emerging Leaders Connect</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </a>
+      </div>
+    </div>
+    </div>
+ 
+
+  </div>
+
+
+<!-- About me page. Describes this developer (me) -->
+ <div id="About">
+  <h2 class="title">About</h2>
+  <img src="" alt="Profile Picture">
+  <p>My name is Sebastian Gbudje and I am a freelance front-Web Developer based in Winnipeg Manitoba, Canada. I love creating minimalist UI/UX deigns for web applications I build.</p>
+
+  <div class="techStack border">
+    <h3>Used Web technologies</h3>
+    
+    <div class="animation-move">
+      <img src="/public/html.png" alt="HTML" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+    <div class="animation-move">
+      <img src="/public/css.png" alt="css" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+    <div class="animation-move">
+      <img src="/public/javaScript.png" alt="javascript" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+    <div class="animation-move">
+      <img src="/public/react.png" alt="react" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+    <div class="animation-move">
+      <img src="/public/mongoDB.png" alt="mongoDb" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+    <div class="animation-move">
+      <img src="/public/MYSQL.png" alt="mySQL" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+    <div class="animation-move">
+      <img src="/public/node.png" alt="node" loading="lazy"> 
+      <p>HTML</p>
+    </div>
+
+  </div>
+ </div>
+
+  <!-- contact -->
+ <div id="contact">
+  <h2>Got Exiting Projects You Wanna Work On?</h2>
+  <h4 class="introText">Say hi</h4>
+ </div>
+
+</div>
+  <!-- footer area for social media stuff -->
+  <footer>
+   <div class="footer"> Made by Baz. 2020 All rights reserved.</div>
+  </footer>
+  </div>
+
+
+ 
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
 </html>

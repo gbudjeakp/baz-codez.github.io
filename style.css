@@ -3,3 +3,47 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+body{
+ background-color: black;
+ color: white;
+}
+
+ .navbar a{
+  color: white;
+}
+
+#Home{
+  margin-top: 10rem;
+  padding-bottom: 20rem;
+}
+.introText{
+  color: yellow;
+}
+#projects{
+  color: black;
+}
+
+
+.title{
+  color: white;
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+}
+
+
+
+.footer{
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+footer{
+  color: black;
+background-color: white;
+}
+
+
