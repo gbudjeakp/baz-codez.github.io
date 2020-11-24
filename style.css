@@ -10,6 +10,7 @@ body{
  color: white;
 }
 
+
  .navbar a{
   color: white;
 }
@@ -20,15 +21,81 @@ body{
 
 #Home{
   margin-top: 10rem;
-  padding-bottom: 20rem;
+  padding-bottom: 7rem;
 }
 
 .socialMedia{
   display: flex;
   justify-content: space-around;
   padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
+.socialMedia a:hover{
+  animation: bounce 1s infinite;
+}
+
+/* animations will be handles here */
+@-webkit-keyframes bounce { 
+  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
+  40% {-webkit-transform: translateY(-30px);} 
+  60% {-webkit-transform: translateY(-15px);} 
+} 
+
+@keyframes bounce { 
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
+  40% {transform: translateY(-30px);} 
+  60% {transform: translateY(-15px);} 
+}
+
+/* handldes scroll animation */
+.tag {
+  opacity: 0;
+  transform: translate(0, 10vh);
+  transition: all 1s;
+}
+
+.tag.visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* for hadling logo animation */
+.fade-in {
+  animation: fadeIn ease 10s;
+  -webkit-animation: fadeIn ease 10s;
+  -moz-animation: fadeIn ease 10s;
+  -o-animation: fadeIn ease 10s;
+  -ms-animation: fadeIn ease 10s;
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+
+
+/* End of animations */
 .introText{
   color: yellow;
 }
@@ -36,6 +103,11 @@ body{
 
 #projects{
   color: black;
+}
+
+#projects a{
+ text-decoration: none;
+ color: black;
 }
 
 
@@ -51,15 +123,22 @@ body{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: sandybrown;
   border: transparent;
   border-radius: 2rem;
 }
 
 .animation-move{
-padding: 1rem;
+  padding: 1rem;
   text-align: center;
 }
+
+.animation-move img{
+  padding-top: 1rem;
+  width: 25px;
+  height: 50px;
+}
+
+
 
 #contact{
   padding-bottom: 3rem;
@@ -70,14 +149,15 @@ padding: 1rem;
   padding-top: 1rem;
 }
 
-.footer{
+
+#footer{
   text-align: center;
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
 footer{
-  color: black;
+color: black;
 background-color: white;
 }
 
