@@ -118,6 +118,15 @@ body{
   padding-bottom: 1rem;
 }
 
+#About{
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+#stackheading{
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
 
 .techStack{
   display: flex;
@@ -141,8 +150,8 @@ body{
 
 
 #contact{
-  padding-bottom: 3rem;
-  padding-top: 3rem;
+  padding-bottom: 5rem;
+  padding-top: 7rem;
 }
 
 #context{

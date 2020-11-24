@@ -18,4 +18,4 @@ $(document).on('scroll', function () {
   //For dynamic date
 const text = document.getElementById("footer")
 const date = new Date().getFullYear()
-text.innerHTML = `<small>&copy; Copyright ${date}, The Amature Web Dev</small>`
+text.innerHTML = `&copy; Copyright ${date}, The Amature Web Dev`
