@@ -14,9 +14,19 @@ body{
   color: white;
 }
 
+.navbar a:hover{
+ color: yellow;
+}
+
 #Home{
   margin-top: 10rem;
   padding-bottom: 20rem;
+}
+
+.socialMedia{
+  display: flex;
+  justify-content: space-around;
+  padding-top: 4rem;
 }
 
 .introText{
