@@ -94,9 +94,32 @@ body{
 }
 
 
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
 /* End of animations */
 .introText{
   color: yellow;
+	margin: 10px;
+	height: 20px;
+	width: 20px;
+
+	box-shadow: 0 0 0 0 rgb(199, 212, 4);
+	transform: scale(1);
+	animation: pulse 1s infinite;
 }
 
 
@@ -155,6 +178,8 @@ body{
 
 #context{
   padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.7rem;
 }
 
 
