@@ -47,7 +47,7 @@ body{
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e6bc05, 0 0 40px #e7d90d, 0 0 50px #e6b000, 0 0 60px #b9ae11, 0 0 70px #e95b09;
   }
   to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ca7505, 0 0 50px #f0e0e8, 0 0 60px #ff4da6, 0 0 70px #d4c2cb, 0 0 80px #d8550a;
+    text-shadow: 0 0 20px #fff, 0 0 30px #91d129, 0 0 40px #ca7505, 0 0 50px #f0e0e8, 0 0 60px #cc7b30, 0 0 70px #d4c2cb, 0 0 80px #d8550a;
   }
 }
 
@@ -158,6 +158,40 @@ body{
  color: black;
 }
 
+.btn{
+  background-color: black;
+  border: none;
+}
+
+.btn:hover{
+  background-color: black;
+  color: yellow;
+}
+
+.modal{
+  color: white;
+
+}
+
+.modal-header{
+  background-color: black;
+}
+
+.close{
+  color: white;
+}
+
+.close:hover{
+  color:yellow;
+}
+
+.modal-title{
+font-weight: bold;
+}
+
+.modal-body{
+ background-color: black;
+}
 
 .title{
   color: white;
@@ -169,6 +203,7 @@ body{
 #About{
   padding-top: 3rem;
   padding-bottom: 3rem;
+  color: white;
 }
 
 #stackheading{
@@ -206,6 +241,7 @@ body{
   padding-bottom: 5rem;
   padding-top: 7rem;
 }
+
 #vibey{
   -webkit-animation: glow 1s ease-in-out infinite alternate;
   -moz-animation: glow 1s ease-in-out infinite alternate;
@@ -216,6 +252,18 @@ body{
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1.7rem;
+  text-align: center;
+}
+
+#othercontact{
+  padding-top: 5rem;
+}
+
+#othercontact img{
+  display: inline-flex;
+  width: 3rem;
+  padding-right: 1rem;
+  animation: zoominoutsinglefeatured 2s infinite;
 }
 
 

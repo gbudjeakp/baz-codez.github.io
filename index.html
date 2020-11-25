@@ -8,10 +8,61 @@
   <title>The Amature Web Developer</title>
 </head>
 <body>
+  <!-- Modals for UI/UX designs -->
+  <!-- Modal Popuri Music -->
+<div class="modal fade" id="popuri" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Popuri</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Popuri content
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Treehouse podcast -->
+<div class="modal fade" id="treehouse" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Tree house Podcast</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Tree House content content
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Zindo -->
+<div class="modal fade" id="zindo" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Zindo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Zindo Content
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <div class="container">
     <!-- Content here -->
-    
      <!-- Navigation menu -->
 <nav class="navbar">
  <div>
@@ -63,7 +114,7 @@
         <img src="/public/Linkedin.png" alt="LinkedIn">
       </a>
 
-      <a href="" target="_blank" >
+      <a href="https://dribbble.com/Xzebastian" target="_blank" >
         <img src="/public/dribble.png" alt="Dribble">
       </a>
       
@@ -85,30 +136,40 @@
 
    <div class="card-deck">
     <div class="card">
+      <a href="https://dribbble.com/shots/14440487-Popuri-Music-Player?utm_source=Clipboard_Shot&utm_campaign=Xzebastian&utm_content=Popuri%20Music%20Player&utm_medium=Social_Share" target="_blank">
       <img src="/public/Popuri Music Player.png" class="card-img-top" alt="popuri ui" loading="lazy">
+     </a>
       <div class="card-body">
         <h5 class="card-title">Popuri Music</h5>
-        <!-- Button trigger modal -->
-   
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popuri">
+          Reveal
+        </button>
       </div>
     </div>
     
-
     
 
     <div class="card">
-      <img src="/public/Podcast App.png" class="card-img-top" alt="podcast Ui" loading="lazy">
+      <a href="https://dribbble.com/shots/14463156-Tree-House-Podcast-App?utm_source=Clipboard_Shot&utm_campaign=Xzebastian&utm_content=Tree%20House%20Podcast%20App&utm_medium=Social_Share" target="_blank">
+        <img src="/public/Podcast App.png" class="card-img-top" alt="podcast Ui" loading="lazy">
+      </a>
       <div class="card-body">
         <h5 class="card-title">Tree House Podcast</h5>
-
-      
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#treehouse">
+          Reveal
+        </button>
       </div>
     </div>
 
     <div class="card">
+      <a href="https://dribbble.com/shots/14485007-Energy-Drink-Landing-Page?utm_source=Clipboard_Shot&utm_campaign=Xzebastian&utm_content=Energy%20Drink%20Landing%20Page&utm_medium=Social_Share" target="_blank">
       <img src="/public/Zindo Landing Page.png" class="card-img-top" alt="landingpage ui" loading="lazy">
+    </a>
       <div class="card-body">
         <h5 class="card-title">Zindo</h5>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zindo">
+          Reveal
+        </button>
       </div>
     </div>
 
@@ -174,16 +235,16 @@
     </div>
  
 
-  </div>
+ 
 
 
 <!-- About me page. Describes this developer (me) -->
  <div id="About" class="tag">
   <h2 class="title">About</h2>
   <img src="" alt="Profile Picture">
-  <p>My name is Sebastian Gbudje and I am a freelance front-Web Developer based in Winnipeg Manitoba, Canada. I love creating minimalist UI/UX deigns for web applications I build.</p>
+  <p>My name is Sebastian Gbudje and I am a freelance front-Web Developer based in Winnipeg Manitoba, Canada. I love creating minimalist UI/UX deigns for web applications. I develop and design funtinal, creative, detailed and usability and oriented Websites and web applications by using minimalism and the latest web stadards as a guide stick.</p>
 
-  <h3 id="stackheading">Used Web technologies</h3>
+  <h3 id="stackheading">Skills</h3>
 
   <div class="techStack border">
     <div class="animation-move">
@@ -229,13 +290,26 @@
   </div>
  </div>
 
+</div>
+
   <!-- contact -->
  <div id="contact" class="tag">
   <h3>Got Exiting Projects You Wanna Work On and need a <span class="introText" id="vibey">vibey</span> Front-End Dev?</h3>
   <a href="mailto:sebwebdev@gmail.com" >
     <h4 class="introText" id="context">Then Say hi</h4>
   </a>
-  
+    <div id="othercontact">
+      <h4>OR</h4>
+      <h5>Contact me on any of these places:</h5>
+      <a href="https://twitter.com/theamaturewebd1" target="_blank">
+        <img src="/public/twitter.png" alt="twitter">
+      </a>
+
+      
+      <a href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank">
+        <img src="/public/Linkedin.png" alt="LinkedIn">
+      </a>
+    </div>  
  </div>
 
 </div>
