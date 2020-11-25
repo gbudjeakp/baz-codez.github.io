@@ -29,23 +29,40 @@ body{
   justify-content: space-around;
   padding-top: 4rem;
   padding-bottom: 4rem;
+  animation-name: bounce;
+  animation-timing-function: ease;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
+
 
 .socialMedia a:hover{
-  animation: bounce 1s infinite;
+ animation: zoominoutsinglefeatured 2s infinite;
+}
+/* animations will be handles here */
+
+@keyframes zoominoutsinglefeatured {
+  0% {
+      transform: scale(1,1);
+  }
+  50% {
+      transform: scale(1.4,1.4);
+  }
+  100% {
+      transform: scale(1,1);
+  }
 }
 
-/* animations will be handles here */
 @-webkit-keyframes bounce { 
-  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
-  40% {-webkit-transform: translateY(-30px);} 
-  60% {-webkit-transform: translateY(-15px);} 
+ 0%   { -webkit-transform: translateY(0); }
+        50%  { -webkit-transform: translateY(-40px); }
+        100% { -webkit-transform: translateY(0); }
 } 
 
 @keyframes bounce { 
-  0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-  40% {transform: translateY(-30px);} 
-  60% {transform: translateY(-15px);} 
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-40px); }
+  100% { transform: translateY(0); }
 }
 
 /* handldes scroll animation */
@@ -159,13 +176,17 @@ body{
 }
 
 .animation-move{
-  padding: 1rem;
+  padding: 2rem;
   text-align: center;
+}
+
+.animation-move:hover{
+  animation: zoominoutsinglefeatured 2s infinite;
 }
 
 .animation-move img{
   padding-top: 1rem;
-  width: 25px;
+  width: 28px;
   height: 50px;
 }
 
