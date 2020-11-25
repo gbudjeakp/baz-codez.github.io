@@ -47,7 +47,7 @@ body{
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e6bc05, 0 0 40px #e7d90d, 0 0 50px #e6b000, 0 0 60px #b9ae11, 0 0 70px #e95b09;
   }
   to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #a1671c, 0 0 50px #f0e0e8, 0 0 60px #ff4da6, 0 0 70px #d4c2cb, 0 0 80px #d8550a;
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ca7505, 0 0 50px #f0e0e8, 0 0 60px #ff4da6, 0 0 70px #d4c2cb, 0 0 80px #d8550a;
   }
 }
 
@@ -185,7 +185,7 @@ body{
 }
 
 .animation-move{
-  padding: 2rem;
+  padding: 1.2rem;
   text-align: center;
 }
 

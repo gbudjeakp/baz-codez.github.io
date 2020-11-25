@@ -19,3 +19,5 @@ $(document).on('scroll', function () {
 const text = document.getElementById('footer')
 const date = new Date().getFullYear()
 text.innerHTML = `&copy; Copyright ${date}, The Amature Web Dev`
+
+
