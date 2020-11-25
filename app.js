@@ -15,9 +15,22 @@ $(document).on('scroll', function () {
   }
 })
 
+// for cursor
+const cursor = document.querySelector('.cursor')
+
+document.addEventListener('mousemove', e => {
+  cursor.setAttribute('style', 'top: ' + (e.pageY - 10) + 'px; left: ' + (e.pageX - 10) + 'px;')
+})
+
+document.addEventListener('click', () => {
+  cursor.classList.add('expand')
+
+  setTimeout(() => {
+    cursor.classList.remove('expand')
+  }, 500)
+})
+
 // For dynamic date
 const text = document.getElementById('footer')
 const date = new Date().getFullYear()
 text.innerHTML = `&copy; Copyright ${date}, The Amature Web Dev`
-
-
