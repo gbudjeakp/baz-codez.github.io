@@ -9,14 +9,32 @@ body{
  background-color: black;
  color: white;
 }
-
+ /* for scrollbar */
+ body::-webkit-scrollbar {
+  width: 0.4em;
+}
+ 
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+  background-color: yellow;
+  outline: 1px solid black;
+}
 
  .navbar a{
   color: white;
 }
-
+.navbar{
+  background-color: black;
+}
 .navbar a:hover{
  color: yellow;
+}
+
+ .svg{
+  padding-left: 2.5rem;
 }
 
 #Home{
@@ -160,6 +178,7 @@ body{
 
 .btn{
   background-color: black;
+  color: white;
   border: none;
 }
 
@@ -227,6 +246,7 @@ font-weight: bold;
 .animation-move:hover{
   transform: scale(1.9);
   text-shadow: 2px 2px 5px yellow;
+  animation: zoominoutsinglefeatured 2s infinite;
 }
 
 .animation-move img{
@@ -259,6 +279,8 @@ font-weight: bold;
   padding-top: 5rem;
 }
 
+
+
 #othercontact img{
   display: inline-flex;
   width: 3rem;
@@ -279,3 +301,47 @@ background-color: white;
 }
 
 
+/* Mobile view and tablet view */
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .svg{
+   display: none;
+  }
+
+
+  #Home{
+  padding-bottom: 2.5em;
+  }
+
+  #Home h4{
+    font-size: 1em;
+    padding-bottom: 1em;
+  }
+
+  
+  .socialMedia{
+    padding-top: 3em;
+    padding-bottom: 1em;
+  }
+
+  .socialMedia img{
+  width: 40px;
+  }
+
+  .title {
+    color: white;
+    text-align: center;
+}
+
+.techStack{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  flex-shrink: inherit;
+}
+
+#othercontact img{
+ width: 2.5em;
+}
+
+}
