@@ -181,7 +181,8 @@ body{
 }
 
 .animation-move:hover{
-  animation: zoominoutsinglefeatured 2s infinite;
+  transform: scale(1.9);
+  text-shadow: 2px 2px 5px yellow;
 }
 
 .animation-move img{
