@@ -220,7 +220,9 @@ font-weight: bold;
   padding-bottom: 1rem;
 }
 
- 
+ .card:hover{
+  animation: pulse 3s infinite;
+ }
 
 #About{
   padding-top: 3rem;
