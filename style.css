@@ -8,6 +8,7 @@
 body{
  background-color: black;
  color: white;
+ overflow-x: hidden;
  cursor: none;
 }
  /* for scrollbar */
@@ -28,7 +29,7 @@ body::-webkit-scrollbar-thumb {
   color: white;
 }
 .navbar{
-  background-color: black;
+ background-color: black;
 }
 .navbar a:hover{
  color: yellow;
@@ -190,8 +191,9 @@ body::-webkit-scrollbar-thumb {
 
 .modal{
   color: white;
-
 }
+
+
 
 .modal-header{
   background-color: black;
@@ -260,7 +262,9 @@ font-weight: bold;
   height: 50px;
 }
 
-
+#stackheading{
+  text-align: center;
+}
 
 #contact{
   padding-bottom: 5rem;
@@ -363,7 +367,7 @@ background-color: white;
   transition-duration: 170ms;
   transition-timing-function: ease-out;
   animation: cursorAnim .5s infinite alternate;
-  z-index: 10;
+  z-index: 100;
   pointer-events: none;
   backdrop-filter: grayscale();
 }
@@ -417,3 +421,5 @@ background-color: white;
   animation: cursorAnim3 .5s forwards;
   border: 1px solid yellow;
 }
+
+
