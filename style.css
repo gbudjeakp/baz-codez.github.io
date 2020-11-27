@@ -9,7 +9,7 @@ body{
  background-color: black;
  color: white;
  overflow-x: hidden;
- cursor: none;
+ 
 }
  /* for scrollbar */
  body::-webkit-scrollbar {
@@ -21,7 +21,7 @@ body::-webkit-scrollbar-track {
 }
  
 body::-webkit-scrollbar-thumb {
-  background-color: yellow;
+  background-color: #FFC107;
   outline: 1px solid black;
 }
 
@@ -32,7 +32,7 @@ body::-webkit-scrollbar-thumb {
  background-color: black;
 }
 .navbar a:hover{
- color: yellow;
+ color: #FFC107;
 }
 
  .svg{
@@ -42,6 +42,13 @@ body::-webkit-scrollbar-thumb {
 #Home{
   margin-top: 10rem;
   padding-bottom: 7rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#Home h1, h4{
+  padding: 0rem 0.2rem 0rem 0rem;
+  line-height: 1.6;
+  font-weight: 700;
 }
 
 .socialMedia{
@@ -159,72 +166,65 @@ body::-webkit-scrollbar-thumb {
 }
 /* End of animations */
 .introText{
-  color: yellow;
+  color: #FFC107;
 	margin: 10px;
 	height: 20px;
 	width: 20px;
 	box-shadow: 0 0 0 0 rgb(199, 212, 4);
 	transform: scale(1);
-	animation: pulse 1s infinite;
+  animation: pulse 1s infinite;
+  font-family: 'Montserrat', sans-serif;
 }
 
 
 #projects{
-  color: black;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #projects a{
  text-decoration: none;
- color: black;
 }
 
-.btn{
-  background-color: black;
+.col{
+  grid-gap: 1.5em;
+  padding: 1.5em;
+  grid-template-columns: 1fr 1fr;
+}
+.col img{
+  width: 300px;
+}
+
+.casestudy{
+  border-bottom: 3px solid  #FFC107;
   color: white;
-  border: none;
+  text-transform: capitalize;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.btn:hover{
-  background-color: black;
-  color: yellow;
-}
-
-.modal{
-  color: white;
-}
-
-
-
-.modal-header{
-  background-color: black;
-}
-
-.close{
-  color: white;
-}
-
-.close:hover{
-  color:yellow;
-}
-
-.modal-title{
-font-weight: bold;
-}
-
-.modal-body{
- background-color: black;
+.casestudy:hover{
+  color: #FFC107;
+  border-bottom: 3px solid  white;
 }
 
 .title{
-  color: white;
+ color: white;
   text-align: center;
   padding-top: 5rem;
   padding-bottom: 1rem;
+  font-family: 'Montserrat', sans-serif;
 }
 
- .card:hover{
-  animation: pulse 3s infinite;
- }
+
+ 
+
+#client a{
+  color:white;
+  border-bottom: 3px solid #FFC107; 
+}
+
+#client a:hover{
+  text-decoration: line-through #FFC107;
+}
 
 #About{
   padding-top: 3rem;
@@ -243,6 +243,7 @@ font-weight: bold;
   justify-content: space-between;
   border: transparent;
   border-radius: 2rem;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .animation-move{
@@ -252,7 +253,7 @@ font-weight: bold;
 
 .animation-move:hover{
   transform: scale(1.9);
-  text-shadow: 2px 2px 5px yellow;
+  text-shadow: 2px 2px 5px #FFC107;
   animation: zoominoutsinglefeatured 2s infinite;
 }
 
@@ -264,11 +265,14 @@ font-weight: bold;
 
 #stackheading{
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #contact{
   padding-bottom: 5rem;
-  padding-top: 7rem;
+  padding-top: 2rem;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
 }
 
 #vibey{
@@ -278,8 +282,7 @@ font-weight: bold;
 }
 
 #context{
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 2.7rem;
   font-size: 1.7rem;
   text-align: center;
 }
@@ -291,7 +294,6 @@ font-weight: bold;
 
 
 #othercontact img{
-  display: inline-flex;
   width: 3rem;
   padding-right: 1rem;
   animation: zoominoutsinglefeatured 2s infinite;
@@ -300,13 +302,13 @@ font-weight: bold;
 
 #footer{
   text-align: center;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-family: 'Montserrat', sans-serif;
 }
 
 footer{
-color: black;
-background-color: white;
+color: white
 }
 
 
@@ -327,7 +329,7 @@ background-color: white;
     padding-bottom: 1em;
   }
 
-  
+
   .socialMedia{
     padding-top: 3em;
     padding-bottom: 1em;
@@ -378,7 +380,7 @@ background-color: white;
   width: 20px;
   height: 20px;
   position: absolute;
-  border: 8px solid yellow;
+  border: 8px solid #FFC107;
   border-radius: 50%;
   opacity: 0.5;
   top: -8px;
@@ -419,7 +421,7 @@ background-color: white;
 
 .expand {
   animation: cursorAnim3 .5s forwards;
-  border: 1px solid yellow;
+  border: 1px solid #FFC107;
 }
 
 

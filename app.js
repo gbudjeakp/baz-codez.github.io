@@ -19,7 +19,7 @@ $(document).on('scroll', function () {
 const cursor = document.querySelector('.cursor')
 
 document.addEventListener('mousemove', e => {
-  cursor.setAttribute('style', 'top: ' + (e.pageY - 10) + 'px; left: ' + (e.pageX - 10) + 'px;')
+  cursor.setAttribute('style', 'top: ' + (e.pageY - 15) + 'px; left: ' + (e.pageX - 15) + 'px;')
 })
 
 document.addEventListener('click', () => {
@@ -34,4 +34,3 @@ document.addEventListener('click', () => {
 const text = document.getElementById('footer')
 const date = new Date().getFullYear()
 text.innerHTML = `&copy; Copyright ${date}, The Amature Web Dev`
-
