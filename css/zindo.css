@@ -36,8 +36,30 @@ body{
 .jumbotron{
     background-image: linear-gradient(to right, rgb(86, 204, 242) , rgb(91, 231,47));
     color: white;
+    padding-top: 6rem;
 }
 
 .jumbotron img{
     width: 400px;
 }
+
+
+.jumbotron a{
+    color:white;
+    background-image: linear-gradient(to right, rgb(83, 105, 118) , rgb(41, 46,73));
+    border: 1px solid #FFC107 ;
+    padding: .6rem;
+    border-radius: .7rem;
+}
+
+.jumbotron a:hover{
+    color:black;
+    background-color: white;
+    border: 1px solid #FFC107;
+    padding: .6rem;
+    border-radius: .8rem;
+  }
+
+  .col img{
+    width: 250px;
+  }
