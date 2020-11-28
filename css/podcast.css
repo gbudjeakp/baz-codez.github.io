@@ -1,0 +1,43 @@
+
+body{
+    background-color: black;
+    color: white;
+    overflow-x: hidden;
+    
+   }
+    /* for scrollbar */
+    body::-webkit-scrollbar {
+     width: 0.4em;
+   }
+    
+   body::-webkit-scrollbar-track {
+     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+   }
+    
+   body::-webkit-scrollbar-thumb {
+     background-color: #FFC107;
+     outline: 1px solid black;
+   }
+
+   .navbar a{
+    color: white;
+  }
+  .navbar{
+   background-color: black;
+  }
+  .navbar a:hover{
+   color: #FFC107;
+  }
+  
+   .svg{
+    padding-left: 2.5rem;
+  }   
+
+.jumbotron{
+    background-image: linear-gradient(to right, rgb(83, 105, 118) , rgb(41, 46,73));
+    color: white;
+}
+
+.jumbotron img{
+    width: 400px;
+}
