@@ -58,7 +58,7 @@ body{
   }
 
   .col img{
-    width: 270px;
+    width: 600px;
   }
   
   .col p{
@@ -69,6 +69,10 @@ body{
    .col h5{
     line-height: 1.6;
     font-weight: 700;
+  }
+
+  #specialimagewidth{
+    width: 200px;
   }
   
   
@@ -109,6 +113,10 @@ body{
     font-size: .89rem;
     opacity: .5;
    }
+
+   .col img{
+    width: 300px;
+  }
 
 
    .jumbotron{
