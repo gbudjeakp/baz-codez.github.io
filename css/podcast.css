@@ -3,7 +3,7 @@ body{
     background-color: black;
     color: white;
     overflow-x: hidden;
-    
+    font-family: 'Montserrat', sans-serif;
    }
     /* for scrollbar */
     body::-webkit-scrollbar {
