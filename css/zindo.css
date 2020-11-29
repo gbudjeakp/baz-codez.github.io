@@ -62,7 +62,7 @@ body{
   }
 
   .col img{
-    width: 500px;
+    width: 400px;
   }
   
 .col p{
@@ -74,6 +74,15 @@ body{
   font-weight: 700;
 }
 
+#imagebottom{
+  display: none;
+}
+
+#imagetop{
+  display: block;
+}
+
+
 
 .row { 
   margin-top: 5rem;
@@ -83,12 +92,9 @@ body{
 
 .item{
   padding-left: 5rem;
-  align-items: center;
 }
 
-#specialimagewidth{
-  float: right;
-}
+
 
   #footer{
     text-align: center;
@@ -144,8 +150,18 @@ body{
   grid-template-columns: 1fr 1fr;
 }
 
-.col img{
-  width: 300px;
+
+
+#imagebottom{
+  display: block;
+  padding-left: 4em;
 }
 
+#imagetop{
+  display: none;
+}
+
+#textleft{
+  padding-left: 0;
+ }
 }

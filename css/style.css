@@ -185,10 +185,12 @@ body::-webkit-scrollbar-thumb {
  text-decoration: none;
 }
 
+
 .col{
   grid-gap: 1.5em;
   padding: 1.5em;
   grid-template-columns: 1fr 1fr;
+  grid-auto-flow: dense;
 }
 
 
@@ -215,10 +217,17 @@ body::-webkit-scrollbar-thumb {
 .item{
   padding-bottom: 6rem;
   padding-left: 4rem;
+  
 }
+
+
 
 .col img{
   width: 300px;
+}
+
+#imagebottom{
+  display: none;
 }
 
 
@@ -350,13 +359,17 @@ color: white
     text-align: center;
 }
 
-.col{
-  flex-basis: 1;
-}
+
 .col img{
   width: 300px;
 }
+#imagebottom{
+  display: block;
+}
 
+#imagetop{
+  display: none;
+}
 
 .techStack{
   display: flex;

@@ -59,13 +59,7 @@ body{
   width: 500px;
 }
 
-#specialimagewidth{
-  width: 350px;
-}
 
-#specialimagewidth2{
-  width: 300px;
-}
 
 .col p{
   font-size: 1rem;
@@ -74,6 +68,18 @@ body{
  .col h5{
   line-height: 1.6;
   font-weight: 700;
+}
+
+.col img{
+  width: 300px;
+}
+
+#imagebottom{
+  display: none;
+}
+
+#imagetop{
+  display: block;
 }
 
 
@@ -85,7 +91,6 @@ body{
 
 .item{
   padding-left: 5rem;
-  align-items: center;
 }
 
 #footer{
@@ -113,32 +118,30 @@ body{
     font-size: .89rem;
    }
 
+   
+
 #specialcase{
   color: white;
   opacity: 1;
 }
 
-   .jumbotron{
-    padding-top: 4em;
-}
-
-
-  
 
 .jumbotron img{
   padding-top: 2em;
 }
 
-.col{
-  grid-gap: 1em;
-  padding-top: 3em;
-  padding-right:2em;
-  padding-left: 1em;
-  grid-template-columns: 1fr 1fr;
+#textleft{
+ padding-left: 0;
 }
 
-.col img{
-  width: 300px;
+#imagebottom{
+  display: block;
+  padding-left: 4em;
 }
+
+#imagetop{
+  display: none;
+}
+
 
 }
