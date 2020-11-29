@@ -34,9 +34,10 @@ body{
   }   
 
 .jumbotron{
-    background-image: linear-gradient(to right, rgb(86, 204, 242) , rgb(91, 231,47));
+    background-image: linear-gradient(to right, rgb(54, 187, 231) , rgb(91, 231,47));
     color: white;
     padding-top: 6rem;
+    font-size: 1rem;
 }
 
 .jumbotron img{
@@ -46,7 +47,7 @@ body{
 
 .jumbotron a{
     color:white;
-    background-image: linear-gradient(to right, rgb(83, 105, 118) , rgb(41, 46,73));
+    background-image: linear-gradient(to right, rgb(54, 187, 231) , rgb(91, 231,47));
     border: 1px solid #FFC107 ;
     padding: .6rem;
     border-radius: .7rem;
@@ -54,12 +55,90 @@ body{
 
 .jumbotron a:hover{
     color:black;
-    background-color: white;
-    border: 1px solid #FFC107;
-    padding: .6rem;
-    border-radius: .8rem;
+    background-image: linear-gradient(to right, white , white);
   }
 
   .col img{
-    width: 250px;
+    width: 500px;
   }
+  
+.col p{
+  font-size: 1rem;
+ }
+
+ .col h5{
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+
+.row { 
+  margin-top: 5rem;
+  padding-bottom: 7rem;
+}
+
+
+.item{
+  padding-left: 5rem;
+  align-items: center;
+}
+
+  #footer{
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  
+
+
+  
+/* Mobile view and tablet view */
+@media only screen and (max-width: 767px) {
+  /* For mobile phones: */
+.svg{
+  display: none;
+}
+
+  .col h5{
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .col p{
+    font-size: .89rem;
+   }
+
+
+   .jumbotron{
+    padding-top: 4em;
+}
+
+.jumbotron a{
+  color:white;
+  background-color: white;
+  border: 1px solid #FFC107;
+  font-size: .9em;
+  padding: .6rem;
+  border-radius: .7rem;
+}
+  
+
+.jumbotron img{
+  padding-top: 2em;
+}
+
+.col{
+  grid-gap: 1em;
+  padding-top: 3em;
+  padding-right:2em;
+  padding-left: 1em;
+  grid-template-columns: 1fr 1fr;
+}
+
+.col img{
+  width: 300px;
+}
+
+}

@@ -190,9 +190,7 @@ body::-webkit-scrollbar-thumb {
   padding: 1.5em;
   grid-template-columns: 1fr 1fr;
 }
-.col img{
-  width: 300px;
-}
+
 
 .casestudy{
   border-bottom: 3px solid  #FFC107;
@@ -214,8 +212,16 @@ body::-webkit-scrollbar-thumb {
   font-family: 'Montserrat', sans-serif;
 }
 
+.item{
+  padding-bottom: 6rem;
+  padding-left: 4rem;
+}
 
- 
+.col img{
+  width: 300px;
+}
+
+
 
 #client a{
   color:white;
@@ -344,10 +350,18 @@ color: white
     text-align: center;
 }
 
+.col{
+  flex-basis: 1;
+}
+.col img{
+  width: 300px;
+}
+
+
 .techStack{
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
+ flex-direction: row-reverse;
   flex-shrink: inherit;
 }
 

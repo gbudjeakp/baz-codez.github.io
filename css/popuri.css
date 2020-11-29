@@ -37,23 +37,22 @@ body{
     background-color: #F10527;
     color: white;
     padding-top: 3rem;
+    font-size: 1rem;
 }
 
 .jumbotron a{
   color:white;
-  background-image: linear-gradient(to right, rgb(83, 105, 118) , rgb(41, 46,73));
-  border: 1px solid #FFC107 ;
+  background-color: #F10527;
+  border: 1px solid #FFC107;
   padding: .6rem;
   border-radius: .7rem;
 }
 
+
 .jumbotron a:hover{
   color:black;
-  border: 1px solid #FFC107;
-  padding: .6rem;
-  border-radius: .8rem;
+  background-image: linear-gradient(to right, white , white);
 }
-
 
 .col img{
   width: 500px;
@@ -69,7 +68,6 @@ body{
 
 .col p{
   font-size: 1rem;
-  opacity: .5;
  }
 
  .col h5{
@@ -112,7 +110,6 @@ body{
 
   .col p{
     font-size: .89rem;
-    opacity: .5;
    }
 
 #specialcase{
@@ -126,7 +123,7 @@ body{
 
 .jumbotron a{
   color:white;
-  background-image: linear-gradient(to right, rgb(83, 105, 118) , rgb(41, 46,73));
+  background-color: white;
   border: 1px solid #FFC107;
   font-size: .9em;
   padding: .6rem;
