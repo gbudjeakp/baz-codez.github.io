@@ -59,7 +59,13 @@ body{
   width: 500px;
 }
 
+#specialimagewidth{
+  width: 350px;
+}
 
+#specialimagewidth2{
+  width: 300px;
+}
 
 .col p{
   font-size: 1rem;
