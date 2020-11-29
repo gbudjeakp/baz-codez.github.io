@@ -38,6 +38,9 @@ body{
     color: white;
     padding-top: 6rem;
     font-size: 1rem;
+    height: 600px;
+
+  
 }
 
 .jumbotron img{
@@ -81,6 +84,10 @@ body{
 .item{
   padding-left: 5rem;
   align-items: center;
+}
+
+#specialimagewidth{
+  float: right;
 }
 
   #footer{
