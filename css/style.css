@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  cursor: none;
 }
 
 
@@ -385,71 +384,5 @@ color: white
 
 }
 
-
-/* //for cursor design */
-
-.cursor {
-  width: 35px;
-  height: 30px;
-  border: 1px solid white;
-  border-radius: 50%;
-  position: absolute;
-  transition-duration: 170ms;
-  transition-timing-function: ease-out;
-  animation: cursorAnim .5s infinite alternate;
-  z-index: 100;
-  pointer-events: none;
-  backdrop-filter: grayscale();
-}
-
-
-.cursor::after {
-  content: "";
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  border: 8px solid #FFC107;
-  border-radius: 50%;
-  opacity: 0.5;
-  top: -8px;
-  left: -8px;
-  animation: cursorAnim2 .5s infinite alternate;
-}
-
-@keyframes cursorAnim {
-  from {
-      transform: scale(1);
-  }
-  to {
-      transform: scale(.7);
-  }
-}
-
-@keyframes cursorAnim2 {
-  from {
-      transform: scale(1);
-  }
-  to {
-      transform: scale(.4);
-  }
-}
-
-@keyframes cursorAnim3 {
-  0% {
-      transform: scale(1);
-  }
-  50% {
-      transform: scale(3);
-  }
-  100% {
-      transform: scale(1);
-      opacity: 0;
-  }
-}
-
-.expand {
-  animation: cursorAnim3 .5s forwards;
-  border: 1px solid #FFC107;
-}
 
 
