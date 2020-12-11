@@ -60,7 +60,7 @@ body{
 }
 
 #specialimagewidth{
-  width: 350px;
+  width: 310px;
 }
 
 #specialimagewidth2{
@@ -77,16 +77,10 @@ body{
 }
 
 .col img{
-  width: 300px;
+  width: 250px;
 }
 
-#imagebottom{
-  display: none;
-}
 
-#imagetop{
-  display: block;
-}
 
 
 .row { 
@@ -95,9 +89,7 @@ body{
 }
 
 
-.item{
-  padding-left: 5rem;
-}
+
 
 #footer{
   text-align: center;
@@ -140,14 +132,7 @@ body{
  padding-left: 0;
 }
 
-#imagebottom{
-  display: block;
-  padding-left: 4em;
-}
 
-#imagetop{
-  display: none;
-}
 
 
 }

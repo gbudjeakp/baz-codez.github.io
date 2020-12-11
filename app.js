@@ -15,7 +15,20 @@ $(document).on('scroll', function () {
   }
 })
 
+// for hamburger menu
 
+const sideNav = document.getElementById('sidNav')
+
+$(document).ready(function () {
+  $('#nav-icon3, #sideNav').click(function () {
+    $(this).toggleClass('open')
+    if (sideNav.style.left === '40%') {
+      sideNav.style.top = '-160%'
+    } else {
+      sideNav.style.right = '100%'
+    }
+  })
+})
 
 // For dynamic date
 const text = document.getElementById('footer')
