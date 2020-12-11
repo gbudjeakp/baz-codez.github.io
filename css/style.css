@@ -8,7 +8,7 @@
 body{
  background-color: black;
  color: white;
- overflow-x: hidden;
+
 }
  /* for scrollbar */
  body::-webkit-scrollbar {
@@ -41,11 +41,11 @@ body::-webkit-scrollbar-thumb {
 
 #menuToggle
 {
+  height: 100%;
   display: none; 
-  position: fixed;
+  position: absolute;
   top: 50px;
   left: 50px;
-  height: 100vh;
   z-index: 1;
   -webkit-user-select: none;
   user-select: none;
@@ -61,7 +61,7 @@ body::-webkit-scrollbar-thumb {
 
 #menuToggle a:hover
 {
-  color:#FFC107;
+  text-decoration: line-through #FFC107;
 }
 
 
@@ -92,7 +92,6 @@ body::-webkit-scrollbar-thumb {
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  
   background: #FFC107;
   border-radius: 3px;
   
@@ -101,8 +100,8 @@ body::-webkit-scrollbar-thumb {
   transform-origin: 4px 0px;
   
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              opacity 0.55s ease;
+  background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+  opacity 0.55s ease;
 }
 
 #menuToggle span:first-child
@@ -151,7 +150,7 @@ body::-webkit-scrollbar-thumb {
 {
   position: absolute;
   width: 300px;
-  margin: -100px 0 0 -50px;
+  margin: -100px 200px 0 -50px;
   padding: 50px;
   padding-top: 125px;
   height: 100vh;
