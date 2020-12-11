@@ -308,7 +308,7 @@ body::-webkit-scrollbar-thumb {
 /* End of animations */
 .introText{
   color: #FFC107;
-	margin: 10px;
+	margin: 5px;
 	height: 20px;
 	width: 20px;
 	box-shadow: 0 0 0 0 rgb(199, 212, 4);
@@ -350,16 +350,15 @@ body::-webkit-scrollbar-thumb {
 
 .item{
   padding-bottom: 6rem;
-  padding-left: 4rem;
 }
 
-
-
-.col img{
-  width: 300px;
+.row{
+  padding-bottom: 7rem;
 }
 
-
+.webapps{
+  padding-top: 7rem;
+}
 
 #client a{
   color:white;
@@ -483,6 +482,7 @@ color: white
   }
 
 
+
   .socialMedia{
     padding-top: 3em;
     padding-bottom: 1em;
@@ -496,7 +496,6 @@ color: white
     color: white;
     text-align: center;
 }
-
 
 .col img{
   width: 200px;
