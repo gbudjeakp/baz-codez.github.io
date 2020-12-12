@@ -350,6 +350,7 @@ body::-webkit-scrollbar-thumb {
 
 .item{
   padding-bottom: 6rem;
+  padding-left:5rem;
 }
 
 .row{
