@@ -15,12 +15,7 @@ $(document).on('scroll', function () {
   }
 })
 
-const mainNav = document.getElementById('js-menu')
-const navBarToggle = document.getElementById('js-navbar-toggle')
 
-navBarToggle.addEventListener('click', function () {
-  mainNav.classList.toggle('active')
-})
 
 // For dynamic date
 const text = document.getElementById('footer')
