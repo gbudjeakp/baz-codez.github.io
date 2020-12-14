@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 
@@ -502,6 +503,9 @@ color: white
   width: 200px;
 }
 
+#specialimage{
+ width: 180px
+}
 
 .techStack{
   display: flex;
