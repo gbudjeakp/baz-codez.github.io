@@ -471,7 +471,9 @@ color: white
     display: block;
   }
   
-
+.item{
+  padding-top: 15px;
+}
 
   #Home{
   padding-bottom: 2.5em;
