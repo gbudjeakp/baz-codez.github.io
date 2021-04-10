@@ -1,30 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Baz Codes</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Baz Codez</title>
 </head>
-<body>
-    <div class="bgimg">
-        <div class="topleft">
-          <p>Baz Codes</p>
+
+<body class="container">
+  <aside class="social">
+    <ul>
+      <li><a href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank">LinkedIn</a></li>
+      <li><a href="https://twitter.com/Master_Crazy" target="_blank">Twitter</a></li>
+      <li><a href="https://dribbble.com/Xzebastian" target="_blank">Dribble</a></li>
+      <li><a href="https://github.com/gbudjeakp" target="_blank">Github</a></li>
+    </ul>
+  </aside>
+
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo">
+        <h3>Baz-Codez</h3>
+      </div>
+      <div class="menu">
+        <ul>
+          <li><a href="#">Home</a></li>
+        </ul>
+        <ul>
+          <li><a href="https://dev.to/gbudjeakp" target="_blank">Blog</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Works</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">About</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Skills</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="headlines">
+      <div class="container">
+        <h1>Hello!</h1>
+        <p style="margin-top: 1rem; font-size: 20px;">My name is Sebastian Gbudje, I'm a Canadian based Full-Stack Web
+          Developer, and UI/UX designer</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="work" id="works">
+    <h1>Works</h1>
+    <div class="card-group">
+      <div class="card">
+        <a href="https://experiencez.netlify.app/" target="_blank">
+        <img src="/image/Experience-app.png" class="card-img-top" alt="Experience-App" loading="lazy">
+        <div class="card-body">
+          <h5 class="card-title">Experience</h5>
+          <p class="card-text">A social media app that let's users post and like post of other users. The App was built using
+            React for the Front-End, Material-UI for styling, Redux for state management, JWT for authentication, and Google-sign up, MongoDB for
+            data storage, Node and Express for the Back-End API </p>
         </div>
-        <div class="middle">
-          <h1>Site is Under Construction</h1>
-          <hr>
-        </div>
-        <div class="bottomleft">
-         <ul>
-           <a href="https://twitter.com/Master_Crazy" target="_blank"><li><img src="./image/twitter logo.jpg" alt="Twitter Logo"/></li></a>
-           <a href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank"><li><img  src="./image/linkedin.png" alt="linkedin logo"/></li></a>
-           <a href="https://dev.to/gbudjeakp">
-            <img src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg" alt="Sebastian Gbudje's DEV Community Profile" height="30" width="30">
-          </a> 
-         </ul>
+      </a>
+      </div>
+      <div class="card">
+        <img src="/image/Experience-app.png" loading="lazy" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
         </div>
       </div>
+      <div class="card">
+        <img src="/image/Experience-app.png" loading="lazy" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+            content. This card has even longer content than the first to show that equal height action.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div id="about">
+      <h1>About Me</h1>
+      <P>My name is Sebastian Gbudje and I am a full-stack Web developer with a love for creating Web applications and
+        beautiful designs through code.</P>
+    </div>
+  </section>
+
+  <section class="skill">
+    <div id="skill">
+      <h1>Skills</h1>
+      <img src="/image/html-5.png" alt="HTML" />
+      <img src="/image/css-3.png" alt="CSS"/>
+      <img src="/image/reactjs.png" alt="React.js">
+      <img src="/image/logos_javascript.png" alt="JavaScript">
+      <img src="/image/logos_python.png" alt="Python3">
+      <img src="/image/logos_nodejs.png" alt="Node.js">
+      <img src="/image/logos_mongodb.png" alt="mongoDB">
+    </div>
+  </section>
+
+
+  <section class="contact">
+ <div id="contact">
+ <h1>Contact Me Mate</h1>
+ </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
