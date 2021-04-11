@@ -4,8 +4,19 @@ html {
   margin: 0;
   box-sizing: border-box;
   color: chocolate;
-  background-color: whitesmoke;
+  background-color: black;
 }
+
+
+
+body::-webkit-scrollbar {
+    width: 0.6em;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+  background-color: chocolate;
+  }
+  
 
 
 
