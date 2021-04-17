@@ -201,7 +201,10 @@ body::-webkit-scrollbar {
 
   .work{
       padding-top: 140px;
+      margin-left: 40px;
   }
+
+ 
  
   .about{
       padding-top: 140px;
@@ -210,6 +213,10 @@ body::-webkit-scrollbar {
   .skill img{
       width: 80px;
   }
+
+  
+
+  
 
   progress[value] {
   background-color: chocolate;
