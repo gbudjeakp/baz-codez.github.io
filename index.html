@@ -1,130 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
-  <title>Baz Codez</title>
-</head>
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <title>Baz-Codez</title>
 
-<body class="container">
-  <aside class="social">
-    <ul>
-      <li><a href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank">LinkedIn</a></li>
-      <li><a href="https://twitter.com/Master_Crazy" target="_blank">Twitter</a></li>
-      <li><a href="https://dribbble.com/Xzebastian" target="_blank">Dribble</a></li>
-      <li><a href="https://github.com/gbudjeakp" target="_blank">Github</a></li>
-    </ul>
-  </aside>
+        <!-- meta -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font_icon/css/pe-icon-7-stroke.css">
+        <link rel="stylesheet" href="assets/font_icon/css/helper.css">
+        <link rel="stylesheet" href="assets/css/owl.carousel.css">
+        <link rel="stylesheet" href="assets/css/owl.theme.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/style.css">
 
-  <header class="header">
-    <nav class="navbar">
-      <div class="logo">
-        <h3>Baz-Codez</h3>
-      </div>
-      <div class="menu">
-        <ul>
-          <li><a href="#">Home</a></li>
-        </ul>
-        <ul>
-          <li><a href="https://dev.to/gbudjeakp" target="_blank">Blog</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">Works</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">About</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">Skills</a></li>
-        </ul>
-        <ul>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
+        <!-- google fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Dosis:200,300,400,500|Lato:300,400,700,900,300italic,400italic,700italic,900italic|Raleway:400,200,300,500,100|Titillium+Web:400,200,300italic,300,200italic' rel='stylesheet' type='text/css'>
 
-    <div class="headlines">
-      <div class="container">
-          <label for="file">Site Completion:</label>
-        <progress id="file" value="50" max="100"> 50% </progress>
-       
-        <h1>Hello!</h1>
-        <p style="margin-top: 1rem; font-size: 20px;">My name is Sebastian Gbudje, I'm a Canadian based Full-Stack Web
-          Developer, and UI/UX designer</p>
-      </div>
-    </div>
-  </header>
+        <script src="assets/js/modernizr.js"></script>
 
+    </head>
+    <body id="body">
+        <!--[if lt IE 7]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
 
-  
+        <!-- Header area -->
+        <header id="header">
+            <div class="center text-center">
+                <h1 class="bigheadline">Baz-Codez</h1>
+                <h4 class="subheadline">A Funky Full-Stack Web Developer <br/>  and UI/UX Designer</h4>
+            </div>
+            <div class="bottom">
+                <a data-scroll href="#navigation" class="scrollDown animated pulse" id="scrollToContent"><i class="pe-7s-angle-down-circle pe-va"></i></a>
+            </div>
+        </header>
 
-  <section class="work" id="works">
-    <h1>Works</h1>
-    <div class="card-group">
-      <div class="card">
-        <a href="https://experiencez.netlify.app/" target="_blank">
-        <img src="/image/Experience-app.png" class="card-img-top img-fluid" alt="Experience-App" loading="lazy">
-      </a>
-        <div class="card-body">
-          <h5 class="card-title">Experience</h5>
-          <p class="card-text">A social media app that let's users post and like post of other users. The App was built using
-            React for the Front-End, Material-UI for styling, Redux for state management, JWT for authentication, and Google-sign up, MongoDB for
-            data storage, Node and Express for the Back-End API </p>
-        </div>
-      
-      </div>
-      <div class="card">
-        <a href="https://radiant-dusk-36662.herokuapp.com/" target="_blank">
-          <img src="/image/Travel Booking-App.png" loading="lazy" class="card-img-top img-fluid" alt="App photo">
-        </a>
-        <div class="card-body">
-          <h5 class="card-title">Travel Booking</h5>
-          <p class="card-text">A trip planning and booking application that let's users books flights, hotels and rent cars for their trip. The Application was built with a team of four using React and Material-UI for the Front-End, Node and Express for the Back-End API, JWT for authetication and MongoDB for Data storage</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        <!-- Navigation area -->
+        <section id="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="logo"><a data-scroll href="#body" class="logo-text">Baz-Codez</a></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="nav">
+                            <a href="#" data-placement="bottom" title="Menu" class="menu" data-toggle="dropdown"><i class="pe-7s-menu"></i></a>
+                             <div class="dropdown-menu">
+                                 <div class="arrow-up"></div>
+                                 <ul>
+                                     <li><a data-scroll href="#body">Home <i class="pe-7s-home"></i></a><span class="menu-effect"></span></li>
+                                     <li><a data-scroll href="#services">Skills<i class="pe-7s-config"></i></a><span class="menu-effect"></span></li>
+                                     <li><a data-scroll href="#portfolio">Portfolio <i class="pe-7s-glasses"></i></a><span class="menu-effect"></span></li>
+                                     <li><a data-scroll href="https://dev.to/gbudjeakp" target="_blank">Blog<i class="pe-7s-comment"></i><span class="menu-effect"></span></a></li>
+                                     <li><a data-scroll href="#contact">Contact <i class="pe-7s-help1"></i></a><span class="menu-effect"></span></li>
+                                 </ul>
+                             </div>
+                        </div>
+                    </div>
 
-  
+                </div>
+            </div>            
+        </section>
+        
+        <!-- Content Area -->
 
-  <section class="about">
-    <div id="about">
-      <h1>About Me</h1>
-      <P>My name is Sebastian Gbudje and I am a full-stack Web developer with a love for creating Web applications and
-        beautiful designs through code.</P>
-    </div>
-  </section>
+        <!-- services section -->
 
-  <section class="skill">
-    <div id="skill">
-      <h1>Skills</h1>
-      <img src="/image/html-5.png" alt="HTML" />
-      <img src="/image/css-3.png" alt="CSS"/>
-      <img src="/image/reactjs.png" alt="React.js">
-      <img src="/image/logos_javascript.png" alt="JavaScript">
-      <img src="/image/logos_python.png" alt="Python3">
-      <img src="/image/logos_nodejs.png" alt="Node.js">
-      <img src="/image/logos_mongodb.png" alt="mongoDB">
-    </div>
-  </section>
+        <section id="services" class="service-area">
+            <div class="container">
+                <h2 class="block_title">Skills</h2>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="services">
+                            <div class="service-wrap">    
+                                <i class="pe-7s-science pe-dj pe-va"></i>
+                                <h3>Coding</h3>
+                                <p>Love creating websites and applications with languages like JavaScript, React, Node and MongoDB  </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="services">
+                            <div class="service-wrap">
+                                <i class="pe-7s-monitor pe-dj pe-va"></i>
+                                <h3>Responsive Design</h3>
+                                <p>Ability to create clean, smooth and responsive websites and Web applications.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="services">
+                            <div class="service-wrap">
+                                <i class="pe-7s-edit pe-dj pe-va"></i>
+                                <h3>Clean Code</h3>
+                                <p>Ability to write code that is easy to understand, modify, and test.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="services">
+                            <div class="service-wrap">
+                                <i class="pe-7s-config pe-dj pe-va"></i>
+                                <h3>Funky Thinker</h3>
+                                <p>Ability to think outside the box and provide solutions to various problems through code.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- services -->
 
+        <!-- Portfolio Area -->
 
-  <section class="contact">
- <div id="contact">
- <h1>Contact Me Mate</h1>
- </div>
-  </section>
+        <section id="portfolio" class="portfolio-area">
+            <div class="container">
+                <h2 class="block_title">My Works</h2>
+                <div class="row port cs-style-3">
+                    <div class="col-md-4 col-sm-6 col-xs-12 item-space">
+                        <a href="https://experiencez.netlify.app/" target="_blank">
+                        <figure>
+                            <img src="assets/images/portfolio1.jpg" alt="img04">
+                            <figcaption>
+                                <h3>Experience</h3>
+                                <p>A social media app that let's users post and like post of other users. The App was built using
+                                    React for the Front-End, Material-UI for styling, Redux for state management, JWT for authentication, and Google-sign up, MongoDB for
+                                    data storage, Node and Express for the Back-End API</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12 item-space">
+                        <a href="https://radiant-dusk-36662.herokuapp.com/" target="_blank">
+                        <figure>
+                            <img src="assets/images/portfolio2.jpg" alt="img01">
+                            <figcaption>
+                                <h3>Travel-Booking</h3>
+                                <p>A trip planning and booking application that let's users books flights, hotels and rent cars for their trip. The Application was built with a team of four using React and Material-UI for the Front-End, Node and Express for the Back-End API, JWT for authetication and MongoDB for Data storage. Payment was handled using the Stripe API.</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12 item-space">
+                        <figure>
+                            <img src="assets/images/portfolio3.jpg" alt="img02">
+                            <figcaption>
+                                <h3>Gainz-Circuit</h3>
+                                <h3>Coming Soon</h3>
+                            </figcaption>
+                        </figure>
+                    </div>  
+                </div>
+            </div><!-- container -->
+        </section><!-- portfolio -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
-    crossorigin="anonymous"></script>
-</body>
+        
+        <!-- Contact Area -->
 
+        <section id="contact">
+            <div id="contact-area">
+                <div class="container">
+                    <h2 class="block_title">I know you wanna Know who this cool developer is</h2>
+                    <div class="row">
+                        <div class="col-xs-12">
+                        </div>
+                      
+                    </div>
+                </div><!-- container -->
+            </div><!-- contact-area -->
+            <div id="social">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="scoialinks">
+                                <li class="normal-txt">Find me on</li>
+                                <li class="social-icons"><a class="facebook" href="#"></a></li>
+                                <li class="social-icons"><a class="twitter" href="https://twitter.com/Master_Crazy"></a></li>
+                                <li class="social-icons"><a class="linkedin" href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/"></a></li>
+                                <li class="social-icons"><a class="google-plus" href="#"></a></li>
+                                <li class="social-icons"><a class="wordpress" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- social -->
+        </section><!-- contact -->
+
+        <!-- Footer Area -->
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="copyright">© Copyright 2014 <a href="#" target="_blank">Your Website Link</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Necessery scripts -->
+        <script src="assets/js/jquery-2.1.3.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.actual.min.js"></script>
+        <script src="assets/js/smooth-scroll.js"></script>
+        <script src="assets/js/owl.carousel.js"></script>
+        <script src="assets/js/script.js"></script>
+
+    </body>
 </html>
+
