@@ -331,6 +331,23 @@ header{
 //  07 - About
 /////////////////////////////////////////////////////////////////////*/
 
+@keyframes glow {
+	from {
+	  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e6bc05, 0 0 40px #e7d90d, 0 0 50px #e6b000, 0 0 60px #b9ae11, 0 0 70px #e95b09;
+	}
+	to {
+	  text-shadow: 0 0 20px #fff, 0 0 30px #91d129, 0 0 40px #ca7505, 0 0 50px #f0e0e8, 0 0 60px #cc7b30, 0 0 70px #d4c2cb, 0 0 80px #d8550a;
+	}
+  }
+
+  #vibey{
+	-webkit-animation: glow 1s ease-in-out infinite alternate;
+	-moz-animation: glow 1s ease-in-out infinite alternate;
+	animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+  
+
 #about h1{
 	text-align: center;
 }
@@ -412,7 +429,7 @@ header{
 
 
 
-.copyright{
+#copyright{
 	text-align: center;
 }
 
