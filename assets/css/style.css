@@ -2,7 +2,7 @@
 
 html, body {
     height:100%;
-	background-color: white;
+	background-color: black;
 }
 
 body {
@@ -26,25 +26,14 @@ a {
 }
 a:hover,a:active,a:focus{
 	text-decoration: none;
-	color: chocolate;
+	color: black;
 	opacity: 0.9;
 	outline: none;
 }
-.btn {
-    color: #fff;
-    background: transparent;
-    border: 1px solid #fff;
-    border-radius: 0px;
-    font-size: 1.2em;
-    transition: 0.4s ease all;
-}
-.btn:hover {
-    background: #fff;
-    color: #000;
-}
+
 .block_title {
-    font-size: 4em;
-    font-weight: 300;
+    font-size: 3em;
+    font-weight: 500;
     text-align: center;
     overflow: hidden;
     margin-bottom: 70px;
@@ -73,7 +62,7 @@ a:hover,a:active,a:focus{
 /////////////////////////////////////////////////////////////////////*/
 
 header{
-	background-color: white;
+	background-color: black;
 }
 .center {
     text-align: center;
@@ -338,37 +327,25 @@ header{
     margin-bottom: 30px;
 }
 
+/* ///////////////////////////////////////////////////////////////////// 
+//  07 - About
+/////////////////////////////////////////////////////////////////////*/
 
+#about h1{
+	text-align: center;
+}
 
+#about{
+	text-align: center;
+}
 
 
 /* ///////////////////////////////////////////////////////////////////// 
-//  07 - Contact
+//  08 - Contact
 /////////////////////////////////////////////////////////////////////*/
 
 
-#contact-area {
-    width: 100%;
-    position: relative;
-    padding: 80px 0px 60px 0px;
-}
 
-
-.con-title {
-    font-weight: 300;
-    font-size: 3em;
-    padding-bottom: 30px;
-}
-
-.moreDetails{
-	text-align: center;
-	width: 100%;
-}
-
-.moreDetails p {
-    font-size: 16px;
-	text-align: center;
-}
 
 /*Social media links*/
 
@@ -378,7 +355,7 @@ header{
 }
 
 .normal-txt {
-    color: #fff;
+    color: chocolate;
     font-size: 3em;
     font-weight: 100;
     padding-bottom: 10px;
@@ -412,31 +389,26 @@ header{
 .twitter{
 	background-image: url(../images/twitter.png);
 }
-.google-plus{
-	background-image: url(../images/google-plus.png);
+.devto{
+	background-image: url(../images/devto.png);
 }
+
 .linkedin{
 	background-image: url(../images/linkedin.png);
 }
-.wordpress{
-	background-image: url(../images/wordpress.png);
+.github{
+	background-image: url(../images/github.png);
 }
 
 
 /* ///////////////////////////////////////////////////////////////////// 
-//  08 - Footer 
+//  09 - Footer 
 /////////////////////////////////////////////////////////////////////*/
 
 
 
-footer {
-    width: 100%;
-	background-color: black;
-}
-
-.copyright {
-    margin: 0;
-    padding: 20px 0px;
+.footer{
+	text-align: center;
 }
 
 .designed {
