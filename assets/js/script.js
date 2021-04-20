@@ -150,12 +150,12 @@ function scroll() {
    ///////////////////////////////
   // Dynamic footer Date
   ///////////////////////////////
- const template = document.getElementsByClassName('copyright')
+ const template = document.getElementsByClassName("copyright")
  const date = new Date()
  const dt = date.getFullYear()
  
  function dateGenerator(){
-   template.innerHTML = `© Copyright ${dt} Amateurwebdev`
+   template.innerText = `© Copyright ${dt} Amateurwebdev`
  }
 
  dateGenerator()

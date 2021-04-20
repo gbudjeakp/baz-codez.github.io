@@ -335,8 +335,13 @@ header{
 	text-align: center;
 }
 
+#about p{
+ font-size: 1.4em;
+}
+
 #about{
 	text-align: center;
+	padding: 30px 0 90px 0;
 }
 
 
@@ -407,18 +412,11 @@ header{
 
 
 
-.footer{
+.copyright{
 	text-align: center;
 }
 
-.designed {
-    margin: 0;
-    padding: 20px 0px;
-    text-align: right;
-}
-.designed a:hover {
-    color: white;
-}
+
 
 
 
@@ -477,12 +475,6 @@ header{
 
 }
 
-@media all and (max-width: 991px) {
-
-	header{
-		background-color: white;
-	}
-}
 
 @media all and (max-width: 768px) {
 	.services {
@@ -501,10 +493,10 @@ header{
 		font-size: 2em;
 	}
 	.bigheadline {
-		font-size: 6em;
+		font-size: 5em;
 	}
 	.subheadline {
-		font-size: 2em;
+		font-size: 1.8em;
 	}
 	.item-space figure {
 	    max-width: 360px;
@@ -525,7 +517,7 @@ header{
 
 
 	.logo-text {
-	    font-size: 2em;
+	    font-size: 1.5em;
 	}
 	.centered p {
 	    font-size: 1em;
@@ -550,6 +542,9 @@ header{
 }
 
 @media all and (max-width: 480px) {
+	.logo-text {
+	    font-size: 1.5em;
+	}
 
 	.scrollDown {
 	    top: 70%;
