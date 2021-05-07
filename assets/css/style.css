@@ -96,8 +96,28 @@ a:hover,a:active,a:focus{
 	100% {opacity:1;}
   }
 
+/*  For handling dribble logo animation*/
+  
+@keyframes zoominoutsinglefeatured {
+	0% {
+		transform: scale(1,1);
+	}
+	50% {
+		transform: scale(1.3,1.3);
+	}
+	100% {
+		transform: scale(1,1);
+	}
+  }
+
 header{
 	background-color: black;
+}
+
+.dribble{
+	margin-left: 10px;
+	margin-bottom: 5px;
+	animation: zoominoutsinglefeatured 2s infinite;
 }
 .center {
     text-align: center;
