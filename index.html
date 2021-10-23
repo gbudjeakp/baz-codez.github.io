@@ -1,342 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+
+<html class="no-js">
+<!--<![endif]-->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <title>The Amature Web Developer</title>
+    <title>Baz-Codez</title>
 
-  <!-- meta description for basic SEO improvement -->
-  <meta name="desscription" content="I am Sebastian Gbudje, a front-End Web Developer who likes to create beautiful, responsive and, optimized web applications as well as slick UI/UX designs.">
-  <meta name="keywords" content="Front-End Developer, UI/UX, freelancer">
+    <!-- meta description for basic SEO improvement -->
+    <meta name="desscription"
+        content="I am Sebastian Gbudje, a front-End Web Developer who likes to create beautiful, responsive and, optimized web applications as well as slick UI/UX designs.">
+    <meta name="keywords" content="Front-End Developer, UI/UX, freelancer">
+
+     <!-- adding a favicon for better SEO performance -->
   
-  <!-- adding a favicon for better SEO performance -->
-  
-  <link rel="icon" type="image/png" href="/public/Logo.svg">
+  <link rel="icon" type="image/png" href="/assets/images/emblem.png">
+
+    <!-- meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/font_icon/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="assets/font_icon/css/helper.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- google fonts -->
+    <link
+        href='http://fonts.googleapis.com/css?family=Dosis:200,300,400,500|Lato:300,400,700,900,300italic,400italic,700italic,900italic|Raleway:400,200,300,500,100|Titillium+Web:400,200,300italic,300,200italic'
+        rel='stylesheet' type='text/css'>
+
+    <script src="assets/js/modernizr.js"></script>
+
 </head>
-<body>
 
-  <div class="container">
-    <!-- Content here -->
-     <!-- Navigation menu -->
-  <nav class="navbar fixed-top " id="home" role="navigation">
- <div class="svg">
-  <svg width="85" height="36" viewBox="0 0 85 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g filter="url(#filter0_d)">
-    <path d="M15.1484 13.959V20.2871H13.0918V26H5.95508V10.7422C5.95508 7.78906 6.75781 5.49805 8.36328 3.86914C9.98047 2.22852 12.248 1.4082 15.166 1.4082C17.9785 1.4082 20.0586 2.15234 21.4062 3.64062C22.7539 5.11719 23.4277 7.40234 23.4277 10.4961V26H16.291V10.9707C16.291 10.0332 16.1797 9.38281 15.957 9.01953C15.7344 8.65625 15.3359 8.47461 14.7617 8.47461C13.6484 8.47461 13.0918 9.30664 13.0918 10.9707V13.959H15.1484ZM52.6602 2.00586V19.2852C52.6602 21.4414 52.0098 23.1992 50.709 24.5586C49.4082 25.918 47.7266 26.5977 45.6641 26.5977C43.1797 26.5977 41.2812 25.4668 39.9688 23.2051C39.1602 24.4238 38.293 25.2969 37.3672 25.8242C36.4414 26.3398 35.2988 26.5977 33.9395 26.5977C31.7832 26.5977 30.1309 25.918 28.9824 24.5586C27.834 23.1992 27.2598 21.2422 27.2598 18.6875V2.00586H34.3965V17.6152C34.3965 18.3887 34.4551 18.8984 34.5723 19.1445C34.7012 19.3906 34.9531 19.5137 35.3281 19.5137C36.0312 19.5137 36.3828 18.9219 36.3828 17.7383V2.00586H43.5195V17.6152C43.5195 18.3652 43.584 18.8691 43.7129 19.127C43.8418 19.3848 44.0938 19.5137 44.4688 19.5137C45.1719 19.5137 45.5234 18.8809 45.5234 17.6152V2.00586H52.6602ZM64.1387 8.89648V26H57.002V2.00586H66.3008C70.3789 2.00586 73.5723 2.93164 75.8809 4.7832C78.623 6.99805 79.9941 10.0039 79.9941 13.8008C79.9941 17.4336 78.8223 20.3984 76.4785 22.6953C74.1348 24.9922 71.1172 26.1406 67.4258 26.1406C66.9922 26.1406 66.2832 26.1172 65.2988 26.0703V19.0215H66.4414C70.6016 19.0215 72.6816 17.2812 72.6816 13.8008C72.6816 10.5312 70.6367 8.89648 66.5469 8.89648H64.1387Z" fill="#FFC107"/>
-    <path d="M15.1484 13.959H16.1484V12.959H15.1484V13.959ZM15.1484 20.2871V21.2871H16.1484V20.2871H15.1484ZM13.0918 20.2871V19.2871H12.0918V20.2871H13.0918ZM13.0918 26V27H14.0918V26H13.0918ZM5.95508 26H4.95508V27H5.95508V26ZM8.36328 3.86914L7.65111 3.16714L7.65107 3.16718L8.36328 3.86914ZM21.4062 3.64062L20.665 4.31185L20.6676 4.31476L21.4062 3.64062ZM23.4277 26V27H24.4277V26H23.4277ZM16.291 26H15.291V27H16.291V26ZM13.0918 13.959H12.0918V14.959H13.0918V13.959ZM14.1484 13.959V20.2871H16.1484V13.959H14.1484ZM15.1484 19.2871H13.0918V21.2871H15.1484V19.2871ZM12.0918 20.2871V26H14.0918V20.2871H12.0918ZM13.0918 25H5.95508V27H13.0918V25ZM6.95508 26V10.7422H4.95508V26H6.95508ZM6.95508 10.7422C6.95508 7.97202 7.70373 5.96289 9.07549 4.57111L7.65107 3.16718C5.8119 5.0332 4.95508 7.6061 4.95508 10.7422H6.95508ZM9.07546 4.57114C10.4578 3.16881 12.4405 2.4082 15.166 2.4082V0.408203C12.0556 0.408203 9.50318 1.28822 7.65111 3.16714L9.07546 4.57114ZM15.166 2.4082C17.8128 2.4082 19.5732 3.1061 20.665 4.31184L22.1475 2.96941C20.544 1.19859 18.1443 0.408203 15.166 0.408203V2.4082ZM20.6676 4.31476C21.7757 5.52876 22.4277 7.52028 22.4277 10.4961H24.4277C24.4277 7.28441 23.7322 4.70561 22.1449 2.96649L20.6676 4.31476ZM22.4277 10.4961V26H24.4277V10.4961H22.4277ZM23.4277 25H16.291V27H23.4277V25ZM17.291 26V10.9707H15.291V26H17.291ZM17.291 10.9707C17.291 10.0218 17.1906 9.11854 16.8096 8.49697L15.1044 9.54209C15.1688 9.64709 15.291 10.0447 15.291 10.9707H17.291ZM16.8096 8.49697C16.3441 7.73735 15.5482 7.47461 14.7617 7.47461V9.47461C14.9483 9.47461 15.0413 9.50473 15.0764 9.52075C15.0997 9.53137 15.1002 9.53522 15.1044 9.54209L16.8096 8.49697ZM14.7617 7.47461C13.9153 7.47461 13.1652 7.81449 12.6781 8.54258C12.2386 9.19955 12.0918 10.0587 12.0918 10.9707H14.0918C14.0918 10.2186 14.2233 9.82974 14.3404 9.65468C14.41 9.55075 14.4949 9.47461 14.7617 9.47461V7.47461ZM12.0918 10.9707V13.959H14.0918V10.9707H12.0918ZM13.0918 14.959H15.1484V12.959H13.0918V14.959ZM52.6602 2.00586H53.6602V1.00586H52.6602V2.00586ZM50.709 24.5586L49.9865 23.8672L50.709 24.5586ZM39.9688 23.2051L40.8337 22.7032L40.0256 21.3106L39.1355 22.6522L39.9688 23.2051ZM37.3672 25.8242L37.8538 26.6979L37.8621 26.6931L37.3672 25.8242ZM27.2598 2.00586V1.00586H26.2598V2.00586H27.2598ZM34.3965 2.00586H35.3965V1.00586H34.3965V2.00586ZM34.5723 19.1445L33.6694 19.5745L33.6776 19.5917L33.6864 19.6085L34.5723 19.1445ZM36.3828 2.00586V1.00586H35.3828V2.00586H36.3828ZM43.5195 2.00586H44.5195V1.00586H43.5195V2.00586ZM45.5234 2.00586V1.00586H44.5234V2.00586H45.5234ZM51.6602 2.00586V19.2852H53.6602V2.00586H51.6602ZM51.6602 19.2852C51.6602 21.2244 51.083 22.7213 49.9865 23.8672L51.4315 25.25C52.9366 23.6771 53.6602 21.6584 53.6602 19.2852H51.6602ZM49.9865 23.8672C48.8935 25.0094 47.4828 25.5977 45.6641 25.5977V27.5977C47.9703 27.5977 49.9229 26.8265 51.4315 25.25L49.9865 23.8672ZM45.6641 25.5977C43.5586 25.5977 41.9788 24.6764 40.8337 22.7032L39.1038 23.707C40.5837 26.2572 42.8008 27.5977 45.6641 27.5977V25.5977ZM39.1355 22.6522C38.3828 23.7866 37.6211 24.5287 36.8722 24.9553L37.8621 26.6931C38.9649 26.065 39.9375 25.061 40.802 23.7579L39.1355 22.6522ZM36.8806 24.9506C36.1399 25.3631 35.1756 25.5977 33.9395 25.5977V27.5977C35.4221 27.5977 36.7429 27.3166 37.8538 26.6979L36.8806 24.9506ZM33.9395 25.5977C32.0092 25.5977 30.6646 25.0002 29.7463 23.9132L28.2185 25.2039C29.5971 26.8357 31.5572 27.5977 33.9395 27.5977V25.5977ZM29.7463 23.9132C28.8048 22.7988 28.2598 21.1069 28.2598 18.6875H26.2598C26.2598 21.3775 26.8632 23.5996 28.2185 25.2039L29.7463 23.9132ZM28.2598 18.6875V2.00586H26.2598V18.6875H28.2598ZM27.2598 3.00586H34.3965V1.00586H27.2598V3.00586ZM33.3965 2.00586V17.6152H35.3965V2.00586H33.3965ZM33.3965 17.6152C33.3965 18.0231 33.4117 18.3852 33.447 18.6918C33.4798 18.9774 33.5384 19.2993 33.6694 19.5745L35.4751 18.7146C35.489 18.7437 35.4597 18.6876 35.4339 18.4634C35.4105 18.2603 35.3965 17.9808 35.3965 17.6152H33.3965ZM33.6864 19.6085C34.048 20.2988 34.7313 20.5137 35.3281 20.5137V18.5137C35.2438 18.5137 35.248 18.499 35.2967 18.5228C35.323 18.5356 35.3557 18.5567 35.388 18.588C35.4204 18.6193 35.4433 18.6523 35.4581 18.6805L33.6864 19.6085ZM35.3281 20.5137C36.0232 20.5137 36.6182 20.1877 36.9789 19.5806C37.2909 19.0554 37.3828 18.3964 37.3828 17.7383H35.3828C35.3828 17.9877 35.364 18.1789 35.3359 18.3208C35.3075 18.4642 35.2741 18.5343 35.2594 18.5591C35.2485 18.5774 35.2588 18.5538 35.3002 18.5306C35.3406 18.508 35.3607 18.5137 35.3281 18.5137V20.5137ZM37.3828 17.7383V2.00586H35.3828V17.7383H37.3828ZM36.3828 3.00586H43.5195V1.00586H36.3828V3.00586ZM42.5195 2.00586V17.6152H44.5195V2.00586H42.5195ZM42.5195 17.6152C42.5195 18.0147 42.5365 18.3738 42.576 18.6825C42.6133 18.9745 42.6793 19.2959 42.8185 19.5742L44.6073 18.6797C44.6175 18.7002 44.5869 18.6407 44.5598 18.4288C44.5348 18.2336 44.5195 17.9658 44.5195 17.6152H42.5195ZM42.8185 19.5742C43.1696 20.2764 43.8495 20.5137 44.4688 20.5137V18.5137C44.3902 18.5137 44.4008 18.4995 44.454 18.5267C44.4821 18.5411 44.5145 18.5634 44.5451 18.5945C44.5756 18.6254 44.5955 18.6562 44.6073 18.6797L42.8185 19.5742ZM44.4688 20.5137C44.7993 20.5137 45.1362 20.4376 45.4447 20.2525C45.7517 20.0683 45.976 19.8089 46.1339 19.5247C46.4329 18.9865 46.5234 18.3079 46.5234 17.6152H44.5234C44.5234 18.1882 44.4382 18.4588 44.3856 18.5534C44.3677 18.5856 44.3724 18.5635 44.4157 18.5375C44.4605 18.5106 44.4898 18.5137 44.4688 18.5137V20.5137ZM46.5234 17.6152V2.00586H44.5234V17.6152H46.5234ZM45.5234 3.00586H52.6602V1.00586H45.5234V3.00586ZM64.1387 8.89648V7.89648H63.1387V8.89648H64.1387ZM64.1387 26V27H65.1387V26H64.1387ZM57.002 26H56.002V27H57.002V26ZM57.002 2.00586V1.00586H56.002V2.00586H57.002ZM75.8809 4.7832L76.5092 4.00526L76.5065 4.00311L75.8809 4.7832ZM76.4785 22.6953L75.7786 21.9811L76.4785 22.6953ZM65.2988 26.0703H64.2988V27.0238L65.2513 27.0692L65.2988 26.0703ZM65.2988 19.0215V18.0215H64.2988V19.0215H65.2988ZM63.1387 8.89648V26H65.1387V8.89648H63.1387ZM64.1387 25H57.002V27H64.1387V25ZM58.002 26V2.00586H56.002V26H58.002ZM57.002 3.00586H66.3008V1.00586H57.002V3.00586ZM66.3008 3.00586C70.2365 3.00586 73.1807 3.89948 75.2552 5.5633L76.5065 4.00311C73.9638 1.9638 70.5213 1.00586 66.3008 1.00586V3.00586ZM75.2525 5.56114C77.7396 7.56997 78.9941 10.2793 78.9941 13.8008H80.9941C80.9941 9.72846 79.5065 6.42612 76.5092 4.00526L75.2525 5.56114ZM78.9941 13.8008C78.9941 17.1965 77.9089 19.8934 75.7786 21.9811L77.1784 23.4095C79.7356 20.9035 80.9941 17.6707 80.9941 13.8008H78.9941ZM75.7786 21.9811C73.6457 24.0713 70.891 25.1406 67.4258 25.1406V27.1406C71.3433 27.1406 74.6238 25.9131 77.1784 23.4095L75.7786 21.9811ZM67.4258 25.1406C67.018 25.1406 66.3297 25.1183 65.3464 25.0714L65.2513 27.0692C66.2368 27.1161 66.9664 27.1406 67.4258 27.1406V25.1406ZM66.2988 26.0703V19.0215H64.2988V26.0703H66.2988ZM65.2988 20.0215H66.4414V18.0215H65.2988V20.0215ZM66.4414 20.0215C68.6365 20.0215 70.469 19.5661 71.7633 18.4833C73.0917 17.3719 73.6816 15.7467 73.6816 13.8008H71.6816C71.6816 15.3354 71.2316 16.3205 70.4799 16.9493C69.6941 17.6068 68.4065 18.0215 66.4414 18.0215V20.0215ZM73.6816 13.8008C73.6816 11.9451 73.0902 10.395 71.7724 9.34147C70.4973 8.32212 68.6985 7.89648 66.5469 7.89648V9.89648C68.4851 9.89648 69.7537 10.2882 70.5235 10.9036C71.2506 11.4849 71.6816 12.387 71.6816 13.8008H73.6816ZM66.5469 7.89648H64.1387V9.89648H66.5469V7.89648Z" fill="#FCF2F2"/>
-    </g>
-    <defs>
-    <filter id="filter0_d" x="0.955078" y="0.408203" width="84.0391" height="35.1895" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-    <feOffset dy="4"/>
-    <feGaussianBlur stdDeviation="2"/>
-    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-    </filter>
-    </defs>
-    </svg>
-    
-    
-    
- </div>
- 
-<div>
-  
-  <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link" href="#Home">Home</a>
-    </li>
+<body id="body">
 
-    <li class="nav-item">
-      <a class="nav-link" href="#projects">Projects</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="#About">About</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="#contact">Contact</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="https://dev.to/gbudjeakp" target="_blank">Blog</a>
-    </li>
-  
-  </ul>
-</div>
-
-
-
-<!-- hamburger menu for mobile -->
-
-<div id="menuToggle">
-  <!--
-  A fake / hidden checkbox is used as click reciever,
-  so you can use the :checked selector on it.
-  -->
-  <input type="checkbox" />
-  
-  <!--
-  Some spans to act as a hamburger.
-  
-  They are acting like a real hamburger
-  -->
-  <span></span>
-  <span></span>
-  <span></span>
-  
-  
-  <ul id="menu">
-    <a href="#Home"><li>Home</li></a>
-    <a href="#About"><li>About</li></a>
-    <a href="#projects"><li>Projects</li></a>
-    <a href="#contact"><li>Contact</li></a>
-    <a href="https://dev.to/gbudjeakp"><li>Blog</li></a>
-  </ul>
-</div>
-
-</nav>
-
-
-
-
-  <!-- Introduction page that describes the developer(me) -->
-  <div id="Home" class="fade-in">
-    <h1>Hi<span class="introText">there,</span></h1>
-    <h4>I am Sebastian Gbudje, a front-End Web Developer
-       who likes to create beautiful, responsive and, 
-       optimized web applications as well as slick UI/UX designs. Feel free to checkout my Github for more of my works </h4>
-   
-    <!-- for social media links and icons -->
-    <div class="socialMedia">
-      <a href="https://github.com/gbudjeakp" target="_blank" >
-        <img src="/public/github.png" alt="github" loading="lazy">
-      </a>
-
-      <a href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank">
-        <img src="/public/Linkedin.png" alt="LinkedIn" loading="lazy" >
-      </a>
-
-      <a href="https://dribbble.com/Xzebastian" target="_blank" >
-        <img src="/public/dribble.png" alt="Dribble" loading="lazy" >
-      </a>
-      
-      <a href="https://stackoverflow.com/users/13428061/sebastian-gbudje?tab=profile" target="_blank">
-        <img src="/public/StackOverflow.png" alt="stackoverflow" loading="lazy" >
-      </a>
-    </div>
-  </div>
- 
-  
-  
-  
-
-  <!-- This handles the projects page -->
-
-  <div id="projects"  class="tag">
-
-   <h2 class="title">UI/UX Designs</h2>
-   <div class="row">
-    <div class="col-lg">
-      <h4>Popuri Music User Interface</h4>
-      <p>Popuri Music is a music streaming platform concept that was created to showcase the use of neumorphism and minimalist design in holding the attention of Users.</p>
-      <a href="/popuri.html" class="casestudy">view concept</a>
-
-    </div>
-    <div class="col">
-      <div class="item">
-        <img src="/public/Popuri front cover.png" alt="Front cover" loading="lazy" width="300">
-      </div>
-
-    </div>
-  </div>
-
-   <div class="row">
-
-
-     <div class="col-lg ">
-      <div class="col">
-        <div class="item">
-          <img src="/public/Podcast front cover.png" alt="podcast landing cover" loading="lazy" width="350" id="specialimage"> 
+    <!-- Header area -->
+    <header id="header">
+        <div class="center text-center">
+            <h1 style="color: chocolate;">Check out my dribble<a href="https://dribbble.com/Xzebastian" target="_blank"><img class="dribble" src="/assets/images/dribble.png" alt="dribble logo"></a></h1>
+            <h1 class="bigheadline">Baz-Codez</h1>
+            <h4 class="subheadline">Your Friendly Neighbourhood Software Engineer <br /> and UI/UX Designer</h4>
         </div>
-      </div>
-    </div>
-    
-    <div class="col">
-      <h4>Tree House Podcast User Interface for Mobile</h4>
-      <p>Tree House is a podcast mobile application concept with an emphasis on simplicity.</p>
-      <a href="/podcast.html" class="casestudy">view concept</a>
-    </div>  
-   </div>
-
-
-  <div class="row">
-    <div class="col-lg">
-      <h4>Zindo landing Page User Interface for Advertising</h4>
-       <p>Zindo is an energy drink company concept that was created to showcase the use of bright colours in gaining attention.</p>
-       <a href="/zindo.html" class="casestudy">view concept</a>
-    </div>
-    <div class="col">
-      <div class="item">
-        <img src="/public/zindo landing front cover.png" alt="zindo cover page" loading="lazy" width="350"> 
-      </div>
-    </div>
-  </div>
-
-   
- <div class="tag">
-  <div class="webapps">
-
-    <h2 class="title">Web Apps</h2>
-    <div class="row">
-      <div class="col-lg">
-        <h4>Experience</h4>
-        <p>A social media application that lets users share images of their current activities 
-          and like that of other users. Experience was made using React and Material-UI to create 
-          the front-end, redux to handle state management across the entire application, GoogleAuth and JWT for user authentication and authorization,
-           MongoDB for persistent data storage, Express and Node.js to create the back-end API.</p>
-        <a href="https://experiencez.netlify.app/" class="casestudy">Live View</a>
-  
-      </div>
-      <div class="col">
-        <div class="item">
-          <img src="/public/experience.png" alt="Front cover" loading="lazy" width="300">
+        <div class="bottom">
+            <a data-scroll href="#navigation" class="scrollDown animated pulse" id="scrollToContent"><i
+                    class="pe-7s-angle-down-circle pe-va"></i></a>
         </div>
-  
-      </div>
-    </div>
+    </header>
+
+    <!-- Navigation area -->
+    <section id="navigation">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="logo"><a data-scroll href="#body" class="logo-text">Baz-Codez</a></div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="nav">
+                        <a href="#" data-placement="bottom" title="Menu" class="menu" data-toggle="dropdown"><i
+                                class="pe-7s-menu"></i></a>
+                        <div class="dropdown-menu">
+                            <div class="arrow-up"></div>
+                            <ul>
+                                <li><a data-scroll href="#body">Home <i class="pe-7s-home"></i></a><span
+                                        class="menu-effect"></span></li>
+                                <li><a data-scroll href="#services">Skills<i class="pe-7s-config"></i></a><span
+                                        class="menu-effect"></span></li>
+                                <li><a data-scroll href="#portfolio">Portfolio <i class="pe-7s-glasses"></i></a><span
+                                        class="menu-effect"></span></li>
+                                <li><a data-scroll href="https://dev.to/gbudjeakp" target="_blank">Blog<i
+                                            class="pe-7s-comment"></i><span class="menu-effect"></span></a></li>
+                                <li><a data-scroll href="#contact">Contact <i class="pe-7s-help1"></i></a><span
+                                        class="menu-effect"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Area -->
+
+    <!-- services section -->
+
+    <section id="services" class="service-area">
+        <div class="container">
+            <h2 class="block_title">Skills</h2>
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="services">
+                        <div class="service-wrap">
+                            <i class="pe-7s-science pe-dj pe-va"></i>
+                            <h3>Coding</h3>
+                            <p>Love creating websites and applications with languages like JavaScript, React, Node, MYSQL, Python and
+                                MongoDB </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="services">
+                        <div class="service-wrap">
+                            <i class="pe-7s-monitor pe-dj pe-va"></i>
+                            <h3>Responsive Design</h3>
+                            <p>Ability to create clean, smooth and responsive websites and Web applications.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="services">
+                        <div class="service-wrap">
+                            <i class="pe-7s-edit pe-dj pe-va"></i>
+                            <h3>Clean Code</h3>
+                            <p>Ability to write code that is easy to understand, modify, and test.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="services">
+                        <div class="service-wrap">
+                            <i class="pe-7s-config pe-dj pe-va"></i>
+                            <h3>Funky Thinker</h3>
+                            <p>Ability to think outside the box and provide solutions to various problems through code.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- services -->
+
+    <!-- Portfolio Area -->
+
+    <section id="portfolio" class="portfolio-area">
+        <div class="container">
+            <h2 class="block_title">My Works</h2>
+            <div class="row port cs-style-3">
+
+                <div class="col-md-4 col-sm-6 col-xs-12 item-space">
+                    <a href="https://experiencez.netlify.app/" target="_blank">
+                        <figure>
+                            <img src="assets/images/experience.png" loading="lazy" alt="img04" height="280">
+                            <figcaption>
+                                <h3>Experience</h3>
+                                <p>A social media app that let's users post and like post of other users. The App was
+                                    built using
+                                    React for the Front-End, Material-UI for styling, Redux for state management, JWT
+                                    for authentication, and Google-sign up, MongoDB for
+                                    data storage, Node and Express for the Back-End API</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12 item-space">
+                    <a href="https://radiant-dusk-36662.herokuapp.com/" target="_blank">
+                        <figure>
+                            <img src="assets/images/travel-booking.png" loading="lazy" alt="img01" height="280">
+                            <figcaption>
+                                <h3>Travel-Booking</h3>
+                                <p>A trip planning and booking application that let's users books flights, hotels and
+                                    rent cars for their trip. The Application was built with a team of four using React
+                                    and Material-UI for the Front-End, Node and Express for the Back-End API, JWT for
+                                    authetication and MongoDB for Data storage. Payment was handled using the Stripe
+                                    API.</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12 item-space">
+                    <figure>
+                        <img src="assets/images/portfolio3.jpg" loading="lazy" alt="img02">
+                        <figcaption>
+                            <h3>Gainz-Circuit</h3>
+                            <h3>Coming Soon</h3>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div><!-- container -->
+    </section><!-- portfolio -->
 
 
-    <div class="row">
+    <!-- Contact Area -->
 
+    <section id="contact">
+        <div class="container">
+            <h2 class="block_title">I know you wanna Know who this cool developer is</h2>
+            <div id="about">
+                <h1>About Me</h1>
+                <p>I am a Software Engineer based in Winnipeg, Manitoba, Canada. I love creating cool
+                    designs on <span id="vibey"><a href="https://dribbble.com/Xzebastian"
+                            target="_blank">Dribble</a></span>. I like to write and help new programmers get comfortable
+                    coding. When I'm not coding, I'm playing the Piano</p>
+            </div>
+        </div><!-- container -->
+        <div id="social">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="scoialinks">
+                            <li class="normal-txt">Find me on</li>
+                            <li class="social-icons"><a class="twitter" href="https://twitter.com/Master_Crazy"
+                                    target="_blank"></a></li>
+                            <li class="social-icons"><a class="linkedin"
+                                    href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank"></a>
+                            </li>
+                            <li class="social-icons"><a class="devto" href="https://dev.to/gbudjeakp"
+                                    target="_blank"></a></li>
+                            <li class="social-icons"><a class="github" href="https://github.com/gbudjeakp"
+                                    target="_blank"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- social -->
+    </section><!-- contact -->
 
-      <div class="col-lg ">
-       <div class="col">
-         <div class="item">
-           <img src="/public/Shoppies.png" alt="podcast landing cover" loading="lazy" width="350" id="specialimage"> 
-         </div>
-       </div>
-     </div>
-     
-     <div class="col">
-       <h4>The Shoppies </h4>
-       <p>This is a web application that utilizes the OMDb API. It fetches movie data 
-         from the API and then renders it in a front-end built with react and the 
-         Shopify-Polaris component library. The application lets users nominate and 
-         withdraw the nomination of their favorite films. 
-         The context API was used to manage the react states in this application.</p>
-       <a href="https://theshoppiesaward.netlify.app/" class="casestudy">Live View</a>
-     </div>  
-    </div>
- 
-    <a href="https://github.com/gbudjeakp" class="casestudy"><h1>Other Works</h1></a>
-   </div>
+    <!-- Footer Area -->
 
+    <footer>
+        <div class="footer"></div>
+        <p id="copyright"></p>
+        </div>
+    </footer>
 
-   
-  <div id="client" class="tag" >
-    <h2 class="title">Client Work</h2>
-      <a href="https://www.emergingleadersconnect.com/" target="_blank">
-       Emerging Leaders Connect
-      </a>
+    <!-- Necessery scripts -->
+    <script src="assets/js/jquery-2.1.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.actual.min.js"></script>
+    <script src="assets/js/smooth-scroll.js"></script>
+    <script src="assets/js/owl.carousel.js"></script>
+    <script src="assets/js/script.js"></script>
 
-      <a href="https://tagzbyrita.com/" target="_blank">
-        Tagz By Rita
-       </a>
-       
-      </div>
-    </div>
-   
-
-
-
-<!-- About me page. Describes this developer (me) -->
- <div id="About" class="tag">   
-  <h2 class="title">About</h2>
-  <p>My name is Sebastian Gbudje and I am a freelance front-Web Developer based in Winnipeg Manitoba, 
-    Canada. I love creating minimalist UI/UX deigns for web applications. 
-    I develop and design functional, creative, detailed, accessible  
-    Websites and web applications by using minimalism and the latest web standards as a guideline.</p>
-
-  <h3 id="stackheading">Skills</h3>
-
-  <div class="techStack border">
-    <div class="animation-move">
-      <img src="/public/html.png" alt="HTML" loading="lazy" > 
-      <p>HTML</p>
-    </div>
-
-    <div class="animation-move">
-      <img src="/public/css.png" alt="css" loading="lazy"> 
-      <p>CSS</p>
-    </div>
-
-    <div class="animation-move">
-      <img src="/public/javaScript.png" alt="javascript" loading="lazy"> 
-      <p>JavaScript</p>
-    </div>
-
-    <div class="animation-move">
-      <img src="/public/react.png" alt="react" loading="lazy"> 
-      <p>React</p>
-    </div>
-
-    <div class="animation-move">
-      <img src="/public/mongoDB.png" alt="mongoDb" loading="lazy"> 
-      <p>MongoDatabase</p>
-    </div>
-
-    <div class="animation-move">
-      <img src="/public/Node.png" alt="node" loading="lazy"> 
-      <p>Node.js</p>
-    </div>
-
-    <div class="animation-move">
-      <img src="/public/Figma.png" alt="figma" loading="lazy"> 
-      <p>Figma</p>
-    </div>
-
-  </div>
- </div>
-
-  <!-- contact -->
- <div id="contact" class="tag">
-  <h3>Got Exiting Projects You Wanna Work On and need a <span class="introText" id="vibey">vibey</span> Front-End Dev?</h3>
-  <a href="mailto:sebdwebdev@gmail.com" >
-    <h4 class="introText" id="context">Then Let's talk</h4>
-  </a>
-    <div id="othercontact">
-       <h4 id="or"> OR</h4>
-      <h5>Contact me on any of these places:</h5>
-      <a href="https://twitter.com/theamaturewebd1" target="_blank">
-        <img src="/public/twitter.png" alt="twitter" loading="lazy">
-      </a>
-
-      
-      <a href="https://www.linkedin.com/in/akpevwen-sebastian-gbudje/" target="_blank">
-        <img src="/public/Linkedin.png" alt="LinkedIn" loading="lazy"> 
-      </a>
-    </div>  
- </div>
-
-
-
- <footer>
-  <div id="footer"></div>
- </footer>
-  </div>
-  
-  
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  <script src="app.js"></script>
 </body>
+
 </html>
