@@ -1,8 +1,47 @@
-#info {
-	position: absolute;
-	top: 10px;
-	width: 100%;
-	text-align: center;
-	z-index: 100;
-	display:block;
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
+
+.text-container{
+	display: grid;
+	place-items: center;
+	width: 100vw;
+	height: 100vh;
+}
+
+
+.background{
+	background-color: #b19e7f;
+}
+
+#info {
+    font-size: 10rem;
+	border: red 1px solid;
+}
+
+#info:hover{
+	transition: all 0.3s ease-in-out 0s;
+	text-decoration: underline;
+	-webkit-text-stroke:5px black;
+	-webkit-text-fill-color:transparent;
+}
+
+/* .text-container{
+
+} */
+
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 996px) {
+	#info{
+		font-size: 7rem;
+	}
+  }
+
+  @media screen and (max-width: 350px) {
+	#info{
+		font-size: 4rem;
+	}
+  }
