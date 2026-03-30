@@ -3,7 +3,7 @@
    Rubber-hose animation meets Daily Prophet newspaper
    ═══════════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap');
+/* Fonts loaded via HTML link tag for better browser compatibility */
 
 * {
     padding: 0;
