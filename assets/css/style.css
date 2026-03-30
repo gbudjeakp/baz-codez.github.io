@@ -21,6 +21,41 @@
     --accent-dark: #c78a1d;
     --border-color: #1a1a1a;
     --film-scratch: rgba(0, 0, 0, 0.03);
+    
+    /* Character colors */
+    --char-skin: #f5f0e6;
+    --char-coffee: #3d2314;
+    --char-body: #1a1a1a;
+    --char-blush: #d4a574;
+    --desk-color: #a0522d;
+    --desk-leg: #8B4513;
+    --chair-color: #2a2a2a;
+    --monitor-screen: #1e2d1e;
+    --code-green: #00ff00;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+    --cream: #1a1a1a;
+    --cream-dark: #252525;
+    --sepia: #2a2a2a;
+    --ink: #e8e0d0;
+    --ink-light: #c0b8a8;
+    --accent: #ffb845;
+    --accent-dark: #e8a435;
+    --border-color: #e8e0d0;
+    --film-scratch: rgba(255, 255, 255, 0.02);
+    
+    /* Character colors in dark mode */
+    --char-skin: #f5f0e6;
+    --char-coffee: #3d2314;
+    --char-body: #1a1a1a;
+    --char-blush: #d4a574;
+    --desk-color: #8B4513;
+    --desk-leg: #654321;
+    --chair-color: #3a3a3a;
+    --monitor-screen: #0a150a;
+    --code-green: #00ff00;
 }
 
 /* Base styles with vintage film look */
@@ -263,6 +298,59 @@ body::after {
     0% { transform: scale(1); }
     50% { transform: scale(1.1) translateY(-2px); }
     100% { transform: scale(1.05); }
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+    background: transparent;
+    border: 2px solid var(--cream);
+    color: var(--cream);
+    font-family: 'Special Elite', cursive;
+    font-size: 0.85rem;
+    padding: 12px 20px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle:hover {
+    background: var(--accent);
+    color: var(--ink);
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+.theme-toggle .toggle-icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .toggle-icon {
+    transform: rotate(20deg);
+}
+
+[data-theme="dark"] .theme-toggle {
+    border-color: var(--ink);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: var(--accent);
+}
+
+/* Smooth transition for theme change */
+body,
+.header,
+.main-nav,
+.main-content,
+.prophet-notice,
+.footer,
+.project-card,
+.contact-btn {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Main Content */
@@ -1177,6 +1265,101 @@ body::after {
         flex-direction: column;
         gap: 5px;
     }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] body {
+    background-image: 
+        radial-gradient(circle, rgba(232, 224, 208, 0.05) 1px, transparent 1px);
+}
+
+[data-theme="dark"] body::before {
+    opacity: 0.04;
+}
+
+[data-theme="dark"] .main-nav {
+    background: var(--sepia);
+}
+
+[data-theme="dark"] .nav-link {
+    color: var(--ink);
+    border-color: var(--ink-light);
+}
+
+[data-theme="dark"] .project-card {
+    background: var(--cream-dark);
+    box-shadow: 4px 4px 0 rgba(232, 224, 208, 0.2);
+}
+
+[data-theme="dark"] .project-card:hover {
+    box-shadow: 6px 6px 0 rgba(232, 224, 208, 0.3);
+}
+
+[data-theme="dark"] .contact-btn {
+    background: var(--cream-dark);
+    box-shadow: 3px 3px 0 rgba(232, 224, 208, 0.2);
+}
+
+[data-theme="dark"] .contact-btn:hover {
+    background: var(--accent);
+    color: #1a1a1a;
+}
+
+[data-theme="dark"] .prophet-notice {
+    background: var(--cream-dark);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .portrait-frame {
+    background: var(--cream-dark);
+    box-shadow: 3px 3px 0 rgba(232, 224, 208, 0.2);
+}
+
+[data-theme="dark"] .footer {
+    background: var(--sepia);
+}
+
+/* Dark mode character adjustments - keep character visible */
+[data-theme="dark"] .main-character .cup-head path,
+[data-theme="dark"] .main-character .body path,
+[data-theme="dark"] .main-character rect,
+[data-theme="dark"] .main-character circle,
+[data-theme="dark"] .main-character ellipse {
+    stroke: #e8e0d0;
+}
+
+[data-theme="dark"] .neon-sign rect {
+    fill: #3a3a3a;
+}
+
+[data-theme="dark"] .monitor rect:first-child {
+    fill: #2a2a2a;
+}
+
+/* Dark mode project card icons */
+[data-theme="dark"] .card-svg polygon,
+[data-theme="dark"] .card-svg circle,
+[data-theme="dark"] .card-svg rect,
+[data-theme="dark"] .card-svg line {
+    stroke: var(--ink);
+}
+
+[data-theme="dark"] .card-svg circle[fill="#1a1a1a"],
+[data-theme="dark"] .card-svg rect[fill="#1a1a1a"] {
+    fill: var(--ink);
+}
+
+[data-theme="dark"] .card-svg text {
+    fill: var(--ink);
+}
+
+/* Dark mode footer text */
+[data-theme="dark"] .footer-text,
+[data-theme="dark"] .footer-tagline {
+    color: var(--ink);
 }
 
 /* Print styles for that newspaper feel */

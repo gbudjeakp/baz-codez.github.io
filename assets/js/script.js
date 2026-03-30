@@ -4,6 +4,46 @@
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', function() {
+    // ═══════════════════════════════════════════════════════════════
+    // DARK MODE TOGGLE
+    // ═══════════════════════════════════════════════════════════════
+    const themeToggle = document.getElementById('theme-toggle');
+    const toggleIcon = themeToggle?.querySelector('.toggle-icon');
+    const toggleText = themeToggle?.querySelector('.toggle-text');
+    
+    // Check for saved theme preference or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Apply initial theme
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if (toggleIcon) toggleIcon.textContent = '☾';
+        if (toggleText) toggleText.textContent = 'LIGHTS';
+    }
+    
+    // Toggle theme on button click
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                toggleIcon.textContent = '☀';
+                toggleText.textContent = 'LIGHTS';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                toggleIcon.textContent = '☾';
+                toggleText.textContent = 'LIGHTS';
+            }
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SMOOTH SCROLLING
+    // ═══════════════════════════════════════════════════════════════
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
