@@ -60,7 +60,7 @@
                         </svg>
                     </div>
                     <div class="title-block">
-                        <span class="subtitle-top">Software Engineer & Fine Code</span>
+                        <span class="subtitle-top">Software Engineer</span>
                         <h1 class="main-title">SEBASTIAN GBUDJE</h1>
                     </div>
                     <div class="cartoon-mascot mascot-right">
@@ -191,7 +191,7 @@
                 <div class="hero-left">
                     <h2 class="section-title">ABOUT ME</h2>
                     <p class="hero-text">
-                        Software Engineer (Infra Guy) | Game Engine Dev | Startup Founder
+                        Software Engineer (DevEx Infra) | Game Engine Dev | Startup Founder
                     </p>
                     <p class="body-text">
                         I'm passionate about technology in all its forms, from AI and machine learning to building the tools that power tomorrow. Currently crafting Opxium, a custom game engine in C using Vulkan, and founding Songram, a social platform for music creators.
@@ -205,91 +205,157 @@
                 </div>
                 <div class="hero-right">
                     <div class="character-illustration">
-                        <svg viewBox="0 0 200 280" class="main-character">
-                            <!-- CODEBEAN - A Cuphead-style developer character -->
+                        <svg viewBox="0 0 280 260" class="main-character">
+                            <!-- CODEBEAN - Clean side view at workstation -->
                             
-                            <!-- Coffee Cup Head -->
-                            <g class="cup-head">
-                                <!-- Cup body -->
-                                <path d="M 60 40 L 65 110 Q 100 125 135 110 L 140 40 Z" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="3"/>
-                                <!-- Cup rim -->
-                                <ellipse cx="100" cy="40" rx="42" ry="12" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="3"/>
-                                <!-- Coffee inside -->
-                                <ellipse cx="100" cy="45" rx="35" ry="8" fill="#3d2314"/>
-                                <!-- Steam wisps -->
-                                <path d="M 80 25 Q 75 15 80 5" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="steam steam-1"/>
-                                <path d="M 100 20 Q 95 8 100 -2" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="steam steam-2"/>
-                                <path d="M 120 25 Q 125 15 120 5" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="steam steam-3"/>
-                                <!-- Cup handle -->
-                                <path d="M 140 55 Q 170 55 170 80 Q 170 105 140 100" fill="none" stroke="#1a1a1a" stroke-width="4"/>
-                                
-                                <!-- Face on cup - Pie cut eyes (classic Cuphead style) -->
-                                <ellipse cx="80" cy="75" rx="12" ry="14" fill="#1a1a1a"/>
-                                <ellipse cx="120" cy="75" rx="12" ry="14" fill="#1a1a1a"/>
-                                <!-- Pie slice highlights -->
-                                <path d="M 80 61 L 80 75 L 70 75 A 12 14 0 0 1 80 61" fill="#f5f0e6"/>
-                                <path d="M 120 61 L 120 75 L 110 75 A 12 14 0 0 1 120 61" fill="#f5f0e6"/>
-                                <!-- Raised eyebrows (confident look) -->
-                                <path d="M 65 58 Q 78 52 92 58" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
-                                <path d="M 108 58 Q 122 52 135 58" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
-                                <!-- Big friendly smile -->
-                                <path d="M 75 95 Q 100 115 125 95" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
-                                <!-- Rosy cheeks -->
-                                <ellipse cx="62" cy="88" rx="6" ry="4" fill="#d4a574" opacity="0.6"/>
-                                <ellipse cx="138" cy="88" rx="6" ry="4" fill="#d4a574" opacity="0.6"/>
+                            <!-- Broken neon "CODING" sign - slanted -->
+                            <g class="neon-sign" transform="rotate(-8, 140, 30)">
+                                <!-- Sign backing board -->
+                                <rect x="55" y="12" width="95" height="32" rx="3" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="2"/>
+                                <!-- Hanging chains -->
+                                <path d="M 70 12 L 65 0" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+                                <path d="M 135 12 L 140 0" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+                                <!-- Neon text - some letters flicker -->
+                                <text x="67" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" class="neon-c">C</text>
+                                <text x="80" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" class="neon-o">O</text>
+                                <text x="93" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" class="neon-d">D</text>
+                                <text x="107" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" class="neon-i neon-flicker">I</text>
+                                <text x="115" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" class="neon-n">N</text>
+                                <text x="130" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" class="neon-g neon-flicker-slow">G</text>
+                                <!-- Glow effect behind text -->
+                                <text x="67" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" filter="url(#neon-glow)" opacity="0.5" class="neon-c">C</text>
+                                <text x="80" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" filter="url(#neon-glow)" opacity="0.5" class="neon-o">O</text>
+                                <text x="93" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" filter="url(#neon-glow)" opacity="0.5" class="neon-d">D</text>
+                                <text x="107" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" filter="url(#neon-glow)" opacity="0.3" class="neon-i neon-flicker">I</text>
+                                <text x="115" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" filter="url(#neon-glow)" opacity="0.5" class="neon-n">N</text>
+                                <text x="130" y="36" font-family="'Special Elite', monospace" font-size="18" font-weight="bold" fill="#e8a435" filter="url(#neon-glow)" opacity="0.3" class="neon-g neon-flicker-slow">G</text>
+                                <!-- Broken bulb marks -->
+                                <line x1="112" y1="22" x2="114" y2="25" stroke="#555" stroke-width="1"/>
+                                <circle cx="137" cy="40" r="1.5" fill="#555"/>
                             </g>
                             
-                            <!-- Body - Stylish vest/shirt -->
+                            <!-- SVG filter for neon glow -->
+                            <defs>
+                                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                                    <feMerge>
+                                        <feMergeNode in="blur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            
+                            <!-- Desk -->
+                            <rect x="140" y="190" width="130" height="10" fill="#a0522d" stroke="#1a1a1a" stroke-width="2"/>
+                            <rect x="150" y="200" width="12" height="50" fill="#8B4513" stroke="#1a1a1a" stroke-width="2"/>
+                            <rect x="250" y="200" width="12" height="50" fill="#8B4513" stroke="#1a1a1a" stroke-width="2"/>
+                            
+                            <!-- Chair -->
+                            <rect x="55" y="175" width="50" height="45" rx="3" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="2"/>
+                            <rect x="50" y="165" width="60" height="15" rx="3" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="2"/>
+                            
+                            <!-- Monitor -->
+                            <g class="monitor">
+                                <rect x="175" y="110" width="70" height="55" rx="3" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="2"/>
+                                <rect x="180" y="115" width="60" height="42" fill="#1e2d1e"/>
+                                <!-- Code lines -->
+                                <line x1="185" y1="125" x2="215" y2="125" stroke="#00ff00" stroke-width="2"/>
+                                <line x1="190" y1="135" x2="230" y2="135" stroke="#00ff00" stroke-width="2"/>
+                                <line x1="190" y1="145" x2="210" y2="145" stroke="#e8a435" stroke-width="2"/>
+                                <rect x="213" y="143" width="8" height="6" fill="#00ff00" class="cursor-blink"/>
+                                <!-- Stand -->
+                                <rect x="200" y="165" width="20" height="12" fill="#1a1a1a"/>
+                                <rect x="190" y="177" width="40" height="8" fill="#1a1a1a"/>
+                            </g>
+                            
+                            <!-- Keyboard -->
+                            <rect x="170" y="185" width="55" height="6" rx="2" fill="#333" stroke="#1a1a1a" stroke-width="1"/>
+                            
+                            <!-- Coffee mug on desk -->
+                            <g class="desk-coffee">
+                                <path d="M 240 168 L 242 186 Q 250 190 258 186 L 260 168 Z" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
+                                <ellipse cx="250" cy="168" rx="11" ry="4" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
+                                <ellipse cx="250" cy="170" rx="8" ry="2.5" fill="#3d2314"/>
+                                <path d="M 260 172 Q 268 172 268 178 Q 268 184 260 182" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+                                <!-- Steam -->
+                                <path d="M 247 161 Q 244 154 247 147" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="steam steam-1"/>
+                                <path d="M 253 159 Q 250 152 253 145" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" class="steam steam-2"/>
+                            </g>
+                            
+                            <!-- Character - Side profile facing right -->
+                            
+                            <!-- Cup Head -->
+                            <g class="cup-head">
+                                <!-- Cup body (head) -->
+                                <path d="M 65 50 L 68 100 Q 90 112 115 100 L 118 50 Z" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="3"/>
+                                <!-- Cup rim -->
+                                <ellipse cx="92" cy="50" rx="28" ry="9" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="3"/>
+                                <!-- Coffee inside -->
+                                <ellipse cx="92" cy="53" rx="22" ry="6" fill="#3d2314"/>
+                                <!-- Steam from head -->
+                                <path d="M 80 40 Q 76 32 80 24" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="steam steam-1"/>
+                                <path d="M 92 37 Q 88 29 92 21" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="steam steam-2"/>
+                                <path d="M 104 40 Q 108 32 104 24" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="steam steam-3"/>
+                                <!-- Cup handle -->
+                                <path d="M 118 65 Q 140 65 140 82 Q 140 99 118 95" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+                                
+                                <!-- Face - looking right at screen -->
+                                <ellipse cx="82" cy="78" rx="9" ry="11" fill="#1a1a1a"/>
+                                <ellipse cx="106" cy="76" rx="10" ry="12" fill="#1a1a1a"/>
+                                <!-- Pie slice highlights - looking right -->
+                                <path d="M 86 70 L 86 78 L 91 78 A 9 11 0 0 0 86 70" fill="#f5f0e6"/>
+                                <path d="M 111 67 L 111 76 L 116 76 A 10 12 0 0 0 111 67" fill="#f5f0e6"/>
+                                <!-- Focused eyebrows -->
+                                <path d="M 70 68 Q 80 63 92 70" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M 96 67 Q 108 61 120 66" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                                <!-- Smile -->
+                                <path d="M 85 92 Q 95 98 108 92" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+                                <!-- Rosy cheek -->
+                                <ellipse cx="118" cy="84" rx="5" ry="3" fill="#d4a574" opacity="0.5"/>
+                            </g>
+                            
+                            <!-- Body - seated, leaning forward slightly -->
                             <g class="body">
                                 <!-- Neck -->
-                                <rect x="90" y="115" width="20" height="15" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
-                                <!-- Shirt collar -->
-                                <path d="M 75 130 L 90 145 L 100 135 L 110 145 L 125 130" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
-                                <!-- Torso/vest -->
-                                <path d="M 65 135 Q 60 180 70 220 L 130 220 Q 140 180 135 135 Z" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="2"/>
-                                <!-- Vest lapels -->
-                                <path d="M 75 135 L 85 180 L 100 175" fill="none" stroke="#f5f0e6" stroke-width="2"/>
-                                <path d="M 125 135 L 115 180 L 100 175" fill="none" stroke="#f5f0e6" stroke-width="2"/>
-                                <!-- Vest buttons -->
-                                <circle cx="100" cy="160" r="4" fill="#e8a435"/>
-                                <circle cx="100" cy="180" r="4" fill="#e8a435"/>
-                                <circle cx="100" cy="200" r="4" fill="#e8a435"/>
+                                <rect x="88" y="102" width="16" height="12" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
+                                <!-- Torso leaning toward desk -->
+                                <path d="M 70 114 L 65 175 L 115 175 L 125 114 Z" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="2"/>
+                                <!-- Collar -->
+                                <path d="M 78 114 L 90 126 L 102 118 L 115 124 L 120 114" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
+                                <!-- Buttons -->
+                                <circle cx="95" cy="140" r="3" fill="#e8a435"/>
+                                <circle cx="92" cy="158" r="3" fill="#e8a435"/>
                             </g>
                             
-                            <!-- Arms with rubber-hose style -->
-                            <g class="left-arm">
-                                <!-- Arm -->
-                                <path d="M 65 145 Q 30 160 20 190 Q 15 210 25 220" fill="none" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round"/>
-                                <!-- Glove hand holding coffee -->
-                                <ellipse cx="28" cy="225" rx="15" ry="12" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
-                                <!-- Finger lines -->
-                                <line x1="20" y1="220" x2="20" y2="230" stroke="#1a1a1a" stroke-width="1"/>
-                                <line x1="28" y1="218" x2="28" y2="232" stroke="#1a1a1a" stroke-width="1"/>
-                                <line x1="36" y1="220" x2="36" y2="230" stroke="#1a1a1a" stroke-width="1"/>
-                                <!-- Tiny coffee cup in hand -->
-                                <rect x="15" y="235" width="26" height="20" rx="3" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
-                                <ellipse cx="28" cy="238" rx="10" ry="3" fill="#3d2314"/>
-                            </g>
-                            
+                            <!-- Arms reaching to keyboard -->
                             <g class="right-arm">
-                                <!-- Arm giving thumbs up -->
-                                <path d="M 135 145 Q 170 150 180 175 Q 185 190 175 200" fill="none" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round"/>
-                                <!-- Glove hand -->
-                                <ellipse cx="175" cy="205" rx="14" ry="12" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
-                                <!-- Thumb up -->
-                                <ellipse cx="185" cy="188" rx="6" ry="10" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
+                                <!-- Upper arm -->
+                                <path d="M 125 125 Q 145 135 155 155" fill="none" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round"/>
+                                <!-- Forearm to keyboard -->
+                                <path d="M 155 155 Q 165 170 180 182" fill="none" stroke="#1a1a1a" stroke-width="7" stroke-linecap="round"/>
+                                <!-- Hand -->
+                                <ellipse cx="183" cy="184" rx="10" ry="7" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
                             </g>
                             
-                            <!-- Legs with shoes -->
+                            <g class="left-arm">
+                                <!-- Behind body, also reaching -->
+                                <path d="M 80 130 Q 100 160 130 170" fill="none" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>
+                                <path d="M 130 170 Q 155 180 172 183" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+                                <!-- Hand -->
+                                <ellipse cx="175" cy="185" rx="8" ry="6" fill="#f5f0e6" stroke="#1a1a1a" stroke-width="2"/>
+                            </g>
+                            
+                            <!-- Legs on chair -->
                             <g class="legs">
-                                <!-- Left leg -->
-                                <path d="M 80 220 Q 75 245 70 265" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
-                                <!-- Right leg -->
-                                <path d="M 120 220 Q 125 245 130 265" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
-                                <!-- Left shoe -->
-                                <ellipse cx="65" cy="270" rx="18" ry="8" fill="#1a1a1a"/>
-                                <!-- Right shoe -->
-                                <ellipse cx="135" cy="270" rx="18" ry="8" fill="#1a1a1a"/>
+                                <!-- Thighs on chair seat -->
+                                <path d="M 68 175 Q 85 185 105 180" fill="none" stroke="#1a1a1a" stroke-width="12" stroke-linecap="round"/>
+                                <!-- Knees and lower legs hanging -->
+                                <path d="M 105 180 L 115 215" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
+                                <!-- Back leg -->
+                                <path d="M 68 175 L 72 210" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
+                                <!-- Shoes -->
+                                <ellipse cx="120" cy="220" rx="14" ry="6" fill="#1a1a1a"/>
+                                <ellipse cx="72" cy="216" rx="12" ry="5" fill="#1a1a1a"/>
                             </g>
                         </svg>
                     </div>
@@ -353,7 +419,7 @@
                                 <circle cx="22" cy="20" r="2" fill="#1a1a1a"/>
                             </svg>
                         </div>
-                        <h3 class="card-title">CI/CD INFRA</h3>
+                        <h3 class="card-title">CI INFRA(DevEx)</h3>
                         <p class="card-subtitle">@ Optro</p>
                         <p class="card-text">
                             Monorepo wizardry with NX + pnpm, automated deployments, and clean CI/CD with GitHub Actions.

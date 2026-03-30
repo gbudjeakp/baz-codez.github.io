@@ -412,38 +412,103 @@ body::after {
     }
 }
 
-/* Character arm animations */
+/* Character arm animations - typing */
 .left-arm {
-    animation: arm-swing-left 3s ease-in-out infinite;
-    transform-origin: 65px 145px;
+    animation: typing-left 0.4s ease-in-out infinite;
+    transform-origin: 175px 185px;
 }
 
 .right-arm {
-    animation: arm-swing-right 2s ease-in-out infinite;
-    transform-origin: 135px 145px;
+    animation: typing-right 0.4s ease-in-out infinite;
+    transform-origin: 183px 184px;
+    animation-delay: 0.2s;
 }
 
-@keyframes arm-swing-left {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(5deg); }
+@keyframes typing-left {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
 }
 
-@keyframes arm-swing-right {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-8deg); }
-    75% { transform: rotate(3deg); }
+@keyframes typing-right {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
 }
 
-/* Cup head bob */
+/* Cup head bob - focused coding */
 .cup-head {
-    animation: head-bob 2.5s ease-in-out infinite;
+    animation: coding-focus 3s ease-in-out infinite;
     transform-origin: center bottom;
 }
 
-@keyframes head-bob {
+@keyframes coding-focus {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    30% { transform: translateY(-2px) rotate(1deg); }
-    60% { transform: translateY(-1px) rotate(-1deg); }
+    25% { transform: translateY(-1px) rotate(0.5deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(-1px) rotate(-0.5deg); }
+}
+
+/* Desk coffee steam */
+.desk-coffee .steam {
+    animation: desk-steam 2.5s ease-in-out infinite;
+}
+
+@keyframes desk-steam {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 0.8; transform: translateY(-4px); }
+}
+
+/* Monitor glow effect */
+.monitor rect:nth-child(2) {
+    animation: screen-glow 2s ease-in-out infinite;
+}
+
+@keyframes screen-glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.1); }
+}
+
+/* Broken neon sign flicker effects */
+.neon-flicker {
+    animation: neon-flicker-fast 0.15s ease-in-out infinite;
+}
+
+.neon-flicker-slow {
+    animation: neon-flicker-slow 2s ease-in-out infinite;
+}
+
+@keyframes neon-flicker-fast {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0.3;
+    }
+    22% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes neon-flicker-slow {
+    0%, 40%, 44%, 100% {
+        opacity: 1;
+    }
+    41%, 43% {
+        opacity: 0.4;
+    }
+    42% {
+        opacity: 0.7;
+    }
+}
+
+/* Neon sign gentle swing */
+.neon-sign {
+    animation: sign-swing 4s ease-in-out infinite;
+    transform-origin: 102px 6px;
+}
+
+@keyframes sign-swing {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(-6deg); }
 }
 
 /* Section Divider */
