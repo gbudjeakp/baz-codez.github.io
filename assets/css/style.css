@@ -12,26 +12,26 @@
 }
 
 :root {
-    --cream: #f5f0e6;
-    --cream-dark: #e8e0d0;
-    --sepia: #d4c4a8;
+    --cream: #f2f2f2;
+    --cream-dark: #d9d9d9;
+    --sepia: #b0b0b0;
     --ink: #1a1a1a;
     --ink-light: #3a3a3a;
-    --accent: #e8a435;
-    --accent-dark: #c78a1d;
+    --accent: #555555;
+    --accent-dark: #333333;
     --border-color: #1a1a1a;
     --film-scratch: rgba(0, 0, 0, 0.03);
     
     /* Character colors */
-    --char-skin: #f5f0e6;
-    --char-coffee: #3d2314;
+    --char-skin: #f2f2f2;
+    --char-coffee: #555555;
     --char-body: #1a1a1a;
-    --char-blush: #d4a574;
-    --desk-color: #a0522d;
-    --desk-leg: #8B4513;
+    --char-blush: #888888;
+    --desk-color: #777777;
+    --desk-leg: #555555;
     --chair-color: #2a2a2a;
-    --monitor-screen: #1e2d1e;
-    --code-green: #00ff00;
+    --monitor-screen: #0a0a0a;
+    --code-green: #cccccc;
 }
 
 /* Dark mode variables */
@@ -41,21 +41,21 @@
     --sepia: #2a2a2a;
     --ink: #e8e0d0;
     --ink-light: #c0b8a8;
-    --accent: #ffb845;
-    --accent-dark: #e8a435;
+    --accent: #aaaaaa;
+    --accent-dark: #888888;
     --border-color: #e8e0d0;
     --film-scratch: rgba(255, 255, 255, 0.02);
     
     /* Character colors in dark mode */
-    --char-skin: #f5f0e6;
-    --char-coffee: #3d2314;
+    --char-skin: #f2f2f2;
+    --char-coffee: #555555;
     --char-body: #1a1a1a;
-    --char-blush: #d4a574;
-    --desk-color: #8B4513;
-    --desk-leg: #654321;
+    --char-blush: #888888;
+    --desk-color: #777777;
+    --desk-leg: #555555;
     --chair-color: #3a3a3a;
-    --monitor-screen: #0a150a;
-    --code-green: #00ff00;
+    --monitor-screen: #0a0a0a;
+    --code-green: #cccccc;
 }
 
 /* Base styles with vintage film look */
@@ -1053,8 +1053,8 @@ body,
 }
 
 @keyframes glow-text {
-    from { text-shadow: 0 0 5px rgba(232, 164, 53, 0.5); }
-    to { text-shadow: 0 0 20px rgba(232, 164, 53, 0.8), 0 0 30px rgba(232, 164, 53, 0.4); }
+    from { text-shadow: 0 0 5px rgba(100, 100, 100, 0.5); }
+    to { text-shadow: 0 0 20px rgba(100, 100, 100, 0.8), 0 0 30px rgba(100, 100, 100, 0.4); }
 }
 
 .prophet-content {
@@ -1393,23 +1393,24 @@ body,
     box-shadow: 
         4px 4px 0 var(--ink),
         8px 8px 0 var(--accent);
-    background: #2a1810;
+    background: #111111;
 }
 
 #cuphead-game {
     display: block;
     image-rendering: pixelated;
-    background: linear-gradient(180deg, #3d2314 0%, #2a1810 100%);
+    background: #111111;
 }
 
 .game-overlay,
-.game-over-overlay {
+.game-over-overlay,
+.game-win-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(26, 26, 26, 0.9);
+    background: rgba(10, 10, 10, 0.92);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1417,34 +1418,55 @@ body,
     gap: 15px;
 }
 
-.game-over-overlay {
+.game-over-overlay,
+.game-win-overlay {
     display: none;
 }
 
 .game-title,
-.game-over-text {
+.game-over-text,
+.game-win-text {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 2rem;
     font-weight: 900;
-    color: var(--accent);
+    color: #f2f2f2;
     text-shadow: 2px 2px 0 #1a1a1a;
     letter-spacing: 3px;
 }
 
 .game-over-text {
-    color: #ff6b6b;
+    color: #cccccc;
+}
+
+.game-win-text {
+    color: #ffffff;
+    font-size: 2.4rem;
+    text-shadow: 0 0 20px rgba(255,255,255,0.6), 2px 2px 0 #1a1a1a;
+}
+
+.win-message {
+    font-family: 'Special Elite', cursive;
+    font-size: 1rem;
+    color: #aaaaaa;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .game-instructions {
     font-family: 'Special Elite', cursive;
     font-size: 0.9rem;
-    color: #f5f0e6;
+    color: #cccccc;
 }
 
 .final-score {
     font-family: 'Courier Prime', monospace;
     font-size: 1.2rem;
-    color: #f5f0e6;
+    color: #f2f2f2;
+}
+
+.lives-value {
+    color: #dddddd;
+    letter-spacing: 2px;
 }
 
 .game-start-btn {
