@@ -822,6 +822,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let hitEnemy = false;
                 for (let j = enemies.length - 1; j >= 0; j--) {
                     const e = enemies[j];
+                    if (!e) continue; // guard: enemies[] may be modified mid-loop
                     if (dist2(b.x, b.y, e.x + e.w/2, e.y + e.h/2) < e.w/2 + 5) {
                         spawnParticles(e.x + e.w/2, e.y + e.h/2, 8, b.color || '#aaaaaa');
                         e.hp--;
