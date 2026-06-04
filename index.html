@@ -366,9 +366,20 @@
                 <div class="game-container">
                     <div class="game-wrapper">
                         <canvas id="cuphead-game" width="400" height="300"></canvas>
+                        <!-- Mobile touch controls -->
+                        <div class="touch-controls" id="touch-controls">
+                            <div class="touch-dpad">
+                                <button class="dpad-btn dpad-up" data-key="arrowup">▲</button>
+                                <button class="dpad-btn dpad-left" data-key="arrowleft">◀</button>
+                                <button class="dpad-btn dpad-right" data-key="arrowright">▶</button>
+                                <button class="dpad-btn dpad-down" data-key="arrowdown">▼</button>
+                            </div>
+                            <button class="touch-fire" id="touch-fire">FIRE</button>
+                        </div>
                         <div class="game-overlay" id="game-overlay">
                             <div class="game-title">GEAR DODGER</div>
-                            <div class="game-instructions">ARROWS / WASD to move &nbsp;·&nbsp; SPACE to shoot</div>
+                            <div class="game-instructions">ARROWS / WASD to move · SPACE to shoot</div>
+                            <div class="game-instructions mobile-hint">(Touch controls appear on mobile)</div>
                             <button class="game-start-btn" id="start-game">START GAME</button>
                         </div>
                         <div class="game-over-overlay" id="game-over-overlay">

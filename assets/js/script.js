@@ -158,6 +158,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let bossMaxHP = 0;
         let bossPhase = 0;  // 0=normal, 1=enraged
 
+        // ── Powerups ───────────────────────────────────────────────
+        // Types: 'spread' (3-way), 'rapid' (fast fire), 'pierce' (through enemies), 'shield' (invincible), 'heart' (extra life)
+        const POWERUP_DURATION = 600; // ~10 seconds at 60fps
+        const POWERUP_COLORS = { spread: '#66aaff', rapid: '#ffaa33', pierce: '#aa66ff', shield: '#66ffaa', heart: '#ff6688' };
+        const POWERUP_LABELS = { spread: 'S', rapid: 'R', pierce: 'P', shield: '★', heart: '♥' };
+        let powerups = [];
+        let activePowerup = null;  // { type, timer } or null
+        let baseCooldown = 14;
+
         // ── Input ──────────────────────────────────────────────────
         const keys = {};
         document.addEventListener('keydown', e => {
@@ -169,6 +178,52 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keyup', e => {
             keys[e.key === ' ' ? ' ' : e.key.toLowerCase()] = false;
         });
+
+        // ── Touch controls ─────────────────────────────────────────
+        const touchControls = document.getElementById('touch-controls');
+        const touchFire     = document.getElementById('touch-fire');
+        const dpadBtns      = document.querySelectorAll('.dpad-btn');
+
+        // D-pad buttons
+        dpadBtns.forEach(btn => {
+            const key = btn.dataset.key;
+            btn.addEventListener('touchstart', e => {
+                e.preventDefault();
+                keys[key] = true;
+                btn.classList.add('active');
+            }, { passive: false });
+            btn.addEventListener('touchend', e => {
+                e.preventDefault();
+                keys[key] = false;
+                btn.classList.remove('active');
+            }, { passive: false });
+            btn.addEventListener('touchcancel', e => {
+                keys[key] = false;
+                btn.classList.remove('active');
+            });
+        });
+
+        // Fire button
+        if (touchFire) {
+            touchFire.addEventListener('touchstart', e => {
+                e.preventDefault();
+                keys[' '] = true;
+                touchFire.classList.add('active');
+            }, { passive: false });
+            touchFire.addEventListener('touchend', e => {
+                e.preventDefault();
+                keys[' '] = false;
+                touchFire.classList.remove('active');
+            }, { passive: false });
+            touchFire.addEventListener('touchcancel', e => {
+                keys[' '] = false;
+                touchFire.classList.remove('active');
+            });
+        }
+
+        // Prevent canvas touch from scrolling
+        canvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+        canvas.addEventListener('touchmove',  e => e.preventDefault(), { passive: false });
 
         // ── Helpers ────────────────────────────────────────────────
         function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
@@ -184,6 +239,75 @@ document.addEventListener('DOMContentLoaded', function() {
         function shake() {
             gameWrapper.classList.add('shake');
             setTimeout(() => gameWrapper.classList.remove('shake'), 200);
+        }
+
+        // ── Powerup functions ──────────────────────────────────────
+        function spawnPowerup(x, y) {
+            // 18% chance to drop a powerup
+            if (Math.random() > 0.18) return;
+            const types = ['spread', 'spread', 'rapid', 'rapid', 'pierce', 'pierce', 'shield', 'heart'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            powerups.push({ x: x - 10, y: y - 10, w: 20, h: 20, type, vy: 1.5, wobble: 0 });
+        }
+
+        function collectPowerup(p) {
+            spawnParticles(p.x + 10, p.y + 10, 10, POWERUP_COLORS[p.type]);
+            if (p.type === 'heart') {
+                lives = Math.min(lives + 1, 5);
+                updateLives();
+            } else if (p.type === 'shield') {
+                invincible = true;
+                invTimer = 300; // 5 seconds
+                flashTimer = 0;
+            } else {
+                // Timed powerup
+                activePowerup = { type: p.type, timer: POWERUP_DURATION };
+            }
+        }
+
+        function updatePowerups() {
+            // Move & collect
+            for (let i = powerups.length - 1; i >= 0; i--) {
+                const p = powerups[i];
+                p.y += p.vy;
+                p.wobble += 0.15;
+                if (p.y > canvas.height + 30) { powerups.splice(i, 1); continue; }
+                // Collision with player
+                const pcx = player.x + player.w/2, pcy = player.y + player.h/2;
+                if (dist2(pcx, pcy, p.x + 10, p.y + 10) < 24) {
+                    collectPowerup(p);
+                    powerups.splice(i, 1);
+                }
+            }
+            // Tick active powerup
+            if (activePowerup) {
+                activePowerup.timer--;
+                if (activePowerup.timer <= 0) activePowerup = null;
+            }
+        }
+
+        function drawPowerup(p) {
+            ctx.save();
+            ctx.translate(p.x + 10, p.y + 10);
+            // Wobble effect
+            const wobbleX = Math.sin(p.wobble) * 2;
+            ctx.translate(wobbleX, 0);
+            // Glow
+            ctx.shadowColor = POWERUP_COLORS[p.type];
+            ctx.shadowBlur = 8;
+            // Circle bg
+            ctx.fillStyle = POWERUP_COLORS[p.type];
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+            // Label
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px "Courier Prime", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(POWERUP_LABELS[p.type], 0, 1);
+            ctx.restore();
         }
 
         // ── Drawing: player ────────────────────────────────────────
@@ -224,8 +348,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // ── Drawing: player bullet ─────────────────────────────────
         function drawBullet(b) {
             ctx.save();
-            ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 8;
-            ctx.fillStyle = '#ffffff';
+            const color = b.color || '#ffffff';
+            ctx.shadowColor = color; ctx.shadowBlur = 8;
+            ctx.fillStyle = color;
             ctx.fillRect(b.x - 2, b.y - 7, 4, 14);
             ctx.restore();
         }
@@ -685,35 +810,45 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateBullets() {
             for (let i = bullets.length - 1; i >= 0; i--) {
                 const b = bullets[i];
-                b.y -= b.spd;
-                if (b.y < -20) { bullets.splice(i, 1); continue; }
+                if (!b) continue; // guard: bullets[] may be cleared mid-loop
+                b.x += b.vx || 0;
+                b.y += b.vy || 0;
+                // Off screen
+                if (b.y < -20 || b.x < -20 || b.x > canvas.width + 20) { 
+                    bullets.splice(i, 1); continue; 
+                }
 
                 // vs enemies
-                let hit = false;
+                let hitEnemy = false;
                 for (let j = enemies.length - 1; j >= 0; j--) {
                     const e = enemies[j];
                     if (dist2(b.x, b.y, e.x + e.w/2, e.y + e.h/2) < e.w/2 + 5) {
-                        spawnParticles(e.x + e.w/2, e.y + e.h/2, 8, '#aaaaaa');
+                        spawnParticles(e.x + e.w/2, e.y + e.h/2, 8, b.color || '#aaaaaa');
                         e.hp--;
                         if (e.hp <= 0) {
+                            spawnPowerup(e.x + e.w/2, e.y + e.h/2);
                             enemies.splice(j, 1);
                             score += 2; killCount++;
                             scoreEl.textContent = score;
                             if (gameState === 'playing') checkProgress();
                         }
-                        bullets.splice(i, 1); hit = true; break;
+                        if (!b.pierce) {
+                            bullets.splice(i, 1); hitEnemy = true; break;
+                        }
+                        // Pierce: continue but mark as hit
+                        hitEnemy = true;
                     }
                 }
-                if (hit) continue;
+                if (hitEnemy && !b.pierce) continue;
 
                 // vs boss
                 if (boss && gameState === 'boss') {
                     const bcx = boss.x + boss.w/2, bcy = boss.y + boss.h/2;
                     if (dist2(b.x, b.y, bcx, bcy) < boss.w/2 + 5) {
                         boss.flash = 6; bossHP--;
-                        spawnParticles(b.x, b.y, 5, '#ffffff');
-                        bullets.splice(i, 1);
-                        if (bossHP <= 0) bossDefeated();
+                        spawnParticles(b.x, b.y, 5, b.color || '#ffffff');
+                        if (!b.pierce) bullets.splice(i, 1);
+                        if (bossHP <= 0) { bossDefeated(); return; }
                     }
                 }
             }
@@ -721,9 +856,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── Shoot ──────────────────────────────────────────────────
         function shoot() {
-            if (shootCooldown > 0 || bullets.length >= 6) return;
-            bullets.push({ x: player.x + player.w/2, y: player.y, spd: 9 });
-            shootCooldown = 14;
+            const maxBullets = activePowerup?.type === 'spread' ? 12 : 6;
+            if (shootCooldown > 0 || bullets.length >= maxBullets) return;
+            
+            const cx = player.x + player.w/2;
+            const cy = player.y;
+            const pierce = activePowerup?.type === 'pierce';
+            const color = activePowerup ? POWERUP_COLORS[activePowerup.type] : '#ffffff';
+            
+            if (activePowerup?.type === 'spread') {
+                // 3-way shot
+                bullets.push({ x: cx, y: cy, vx: 0, vy: -8, pierce, color });
+                bullets.push({ x: cx, y: cy, vx: -2.5, vy: -7.5, pierce, color });
+                bullets.push({ x: cx, y: cy, vx:  2.5, vy: -7.5, pierce, color });
+            } else {
+                bullets.push({ x: cx, y: cy, vx: 0, vy: -9, pierce, color });
+            }
+            
+            // Rapid fire = faster cooldown
+            shootCooldown = activePowerup?.type === 'rapid' ? 6 : baseCooldown;
         }
 
         // ── Level progress ─────────────────────────────────────────
@@ -731,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (killCount >= LEVELS[level].kills) {
                 gameState = 'boss_intro';
                 stateTimer = 100;
-                enemies = []; bullets = [];
+                enemies = []; bullets = []; powerups = [];
                 spawnParticles(canvas.width/2, canvas.height/2, 25, '#ffffff');
             }
         }
@@ -739,7 +890,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function bossDefeated() {
             score += 15; scoreEl.textContent = score;
             spawnParticles(boss.x + boss.w/2, boss.y + boss.h/2, 45, '#ffffff');
-            boss = null; enemies = []; bullets = [];
+            boss = null; enemies = []; bullets = []; powerups = [];
             if (level >= 2) {
                 endGame(true);
             } else {
@@ -804,14 +955,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     spawnEnemy(); spawnTimer = 0;
                     if (spawnInterval > LEVELS[level].spawnMin) spawnInterval -= 0.2;
                 }
-                updateEnemies(); updateBullets(); updateParticles();
+                updateEnemies(); updateBullets(); updatePowerups(); updateParticles();
 
             } else if (gameState === 'boss_intro') {
                 stateTimer--; updateParticles();
                 if (stateTimer <= 0) { gameState = 'boss'; spawnBoss(); }
 
             } else if (gameState === 'boss') {
-                updateBoss(); updateEnemies(); updateBullets(); updateParticles();
+                updateBoss(); updateEnemies(); updateBullets(); updatePowerups(); updateParticles();
                 // Boss body → player collision
                 if (boss && !invincible) {
                     const pcx = player.x + player.w/2, pcy = player.y + player.h/2;
@@ -822,7 +973,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (gameState === 'level_clear') {
                 stateTimer--; updateParticles();
                 if (stateTimer <= 0) {
-                    gameState = 'playing'; killCount = 0; enemies = []; bullets = [];
+                    gameState = 'playing'; killCount = 0; enemies = []; bullets = []; powerups = [];
                     spawnInterval = LEVELS[level].spawnStart; spawnTimer = 0;
                     if (levelEl) levelEl.textContent = level + 1;
                 }
@@ -850,6 +1001,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.beginPath(); ctx.moveTo(0, canvas.height-18); ctx.lineTo(canvas.width, canvas.height-18); ctx.stroke();
 
             enemies.forEach(e => drawEnemy(e));
+            powerups.forEach(p => drawPowerup(p));
 
             if (boss) {
                 if      (boss.type === 'boss1') drawBoss1(boss);
@@ -913,6 +1065,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 ctx.fillText(`Entering ${LEVELS[level].name}: ${LEVELS[level].sub}`, canvas.width/2, canvas.height/2 + 14);
             }
 
+            // Active powerup indicator (bottom left)
+            if (activePowerup && (gameState === 'playing' || gameState === 'boss')) {
+                const pct = activePowerup.timer / POWERUP_DURATION;
+                const pcolor = POWERUP_COLORS[activePowerup.type];
+                ctx.textAlign = 'left';
+                ctx.font = 'bold 11px "Courier Prime", monospace';
+                // Background bar
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(8, canvas.height - 42, 52, 14);
+                // Timer bar
+                ctx.fillStyle = pcolor;
+                ctx.fillRect(9, canvas.height - 41, 50 * pct, 12);
+                // Label
+                ctx.fillStyle = '#fff';
+                ctx.fillText(activePowerup.type.toUpperCase(), 12, canvas.height - 32);
+            }
+
             ctx.restore();
         }
 
@@ -929,7 +1098,8 @@ document.addEventListener('DOMContentLoaded', function() {
             score = 0; level = 0; lives = 3; killCount = 0;
             invincible = false; invTimer = 0; flashTimer = 0;
             shootCooldown = 0; frameCount = 0; stateTimer = 0;
-            enemies = []; bullets = []; particles = [];
+            enemies = []; bullets = []; particles = []; powerups = [];
+            activePowerup = null;
             boss = null; bossHP = 0;
             spawnTimer = 0; spawnInterval = LEVELS[0].spawnStart;
             player.x = canvas.width/2 - player.w/2;
