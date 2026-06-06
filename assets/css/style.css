@@ -1404,7 +1404,8 @@ body,
 
 .game-overlay,
 .game-over-overlay,
-.game-win-overlay {
+.game-win-overlay,
+.game-pause-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -1415,7 +1416,14 @@ body,
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.game-pause-overlay {
+    display: none;
 }
 
 .game-over-overlay,
@@ -1423,74 +1431,319 @@ body,
     display: none;
 }
 
-.game-title,
-.game-over-text,
+.game-over-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: rgba(245,240,230,0.6);
+    text-shadow: 2px 2px 0 #1a1a1a;
+    letter-spacing: 4px;
+}
+
 .game-win-text {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 900;
-    color: #f2f2f2;
-    text-shadow: 2px 2px 0 #1a1a1a;
-    letter-spacing: 3px;
-}
-
-.game-over-text {
-    color: #cccccc;
-}
-
-.game-win-text {
-    color: #ffffff;
-    font-size: 2.4rem;
-    text-shadow: 0 0 20px rgba(255,255,255,0.6), 2px 2px 0 #1a1a1a;
+    color: #f5f0e6;
+    text-shadow: 0 0 15px rgba(255,255,255,0.4), 2px 2px 0 #1a1a1a;
+    letter-spacing: 5px;
 }
 
 .win-message {
     font-family: 'Special Elite', cursive;
-    font-size: 1rem;
-    color: #aaaaaa;
+    font-size: 0.85rem;
+    color: rgba(245,240,230,0.5);
     letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+/* ── Minimalist Cuphead-style Menu ─────────────────────────────── */
+.menu-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #f5f0e6;
+    text-shadow: 2px 2px 0 #1a1a1a;
+    letter-spacing: 4px;
     text-transform: uppercase;
 }
 
-.game-instructions {
+.game-subtitle {
     font-family: 'Special Elite', cursive;
-    font-size: 0.9rem;
-    color: #cccccc;
+    font-size: 0.7rem;
+    color: rgba(245,240,230,0.5);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 6px;
+}
+
+.menu-modes {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.game-mode-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 28px 12px;
+    background: transparent;
+    border: 2px solid rgba(245,240,230,0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 100px;
+}
+
+.game-mode-btn:hover {
+    border-color: rgba(245,240,230,0.8);
+    background: rgba(245,240,230,0.08);
+}
+
+.game-mode-btn:active {
+    transform: scale(0.98);
+}
+
+.mode-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f5f0e6;
+    letter-spacing: 2px;
+}
+
+.mode-desc {
+    font-family: 'Special Elite', cursive;
+    font-size: 0.6rem;
+    color: rgba(245,240,230,0.45);
+    letter-spacing: 1px;
+}
+
+/* Controls hint */
+.menu-controls-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: 'Special Elite', cursive;
+    font-size: 0.65rem;
+    color: rgba(245,240,230,0.35);
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+.menu-controls-hint .separator {
+    width: 3px;
+    height: 3px;
+    background: rgba(245,240,230,0.25);
+    border-radius: 50%;
+}
+
+/* Audio controls */
+.menu-audio-controls {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+}
+
+.audio-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(245,240,230,0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: rgba(245,240,230,0.6);
+}
+
+.audio-btn:hover {
+    border-color: rgba(245,240,230,0.5);
+    color: #f5f0e6;
+}
+
+.audio-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.audio-btn[data-enabled="false"] {
+    opacity: 0.3;
+}
+
+.audio-btn[data-enabled="false"] .sound-waves {
+    display: none;
+}
+
+/* Hide old settings styles */
+.menu-settings,
+.settings-row,
+.setting-toggle,
+.setting-icon,
+.setting-label,
+.menu-controls,
+.controls-label,
+.mode-icon-frame,
+.mode-icon-svg,
+.menu-title-decoration {
+    display: none;
+}
+
+.mobile-hint {
+    font-size: 0.65rem;
+    opacity: 0.5;
+    margin-top: 4px;
+}
+
+/* Game over / Win styling */
+.game-over-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #cc8888;
+    text-shadow: 2px 2px 0 #1a1a1a;
+    letter-spacing: 4px;
 }
 
 .final-score {
-    font-family: 'Courier Prime', monospace;
-    font-size: 1.2rem;
-    color: #f2f2f2;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f5f0e6;
+    margin: 15px 0;
 }
 
-.lives-value {
-    color: #dddddd;
-    letter-spacing: 2px;
+.game-over-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .game-start-btn {
     font-family: 'Special Elite', cursive;
-    font-size: 1rem;
-    padding: 12px 30px;
-    background: var(--accent);
-    color: var(--ink);
-    border: 3px solid var(--ink);
+    font-size: 0.85rem;
+    padding: 10px 22px;
+    background: transparent;
+    color: #f5f0e6;
+    border: 2px solid rgba(245,240,230,0.4);
+    border-radius: 3px;
     cursor: pointer;
     letter-spacing: 2px;
     transition: all 0.2s ease;
-    margin-top: 10px;
 }
 
 .game-start-btn:hover {
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 3px 3px 0 var(--ink);
+    border-color: rgba(245,240,230,0.8);
+    background: rgba(245,240,230,0.08);
+}
+
+.game-start-btn:active {
+    transform: scale(0.98);
+}
+
+.game-start-btn.secondary {
+    border-color: rgba(245,240,230,0.2);
+    color: rgba(245,240,230,0.6);
+}
+
+.game-start-btn.secondary:hover {
+    border-color: rgba(245,240,230,0.5);
+    color: #f5f0e6;
+}
+
+.mode-display .mode-value {
+    font-size: 1.1rem;
+    color: #88aaff;
+}
+
+.lives-value {
+    font-size: 1.2rem;
+    color: #cc8888;
+    letter-spacing: 2px;
+}
+
+/* ── Pause Menu ─────────────────────────────────────────────────── */
+.pause-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #f5f0e6;
+    text-shadow: 2px 2px 0 #1a1a1a;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+}
+
+.pause-menu {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pause-menu-btn {
+    padding: 10px 22px;
+    background: transparent;
+    border: 2px solid rgba(245,240,230,0.4);
+    border-radius: 3px;
+    color: #f5f0e6;
+    font-family: 'Special Elite', cursive;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+}
+
+.pause-menu-btn:hover {
+    border-color: rgba(245,240,230,0.8);
+    background: rgba(245,240,230,0.08);
+}
+
+.pause-menu-btn:active {
+    transform: scale(0.98);
+}
+
+.pause-menu-btn.secondary {
+    border-color: rgba(245,240,230,0.2);
+    color: rgba(245,240,230,0.6);
+}
+
+.pause-menu-btn.secondary:hover {
+    border-color: rgba(245,240,230,0.5);
+    color: #f5f0e6;
+}
+
+.pause-audio-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.pause-hint {
+    font-family: 'Special Elite', cursive;
+    font-size: 0.65rem;
+    color: rgba(245,240,230,0.35);
+    letter-spacing: 2px;
 }
 
 .game-info {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .score-display,
@@ -1498,21 +1751,24 @@ body,
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    min-width: 60px;
 }
 
 .score-label {
     font-family: 'Special Elite', cursive;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: var(--ink-light);
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .score-value {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 900;
     color: var(--accent);
+    line-height: 1;
 }
 
 /* Game animations */
@@ -1636,11 +1892,72 @@ body,
     
     .game-title {
         font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .game-subtitle {
+        font-size: 0.65rem;
+    }
+    
+    .menu-title-decoration {
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+    }
+    
+    .menu-modes {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .game-mode-btn {
+        min-width: 180px;
+        padding: 14px 18px 12px;
+    }
+    
+    .mode-icon-frame {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .mode-icon-svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .mode-name {
+        font-size: 0.85rem;
+    }
+    
+    .settings-row {
+        gap: 10px;
+    }
+    
+    .setting-toggle {
+        padding: 6px 10px;
+    }
+    
+    .setting-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .setting-label {
+        font-size: 0.6rem;
     }
     
     .game-instructions {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         padding: 0 10px;
+    }
+    
+    .game-over-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .game-start-btn {
+        padding: 8px 20px;
+        font-size: 0.8rem;
     }
 }
 

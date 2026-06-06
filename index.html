@@ -365,7 +365,7 @@
                 <p class="game-intro">Dodge enemies & shoot back. 3 stages, 3 bosses. Can you beat The Machine?</p>
                 <div class="game-container">
                     <div class="game-wrapper">
-                        <canvas id="cuphead-game" width="400" height="300"></canvas>
+                        <canvas id="cuphead-game" width="600" height="480"></canvas>
                         <!-- Mobile touch controls -->
                         <div class="touch-controls" id="touch-controls">
                             <div class="touch-dpad">
@@ -377,21 +377,80 @@
                             <button class="touch-fire" id="touch-fire">FIRE</button>
                         </div>
                         <div class="game-overlay" id="game-overlay">
-                            <div class="game-title">GEAR DODGER</div>
-                            <div class="game-instructions">ARROWS / WASD to move · SPACE to shoot</div>
-                            <div class="game-instructions mobile-hint">(Touch controls appear on mobile)</div>
-                            <button class="game-start-btn" id="start-game">START GAME</button>
+                            <div class="menu-header">
+                                <div class="game-title">GEAR DODGER</div>
+                                <div class="game-subtitle">A Run & Gun Adventure</div>
+                            </div>
+                            <div class="menu-modes">
+                                <button class="game-mode-btn" id="start-story">
+                                    <span class="mode-name">STORY</span>
+                                    <span class="mode-desc">3 Stages</span>
+                                </button>
+                                <button class="game-mode-btn" id="start-arcade">
+                                    <span class="mode-name">ARCADE</span>
+                                    <span class="mode-desc">Endless</span>
+                                </button>
+                            </div>
+                            <div class="menu-controls-hint">
+                                <span>WASD / Arrows</span>
+                                <span class="separator"></span>
+                                <span>Space to shoot</span>
+                            </div>
+                            <div class="menu-audio-controls">
+                                <button class="audio-btn" id="sfx-toggle" data-enabled="true" title="Sound Effects">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/>
+                                        <path class="sound-waves" d="M14 7.5c1.5 1 2.5 2.5 2.5 4.5s-1 3.5-2.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                                <button class="audio-btn" id="music-toggle" data-enabled="true" title="Music">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="6" cy="18" r="3" fill="currentColor"/>
+                                        <circle cx="18" cy="16" r="3" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                         <div class="game-over-overlay" id="game-over-overlay">
-                            <div class="game-over-text">GAME OVER!</div>
-                            <div class="final-score">Score: <span id="final-score">0</span></div>
-                            <button class="game-start-btn" id="restart-game">PLAY AGAIN</button>
+                            <div class="game-over-text">GAME OVER</div>
+                            <div class="final-score"><span id="final-score">0</span></div>
+                            <div class="game-over-buttons">
+                                <button class="game-start-btn" id="restart-game">RETRY</button>
+                                <button class="game-start-btn secondary" id="back-to-menu">MENU</button>
+                            </div>
                         </div>
                         <div class="game-win-overlay" id="game-win-overlay">
-                            <div class="game-win-text">YOU WIN!</div>
-                            <div class="win-message">All 3 bosses defeated!</div>
-                            <div class="final-score">Final Score: <span id="win-score">0</span></div>
-                            <button class="game-start-btn" id="play-again-win">PLAY AGAIN</button>
+                            <div class="game-win-text">VICTORY</div>
+                            <div class="win-message">All bosses defeated</div>
+                            <div class="final-score"><span id="win-score">0</span></div>
+                            <div class="game-over-buttons">
+                                <button class="game-start-btn" id="play-again-win">AGAIN</button>
+                                <button class="game-start-btn secondary" id="back-to-menu-win">MENU</button>
+                            </div>
+                        </div>
+                        <div class="game-pause-overlay" id="game-pause-overlay">
+                            <div class="pause-title">PAUSED</div>
+                            <div class="pause-menu">
+                                <button class="pause-menu-btn" id="resume-game">RESUME</button>
+                                <button class="pause-menu-btn secondary" id="pause-quit">QUIT</button>
+                            </div>
+                            <div class="pause-audio-controls">
+                                <button class="audio-btn" id="pause-sfx-toggle" data-enabled="true" title="Sound Effects">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/>
+                                        <path class="sound-waves" d="M14 7.5c1.5 1 2.5 2.5 2.5 4.5s-1 3.5-2.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                                <button class="audio-btn" id="pause-music-toggle" data-enabled="true" title="Music">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="6" cy="18" r="3" fill="currentColor"/>
+                                        <circle cx="18" cy="16" r="3" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="pause-hint">ESC to resume</div>
                         </div>
                     </div>
                     <div class="game-info">
@@ -399,7 +458,11 @@
                             <span class="score-label">SCORE</span>
                             <span class="score-value" id="score">0</span>
                         </div>
-                        <div class="score-display">
+                        <div class="score-display mode-display" id="mode-display-container">
+                            <span class="score-label">MODE</span>
+                            <span class="score-value mode-value" id="mode-display">STORY</span>
+                        </div>
+                        <div class="score-display stage-display" id="stage-display-container">
                             <span class="score-label">STAGE</span>
                             <span class="score-value" id="level-display">1</span>
                         </div>
@@ -455,7 +518,14 @@
         </footer>
     </div>
 
-    <script src="assets/js/script.js"></script>
+    <!-- Game modules -->
+    <script src="assets/js/game/config.js"></script>
+    <script src="assets/js/game/audio.js"></script>
+    <script src="assets/js/game/input.js"></script>
+    <script src="assets/js/game/entities.js"></script>
+    <script src="assets/js/game/drawing.js"></script>
+    <script src="assets/js/game/update.js"></script>
+    <script src="assets/js/game/main.js"></script>
 </body>
 
 </html>

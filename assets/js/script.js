@@ -107,19 +107,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('cuphead-game');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        const startBtn        = document.getElementById('start-game');
+        // Menu buttons
+        const startStoryBtn   = document.getElementById('start-story');
+        const startArcadeBtn  = document.getElementById('start-arcade');
         const restartBtn      = document.getElementById('restart-game');
         const playAgainWinBtn = document.getElementById('play-again-win');
+        const backToMenuBtn   = document.getElementById('back-to-menu');
+        const backToMenuWinBtn= document.getElementById('back-to-menu-win');
+        const sfxToggleBtn    = document.getElementById('sfx-toggle');
+        const musicToggleBtn  = document.getElementById('music-toggle');
+        // Overlays
         const gameOverlay     = document.getElementById('game-overlay');
         const gameOverOverlay = document.getElementById('game-over-overlay');
         const gameWinOverlay  = document.getElementById('game-win-overlay');
+        const gamePauseOverlay= document.getElementById('game-pause-overlay');
+        // Pause menu elements
+        const resumeBtn       = document.getElementById('resume-game');
+        const pauseSfxBtn     = document.getElementById('pause-sfx-toggle');
+        const pauseMusicBtn   = document.getElementById('pause-music-toggle');
+        const pauseQuitBtn    = document.getElementById('pause-quit');
+        // Info displays
         const scoreEl         = document.getElementById('score');
         const highScoreEl     = document.getElementById('high-score');
         const finalScoreEl    = document.getElementById('final-score');
         const winScoreEl      = document.getElementById('win-score');
         const levelEl         = document.getElementById('level-display');
         const livesEl         = document.getElementById('lives-display');
+        const modeDisplayEl   = document.getElementById('mode-display');
+        const stageContainer  = document.getElementById('stage-display-container');
         const gameWrapper     = document.querySelector('.game-wrapper');
+
+        // ── Game mode ──────────────────────────────────────────────
+        let gameMode = 'story'; // 'story' or 'arcade'
 
         // ── Level definitions ──────────────────────────────────────
         const LEVELS = [
@@ -149,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         highScoreEl.textContent = highScore;
 
         // ── Entities ───────────────────────────────────────────────
-        const player = { x: 180, y: 240, w: 40, h: 40, speed: 5 };
+        const player = { x: 250, y: 340, w: 40, h: 40, speed: 5 };
         let enemies   = [];
         let bullets   = [];
         let particles = [];
@@ -167,10 +186,314 @@ document.addEventListener('DOMContentLoaded', function() {
         let activePowerup = null;  // { type, timer } or null
         let baseCooldown = 14;
 
+        // ── Sound System (Web Audio API) ───────────────────────────
+        let audioCtx = null;
+        let sfxEnabled = true;
+        let musicEnabled = true;
+        let musicNodes = null; // Will hold oscillators for background music
+        let gamePaused = false;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+        
+        function startMusic() {
+            if (!audioCtx || musicNodes) return;
+            
+            const now = audioCtx.currentTime;
+            
+            // Create master gain for music
+            const masterGain = audioCtx.createGain();
+            masterGain.gain.value = musicEnabled ? 0.15 : 0;
+            masterGain.connect(audioCtx.destination);
+            
+            // Bass line oscillator
+            const bassOsc = audioCtx.createOscillator();
+            const bassGain = audioCtx.createGain();
+            bassOsc.type = 'triangle';
+            bassGain.gain.value = 0.4;
+            bassOsc.connect(bassGain);
+            bassGain.connect(masterGain);
+            
+            // Melody oscillator
+            const melodyOsc = audioCtx.createOscillator();
+            const melodyGain = audioCtx.createGain();
+            melodyOsc.type = 'square';
+            melodyGain.gain.value = 0.25;
+            melodyOsc.connect(melodyGain);
+            melodyGain.connect(masterGain);
+            
+            // Arpeggio oscillator
+            const arpOsc = audioCtx.createOscillator();
+            const arpGain = audioCtx.createGain();
+            arpOsc.type = 'sawtooth';
+            arpGain.gain.value = 0.15;
+            arpOsc.connect(arpGain);
+            arpGain.connect(masterGain);
+            
+            // Bass pattern (loop every 2 seconds)
+            const bassNotes = [55, 55, 73.4, 73.4, 82.4, 82.4, 65.4, 65.4]; // A1, D2, E2, C2
+            let bassIndex = 0;
+            function scheduleBass() {
+                if (!musicNodes) return;
+                bassOsc.frequency.setValueAtTime(bassNotes[bassIndex], audioCtx.currentTime);
+                bassIndex = (bassIndex + 1) % bassNotes.length;
+                setTimeout(scheduleBass, 250);
+            }
+            
+            // Melody pattern
+            const melodyNotes = [220, 247, 262, 294, 330, 294, 262, 247]; // A3, B3, C4, D4, E4...
+            let melodyIndex = 0;
+            function scheduleMelody() {
+                if (!musicNodes) return;
+                melodyOsc.frequency.setValueAtTime(melodyNotes[melodyIndex], audioCtx.currentTime);
+                melodyIndex = (melodyIndex + 1) % melodyNotes.length;
+                setTimeout(scheduleMelody, 250);
+            }
+            
+            // Arpeggio pattern
+            const arpNotes = [440, 554, 659, 554]; // A4, C#5, E5, C#5
+            let arpIndex = 0;
+            function scheduleArp() {
+                if (!musicNodes) return;
+                arpOsc.frequency.setValueAtTime(arpNotes[arpIndex], audioCtx.currentTime);
+                arpIndex = (arpIndex + 1) % arpNotes.length;
+                setTimeout(scheduleArp, 125);
+            }
+            
+            bassOsc.start();
+            melodyOsc.start();
+            arpOsc.start();
+            scheduleBass();
+            scheduleMelody();
+            scheduleArp();
+            
+            musicNodes = { masterGain, bassOsc, bassGain, melodyOsc, melodyGain, arpOsc, arpGain };
+        }
+        
+        function stopMusic() {
+            if (musicNodes) {
+                try {
+                    musicNodes.bassOsc.stop();
+                    musicNodes.melodyOsc.stop();
+                    musicNodes.arpOsc.stop();
+                } catch (e) {}
+                musicNodes = null;
+            }
+        }
+        
+        function updateMusicVolume() {
+            if (musicNodes && musicNodes.masterGain) {
+                musicNodes.masterGain.gain.value = musicEnabled ? 0.15 : 0;
+            }
+        }
+        
+        function playSound(type) {
+            if (!sfxEnabled || !audioCtx) return;
+            
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            switch (type) {
+                case 'shoot':
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                    break;
+                
+                case 'shoot_spread':
+                    // Higher pitch, wider sound for spread shot
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(800, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.06);
+                    gain.gain.setValueAtTime(0.07, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+                    osc.start(now);
+                    osc.stop(now + 0.06);
+                    // Add second tone for fullness
+                    const osc2 = audioCtx.createOscillator();
+                    const gain2 = audioCtx.createGain();
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.type = 'triangle';
+                    osc2.frequency.setValueAtTime(600, now);
+                    osc2.frequency.exponentialRampToValueAtTime(300, now + 0.07);
+                    gain2.gain.setValueAtTime(0.05, now);
+                    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+                    osc2.start(now);
+                    osc2.stop(now + 0.07);
+                    break;
+                    
+                case 'shoot_rapid':
+                    // Quick, snappy sound for rapid fire
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(900, now);
+                    osc.frequency.exponentialRampToValueAtTime(500, now + 0.04);
+                    gain.gain.setValueAtTime(0.06, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                    osc.start(now);
+                    osc.stop(now + 0.04);
+                    break;
+                    
+                case 'shoot_pierce':
+                    // Deep, powerful sound for piercing shots
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.12);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                    break;
+                    
+                case 'hit':
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 0.12);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                    break;
+                    
+                case 'explosion':
+                    // Use noise-like effect with multiple oscillators
+                    for (let i = 0; i < 3; i++) {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(100 + i * 50, now);
+                        o.frequency.exponentialRampToValueAtTime(20, now + 0.25);
+                        g.gain.setValueAtTime(0.08, now);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                        o.start(now + i * 0.02);
+                        o.stop(now + 0.25);
+                    }
+                    return; // Skip default osc
+                    
+                case 'powerup':
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.setValueAtTime(600, now + 0.05);
+                    osc.frequency.setValueAtTime(800, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                    break;
+                    
+                case 'damage':
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(200, now);
+                    osc.frequency.setValueAtTime(100, now + 0.05);
+                    osc.frequency.setValueAtTime(200, now + 0.1);
+                    osc.frequency.setValueAtTime(80, now + 0.15);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                    break;
+                    
+                case 'boss_intro':
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(80, now);
+                    osc.frequency.exponentialRampToValueAtTime(200, now + 0.3);
+                    osc.frequency.exponentialRampToValueAtTime(80, now + 0.6);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.setValueAtTime(0.12, now + 0.3);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+                    osc.start(now);
+                    osc.stop(now + 0.6);
+                    break;
+                    
+                case 'boss_defeat':
+                    for (let i = 0; i < 5; i++) {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'square';
+                        o.frequency.setValueAtTime(300 + i * 100, now + i * 0.08);
+                        o.frequency.exponentialRampToValueAtTime(50, now + i * 0.08 + 0.15);
+                        g.gain.setValueAtTime(0.08, now + i * 0.08);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.15);
+                        o.start(now + i * 0.08);
+                        o.stop(now + i * 0.08 + 0.15);
+                    }
+                    return;
+                    
+                case 'level_clear':
+                    const notes = [523, 659, 784, 1047]; // C5 E5 G5 C6
+                    notes.forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'sine';
+                        o.frequency.setValueAtTime(freq, now + i * 0.1);
+                        g.gain.setValueAtTime(0.08, now + i * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.2);
+                        o.start(now + i * 0.1);
+                        o.stop(now + i * 0.1 + 0.2);
+                    });
+                    return;
+                    
+                case 'menu_select':
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(550, now + 0.03);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                    break;
+                    
+                case 'game_over':
+                    const sadNotes = [392, 349, 330, 262]; // G4 F4 E4 C4
+                    sadNotes.forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(freq, now + i * 0.15);
+                        g.gain.setValueAtTime(0.1, now + i * 0.15);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.3);
+                        o.start(now + i * 0.15);
+                        o.stop(now + i * 0.15 + 0.3);
+                    });
+                    return;
+            }
+        }
+
         // ── Input ──────────────────────────────────────────────────
         const keys = {};
         document.addEventListener('keydown', e => {
             const k = e.key === ' ' ? ' ' : e.key.toLowerCase();
+            // Handle ESC for pause
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                if (gameRunning && gameState === 'playing' && !gamePaused) {
+                    pauseGame();
+                } else if (gamePaused) {
+                    resumeGame();
+                }
+                return;
+            }
             if ([' ','arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(k))
                 e.preventDefault();
             keys[k] = true;
@@ -241,6 +564,233 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => gameWrapper.classList.remove('shake'), 200);
         }
 
+        // ── Cuphead-style Background System ────────────────────────
+        // Parallax layers for each stage theme
+        const STAGE_BACKGROUNDS = {
+            0: { // THE DINER
+                sky: '#1a1520',
+                layers: [
+                    { y: 0.4, color: '#2a2030', shapes: 'cityscape' },
+                    { y: 0.7, color: '#3a2a3a', shapes: 'buildings' },
+                    { y: 1.0, color: '#4a3545', shapes: 'storefronts' }
+                ],
+                floor: '#3d2d38',
+                floorLine: '#5d4858',
+                accent: '#7a5a6a'
+            },
+            1: { // THE WORKSHOP
+                sky: '#151a20',
+                layers: [
+                    { y: 0.3, color: '#252a30', shapes: 'gears' },
+                    { y: 0.6, color: '#353a40', shapes: 'pipes' },
+                    { y: 0.9, color: '#454a50', shapes: 'machinery' }
+                ],
+                floor: '#2d3238',
+                floorLine: '#4d5258',
+                accent: '#6a7580'
+            },
+            2: { // THE ARCADE
+                sky: '#0a0a15',
+                layers: [
+                    { y: 0.3, color: '#1a1a2a', shapes: 'neon' },
+                    { y: 0.6, color: '#2a2a3a', shapes: 'cabinets' },
+                    { y: 0.9, color: '#3a3a4a', shapes: 'screens' }
+                ],
+                floor: '#1d1d2d',
+                floorLine: '#3d3d5d',
+                accent: '#5a5a8a'
+            }
+        };
+
+        function drawBackground() {
+            const bg = STAGE_BACKGROUNDS[Math.min(level, 2)];
+            const time = frameCount * 0.5;
+            
+            // Sky gradient
+            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            grad.addColorStop(0, bg.sky);
+            grad.addColorStop(1, bg.layers[2].color);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw parallax layers
+            bg.layers.forEach((layer, idx) => {
+                const scrollX = time * (0.3 + idx * 0.2);
+                ctx.fillStyle = layer.color;
+                
+                if (layer.shapes === 'cityscape' || layer.shapes === 'buildings' || layer.shapes === 'storefronts') {
+                    drawCityLayer(layer, scrollX, idx);
+                } else if (layer.shapes === 'gears' || layer.shapes === 'pipes' || layer.shapes === 'machinery') {
+                    drawWorkshopLayer(layer, scrollX, idx);
+                } else if (layer.shapes === 'neon' || layer.shapes === 'cabinets' || layer.shapes === 'screens') {
+                    drawArcadeLayer(layer, scrollX, idx, bg.accent);
+                }
+            });
+            
+            // Floor
+            const floorH = 24;
+            ctx.fillStyle = bg.floor;
+            ctx.fillRect(0, canvas.height - floorH, canvas.width, floorH);
+            
+            // Floor tiles
+            ctx.strokeStyle = bg.floorLine;
+            ctx.lineWidth = 1;
+            for (let x = (time * 0.8) % 40 - 40; x < canvas.width + 40; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, canvas.height - floorH);
+                ctx.lineTo(x + 20, canvas.height);
+                ctx.stroke();
+            }
+            
+            // Floor edge line
+            ctx.strokeStyle = bg.floorLine;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - floorH);
+            ctx.lineTo(canvas.width, canvas.height - floorH);
+            ctx.stroke();
+            
+            // Subtle particles/dust
+            ctx.fillStyle = `rgba(255,255,255,0.03)`;
+            for (let i = 0; i < 35; i++) {
+                const sx = (i * 157 + time * 0.12) % canvas.width;
+                const sy = (i * 89 + time * 0.08) % (canvas.height - 30);
+                ctx.fillRect(sx, sy, 1, 1);
+            }
+        }
+        
+        function drawCityLayer(layer, scrollX, depth) {
+            const baseY = 80 + depth * 60;
+            const buildingWidth = 45 + depth * 15;
+            
+            for (let x = -scrollX % (buildingWidth + 20) - buildingWidth; x < canvas.width + buildingWidth; x += buildingWidth + 20) {
+                const h = 60 + Math.sin(x * 0.1) * 30 + depth * 25;
+                const y = canvas.height - 24 - h;
+                
+                // Building body
+                ctx.fillStyle = layer.color;
+                ctx.fillRect(x, y, buildingWidth - 5, h);
+                
+                // Building top detail (varied shapes)
+                ctx.fillRect(x + 5, y - 8, buildingWidth - 15, 8);
+                
+                // Windows (darker rectangles)
+                ctx.fillStyle = depth < 2 ? 'rgba(0,0,0,0.3)' : 'rgba(255,220,150,0.15)';
+                const winSize = 4 + depth;
+                for (let wy = y + 10; wy < y + h - 15; wy += winSize + 6) {
+                    for (let wx = x + 5; wx < x + buildingWidth - 10; wx += winSize + 5) {
+                        ctx.fillRect(wx, wy, winSize, winSize);
+                    }
+                }
+            }
+        }
+        
+        function drawWorkshopLayer(layer, scrollX, depth) {
+            ctx.save();
+            
+            if (layer.shapes === 'gears') {
+                // Large background gears
+                for (let i = 0; i < 5; i++) {
+                    const gx = ((i * 150 - scrollX * 0.3) % (canvas.width + 200)) - 50;
+                    const gy = 80 + Math.sin(i * 2) * 40;
+                    const gr = 35 + i * 10;
+                    drawGearShape(gx, gy, gr, frameCount * (i % 2 === 0 ? 0.3 : -0.3), layer.color);
+                }
+            } else if (layer.shapes === 'pipes') {
+                // Industrial pipes
+                ctx.strokeStyle = layer.color;
+                ctx.lineWidth = 8;
+                for (let i = 0; i < 4; i++) {
+                    const px = ((i * 180 - scrollX * 0.5) % (canvas.width + 200)) - 50;
+                    ctx.beginPath();
+                    ctx.moveTo(px, 0);
+                    ctx.lineTo(px, 120 + Math.sin(i * 3) * 40);
+                    ctx.quadraticCurveTo(px + 40, 160, px + 80, 160 + Math.cos(i * 2) * 30);
+                    ctx.stroke();
+                    // Pipe joints
+                    ctx.fillStyle = layer.color;
+                    ctx.beginPath();
+                    ctx.arc(px, 60, 12, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else {
+                // Machinery silhouettes
+                for (let x = -scrollX % 120 - 60; x < canvas.width + 60; x += 120) {
+                    ctx.fillStyle = layer.color;
+                    ctx.fillRect(x, canvas.height - 100, 50, 76);
+                    ctx.fillRect(x + 10, canvas.height - 130, 30, 30);
+                    ctx.fillRect(x - 15, canvas.height - 80, 15, 56);
+                }
+            }
+            ctx.restore();
+        }
+        
+        function drawGearShape(cx, cy, r, rotation, color) {
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(rotation * Math.PI / 180);
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(0, 0, r * 0.7, 0, Math.PI * 2);
+            ctx.fill();
+            // Teeth
+            const teeth = 8;
+            for (let i = 0; i < teeth; i++) {
+                const angle = (i / teeth) * Math.PI * 2;
+                ctx.save();
+                ctx.rotate(angle);
+                ctx.fillRect(-5, -r, 10, r * 0.35);
+                ctx.restore();
+            }
+            // Center hole
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath();
+            ctx.arc(0, 0, r * 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+        
+        function drawArcadeLayer(layer, scrollX, depth, accent) {
+            if (layer.shapes === 'neon') {
+                // Neon signs in background
+                const neonColors = ['#ff6688', '#66aaff', '#88ff66', '#ffaa44'];
+                for (let i = 0; i < 6; i++) {
+                    const nx = ((i * 130 - scrollX * 0.2) % (canvas.width + 200)) - 50;
+                    const ny = 30 + Math.sin(i * 1.5) * 20;
+                    ctx.save();
+                    ctx.globalAlpha = 0.15 + Math.sin(frameCount * 0.1 + i) * 0.05;
+                    ctx.fillStyle = neonColors[i % neonColors.length];
+                    ctx.fillRect(nx, ny, 40 + i * 5, 8);
+                    ctx.fillRect(nx + 10, ny + 12, 25, 5);
+                    ctx.restore();
+                }
+            } else if (layer.shapes === 'cabinets') {
+                // Arcade cabinet silhouettes
+                for (let x = -scrollX % 100 - 50; x < canvas.width + 50; x += 100) {
+                    ctx.fillStyle = layer.color;
+                    // Cabinet body
+                    ctx.fillRect(x, canvas.height - 180, 35, 156);
+                    // Screen area
+                    ctx.fillStyle = 'rgba(100,150,200,0.08)';
+                    ctx.fillRect(x + 4, canvas.height - 170, 27, 45);
+                    // Control panel
+                    ctx.fillStyle = layer.color;
+                    ctx.fillRect(x - 3, canvas.height - 120, 41, 25);
+                }
+            } else {
+                // Screen glows
+                ctx.save();
+                for (let i = 0; i < 8; i++) {
+                    const sx = ((i * 85 - scrollX * 0.4) % (canvas.width + 150)) - 40;
+                    const sy = canvas.height - 140 + Math.sin(i * 2) * 30;
+                    const flicker = 0.03 + Math.sin(frameCount * 0.2 + i * 3) * 0.02;
+                    ctx.fillStyle = `rgba(120,180,255,${flicker})`;
+                    ctx.fillRect(sx, sy, 25, 35);
+                }
+                ctx.restore();
+            }
+        }
+
         // ── Powerup functions ──────────────────────────────────────
         function spawnPowerup(x, y) {
             // 18% chance to drop a powerup
@@ -251,6 +801,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function collectPowerup(p) {
+            playSound('powerup');
             spawnParticles(p.x + 10, p.y + 10, 10, POWERUP_COLORS[p.type]);
             if (p.type === 'heart') {
                 lives = Math.min(lives + 1, 5);
@@ -362,10 +913,11 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.rotate(e.rot || 0);
             switch (e.type) {
                 case 'cup': case 'sine': case 'zigzag': case 'dropper': drawCup(ctx); break;
-                case 'missile':   drawMissile(ctx, e.dir > 0); break;
-                case 'bouncer':   drawBouncer(ctx); break;
-                case 'homing':    drawEye(ctx); break;
-                case 'bossshot':  drawBossShot(ctx); break;
+                case 'missile':      drawMissile(ctx, e.dir > 0); break;
+                case 'bouncer':      drawBouncer(ctx); break;
+                case 'homing':       drawEye(ctx); break;
+                case 'bossshot':     drawBossShot(ctx); break;
+                case 'tracking_eye': drawTrackingEye(ctx, e); break;
             }
             ctx.restore();
         }
@@ -435,6 +987,50 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.beginPath(); ctx.arc(0,0,6,0,Math.PI*2); ctx.fill(); ctx.stroke();
             ctx.fillStyle = '#fff';
             ctx.beginPath(); ctx.arc(-2,-2,2,0,Math.PI*2); ctx.fill();
+        }
+        
+        function drawTrackingEye(ctx, e) {
+            // Larger, more menacing eye that tracks player
+            const pulse = Math.sin(Date.now() * 0.01) * 0.1 + 1;
+            const fadeAlpha = Math.min(1, e.lifetime / 60);  // Fade out in last second
+            
+            ctx.globalAlpha = fadeAlpha;
+            
+            // Outer glow/aura
+            ctx.fillStyle = 'rgba(160, 100, 200, 0.3)';
+            ctx.beginPath(); ctx.arc(0, 0, 14 * pulse, 0, Math.PI*2); ctx.fill();
+            
+            // Eyeball white
+            ctx.fillStyle = '#e8e0d8';
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+            
+            // Bloodshot veins
+            ctx.strokeStyle = 'rgba(180, 80, 80, 0.5)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 4; i++) {
+                ctx.beginPath();
+                const ang = i * Math.PI / 2 + Math.random() * 0.2;
+                ctx.moveTo(Math.cos(ang) * 5, Math.sin(ang) * 5);
+                ctx.lineTo(Math.cos(ang) * 9, Math.sin(ang) * 9);
+                ctx.stroke();
+            }
+            
+            // Iris
+            ctx.fillStyle = '#8866aa';
+            ctx.beginPath(); ctx.arc(2, 0, 6, 0, Math.PI*2); ctx.fill();
+            
+            // Pupil (pie-cut Cuphead style)
+            ctx.fillStyle = '#1a1a1a';
+            ctx.beginPath(); ctx.arc(3, 0, 4, 0, Math.PI*2); ctx.fill();
+            
+            // Highlight
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(5, -2, 2, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(1, 2, 1, 0, Math.PI*2); ctx.fill();
+            
+            ctx.globalAlpha = 1;
         }
 
         // ── Drawing: Boss 1 — Big Brew ─────────────────────────────
@@ -574,14 +1170,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── Enemy spawning ─────────────────────────────────────────
         function spawnEnemy() {
-            const cfg = LEVELS[level];
-            const spd = 1.4 + level * 0.5 + Math.min(killCount * 0.025, 1.2);
+            const effectiveLevel = gameMode === 'arcade' ? level % 3 : level;
+            const wave = Math.floor(level / 3) + 1;
+            const cfg = LEVELS[effectiveLevel];
+            const spd = 1.4 + effectiveLevel * 0.5 + Math.min(killCount * 0.025, 1.2) + (gameMode === 'arcade' ? (wave - 1) * 0.3 : 0);
             const r   = Math.random();
             let type;
 
-            if (level === 0) {
+            if (effectiveLevel === 0) {
                 type = r < 0.50 ? 'cup' : r < 0.75 ? 'sine' : r < 0.90 ? 'zigzag' : 'missile';
-            } else if (level === 1) {
+            } else if (effectiveLevel === 1) {
                 type = r < 0.25 ? 'cup' : r < 0.45 ? 'sine' : r < 0.62 ? 'zigzag' :
                        r < 0.76 ? 'missile' : r < 0.88 ? 'bouncer' : 'dropper';
             } else {
@@ -600,7 +1198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.vy = 0; e.dir = left ? 1 : -1;
             } else if (type === 'dropper') {
                 e.x = Math.random() * (canvas.width - 20); e.y = -20;
-                e.vx = 0; e.vy = 4.5 + Math.random() * 1.5 + level;
+                e.vx = 0; e.vy = 4.5 + Math.random() * 1.5 + effectiveLevel;
             } else if (type === 'sine') {
                 e.startX = 20 + Math.random() * (canvas.width - 44);
                 e.x = e.startX; e.y = -24;
@@ -632,14 +1230,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── Boss spawning ──────────────────────────────────────────
         function spawnBoss() {
-            const cfg = LEVELS[level];
-            bossMaxHP = cfg.bossHP; bossHP = bossMaxHP; bossPhase = 0;
-            if (level === 0) {
-                boss = { type:'boss1', x:160, y:12, w:80, h:80, vx:1.6, flash:0, atk:120 };
-            } else if (level === 1) {
-                boss = { type:'boss2', x:158, y:8, w:84, h:84, rot:0, sineT:0, flash:0, atk:105, charging:false, chargeV:0, chargeY:10 };
+            const effectiveLevel = gameMode === 'arcade' ? level % 3 : level;
+            const cfg = LEVELS[effectiveLevel];
+            const wave = Math.floor(level / 3) + 1;
+            // Scale HP for arcade mode
+            const hpMultiplier = gameMode === 'arcade' ? 1 + (wave - 1) * 0.4 : 1;
+            bossMaxHP = Math.floor(cfg.bossHP * hpMultiplier); 
+            bossHP = bossMaxHP; 
+            bossPhase = 0;
+            // Adjust boss speed for arcade waves
+            const speedMult = gameMode === 'arcade' ? 1 + (wave - 1) * 0.15 : 1;
+            
+            if (effectiveLevel === 0) {
+                boss = { type:'boss1', x:220, y:12, w:80, h:80, vx:1.6 * speedMult, flash:0, atk:120 };
+            } else if (effectiveLevel === 1) {
+                boss = { type:'boss2', x:218, y:8, w:84, h:84, rot:0, sineT:0, flash:0, atk:105, charging:false, chargeV:0, chargeY:10 };
             } else {
-                boss = { type:'boss3', x:160, y:12, w:80, h:80, vx:2.2, vy:1.2, flash:0, atk:80 };
+                boss = { type:'boss3', x:220, y:12, w:80, h:80, vx:2.2 * speedMult, vy:1.2 * speedMult, flash:0, atk:80 };
             }
         }
 
@@ -707,22 +1314,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 boss.y = clamp(boss.y, 5, canvas.height*0.48 - boss.h);
                 boss.atk--;
                 if (boss.atk <= 0) {
-                    boss.atk = bossPhase === 1 ? 48 : 72;
+                    boss.atk = bossPhase === 1 ? 55 : 80;
                     const cx = boss.x + boss.w/2, cy = boss.y + boss.h/2;
                     const px = player.x + player.w/2, py = player.y + player.h/2;
                     const ang = Math.atan2(py - cy, px - cx);
-                    const spd = 3.2 + bossPhase;
-                    const shots = bossPhase === 1 ? 3 : 1;
-                    for (let s = 0; s < shots; s++) {
-                        const spread = (s - Math.floor(shots/2)) * 0.22;
-                        enemies.push({ type:'bossshot', hp:1, w:14, h:14,
-                            x: cx-7, y: cy-7,
-                            vx: Math.cos(ang + spread) * spd,
-                            vy: Math.sin(ang + spread) * spd,
-                            rot:0, rotSpd:0.12, free:true });
+                    
+                    // Spawn tracking eyeballs that follow the player
+                    const eyeCount = bossPhase === 1 ? 2 : 1;
+                    for (let e = 0; e < eyeCount; e++) {
+                        const offset = (e - (eyeCount-1)/2) * 25;
+                        enemies.push({ 
+                            type: 'tracking_eye', 
+                            hp: 2,  // Takes 2 hits to destroy
+                            w: 20, 
+                            h: 20,
+                            x: cx - 10 + offset, 
+                            y: cy - 10,
+                            vx: Math.cos(ang) * 1.5,
+                            vy: Math.sin(ang) * 1.5,
+                            homespd: 2.8 + bossPhase * 0.5,  // Tracking speed
+                            rot: 0, 
+                            rotSpd: 0.08,
+                            free: true,
+                            lifetime: 360  // 6 seconds at 60fps
+                        });
                     }
-                    if (bossPhase === 1 && Math.random() < 0.4) {
-                        spawnEnemy(); spawnEnemy();
+                    
+                    // Also fire regular shots in enraged phase
+                    if (bossPhase === 1) {
+                        const spd = 4.0;
+                        for (let s = 0; s < 2; s++) {
+                            const spread = (s - 0.5) * 0.4;
+                            enemies.push({ type:'bossshot', hp:1, w:14, h:14,
+                                x: cx-7, y: cy-7,
+                                vx: Math.cos(ang + spread) * spd,
+                                vy: Math.sin(ang + spread) * spd,
+                                rot:0, rotSpd:0.12, free:true });
+                        }
+                    }
+                    
+                    if (bossPhase === 1 && Math.random() < 0.3) {
+                        spawnEnemy();
                     }
                 }
             }
@@ -741,7 +1373,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 const e = enemies[i];
 
                 if (e.free) {
-                    e.x += e.vx; e.y += e.vy; e.rot += (e.rotSpd || 0);
+                    // Tracking eyeball behavior - homes in on player
+                    if (e.type === 'tracking_eye') {
+                        e.lifetime--;
+                        if (e.lifetime <= 0) {
+                            spawnParticles(e.x + e.w/2, e.y + e.h/2, 6, '#aa88ff');
+                            enemies.splice(i, 1);
+                            continue;
+                        }
+                        const px = player.x + player.w/2, py = player.y + player.h/2;
+                        const ecx = e.x + e.w/2, ecy = e.y + e.h/2;
+                        const ang = Math.atan2(py - ecy, px - ecx);
+                        e.vx = e.vx * 0.92 + Math.cos(ang) * e.homespd * 0.08;
+                        e.vy = e.vy * 0.92 + Math.sin(ang) * e.homespd * 0.08;
+                        const spd = Math.hypot(e.vx, e.vy);
+                        if (spd > e.homespd) { e.vx /= spd/e.homespd; e.vy /= spd/e.homespd; }
+                        e.rot = Math.atan2(e.vy, e.vx);  // Point toward movement
+                    }
+                    e.x += e.vx; e.y += e.vy; e.rot += (e.type === 'tracking_eye' ? 0 : (e.rotSpd || 0));
                     if (e.x < -60 || e.x > canvas.width+60 || e.y < -60 || e.y > canvas.height+60)
                         enemies.splice(i, 1);
                     else checkEnemyPlayerCollision(e, i);
@@ -827,6 +1476,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         spawnParticles(e.x + e.w/2, e.y + e.h/2, 8, b.color || '#aaaaaa');
                         e.hp--;
                         if (e.hp <= 0) {
+                            playSound('hit');
                             spawnPowerup(e.x + e.w/2, e.y + e.h/2);
                             enemies.splice(j, 1);
                             score += 2; killCount++;
@@ -860,6 +1510,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxBullets = activePowerup?.type === 'spread' ? 12 : 6;
             if (shootCooldown > 0 || bullets.length >= maxBullets) return;
             
+            // Different sounds for different bullet types
+            if (activePowerup?.type === 'spread') {
+                playSound('shoot_spread');
+            } else if (activePowerup?.type === 'rapid') {
+                playSound('shoot_rapid');
+            } else if (activePowerup?.type === 'pierce') {
+                playSound('shoot_pierce');
+            } else {
+                playSound('shoot');
+            }
+            
             const cx = player.x + player.w/2;
             const cy = player.y;
             const pierce = activePowerup?.type === 'pierce';
@@ -880,7 +1541,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── Level progress ─────────────────────────────────────────
         function checkProgress() {
-            if (killCount >= LEVELS[level].kills) {
+            // Arcade mode: different kill requirements based on wave
+            const effectiveLevel = gameMode === 'arcade' ? level % 3 : level;
+            const killsNeeded = gameMode === 'arcade' 
+                ? LEVELS[effectiveLevel].kills + Math.floor(level / 3) * 6  // Scales with waves
+                : LEVELS[effectiveLevel].kills;
+            
+            if (killCount >= killsNeeded) {
+                playSound('boss_intro');
                 gameState = 'boss_intro';
                 stateTimer = 100;
                 enemies = []; bullets = []; powerups = [];
@@ -889,21 +1557,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function bossDefeated() {
-            score += 15; scoreEl.textContent = score;
+            playSound('boss_defeat');
+            const bossBonus = gameMode === 'arcade' ? 15 + level * 5 : 15;
+            score += bossBonus; scoreEl.textContent = score;
             spawnParticles(boss.x + boss.w/2, boss.y + boss.h/2, 45, '#ffffff');
             boss = null; enemies = []; bullets = []; powerups = [];
-            if (level >= 2) {
-                endGame(true);
-            } else {
+            
+            if (gameMode === 'arcade') {
+                // Arcade: continue forever with increasing difficulty
                 level++;
+                playSound('level_clear');
                 gameState = 'level_clear';
                 stateTimer = 130;
+                killCount = 0;
+                // Make spawning faster each wave
+                const wave = Math.floor(level / 3);
+                spawnInterval = Math.max(15, LEVELS[level % 3].spawnStart - wave * 5);
+            } else {
+                // Story mode: end after 3 bosses
+                if (level >= 2) {
+                    endGame(true);
+                } else {
+                    level++;
+                    playSound('level_clear');
+                    gameState = 'level_clear';
+                    stateTimer = 130;
+                }
             }
         }
 
         // ── Damage ─────────────────────────────────────────────────
         function takeDamage() {
             if (invincible) return;
+            playSound('damage');
             lives--;
             updateLives();
             invincible = true; invTimer = 90; flashTimer = 0;
@@ -921,10 +1607,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (win) {
                 gameState = 'win';
+                playSound('level_clear');
                 if (winScoreEl)  winScoreEl.textContent = score;
                 if (gameWinOverlay) gameWinOverlay.style.display = 'flex';
             } else {
                 gameState = 'game_over';
+                playSound('game_over');
                 finalScoreEl.textContent = score;
                 gameOverOverlay.style.display = 'flex';
             }
@@ -954,7 +1642,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 spawnTimer++;
                 if (spawnTimer >= spawnInterval) {
                     spawnEnemy(); spawnTimer = 0;
-                    if (spawnInterval > LEVELS[level].spawnMin) spawnInterval -= 0.2;
+                    const effectiveLevel = gameMode === 'arcade' ? level % 3 : level;
+                    if (spawnInterval > LEVELS[effectiveLevel].spawnMin) spawnInterval -= 0.2;
                 }
                 updateEnemies(); updateBullets(); updatePowerups(); updateParticles();
 
@@ -975,31 +1664,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 stateTimer--; updateParticles();
                 if (stateTimer <= 0) {
                     gameState = 'playing'; killCount = 0; enemies = []; bullets = []; powerups = [];
-                    spawnInterval = LEVELS[level].spawnStart; spawnTimer = 0;
-                    if (levelEl) levelEl.textContent = level + 1;
+                    const effectiveLevel = gameMode === 'arcade' ? level % 3 : level;
+                    spawnInterval = LEVELS[effectiveLevel].spawnStart; spawnTimer = 0;
+                    if (levelEl) levelEl.textContent = gameMode === 'arcade' ? `W${Math.floor(level/3)+1}` : level + 1;
                 }
             }
         }
 
         // ── Draw ───────────────────────────────────────────────────
         function draw() {
-            // Background
-            ctx.fillStyle = '#111111';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Subtle scrolling dots
-            ctx.fillStyle = 'rgba(255,255,255,0.025)';
-            for (let i = 0; i < 28; i++) {
-                const sx = (i * 139 + frameCount * 0.15) % canvas.width;
-                const sy = (i *  97 + frameCount * 0.10) % canvas.height;
-                ctx.fillRect(sx, sy, 1, 1);
-            }
-
-            // Floor line
-            ctx.fillStyle = '#1c1c1c';
-            ctx.fillRect(0, canvas.height - 18, canvas.width, 18);
-            ctx.strokeStyle = '#2e2e2e'; ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.moveTo(0, canvas.height-18); ctx.lineTo(canvas.width, canvas.height-18); ctx.stroke();
+            // Cuphead-style parallax background
+            drawBackground();
 
             enemies.forEach(e => drawEnemy(e));
             powerups.forEach(p => drawPowerup(p));
@@ -1018,15 +1693,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── HUD ────────────────────────────────────────────────────
         function drawHUD() {
-            const cfg = LEVELS[Math.min(level, LEVELS.length-1)];
+            const effectiveLevel = gameMode === 'arcade' ? level % 3 : Math.min(level, LEVELS.length-1);
+            const cfg = LEVELS[effectiveLevel];
+            const wave = Math.floor(level / 3) + 1;
             ctx.save();
             ctx.textAlign = 'center';
 
             if (gameState === 'playing') {
                 ctx.font = '10px "Special Elite", monospace';
                 ctx.fillStyle = 'rgba(255,255,255,0.55)';
-                ctx.fillText(`${cfg.name}: ${cfg.sub}`, canvas.width/2, 13);
-                const prog = Math.min(killCount / cfg.kills, 1);
+                const stageText = gameMode === 'arcade' 
+                    ? `WAVE ${wave} · ${cfg.sub}` 
+                    : `${cfg.name}: ${cfg.sub}`;
+                ctx.fillText(stageText, canvas.width/2, 13);
+                
+                const killsNeeded = gameMode === 'arcade' 
+                    ? cfg.kills + (wave - 1) * 6 
+                    : cfg.kills;
+                const prog = Math.min(killCount / killsNeeded, 1);
                 ctx.fillStyle = 'rgba(255,255,255,0.15)';
                 ctx.fillRect(canvas.width/2 - 60, 17, 120, 5);
                 ctx.fillStyle = 'rgba(255,255,255,0.65)';
@@ -1039,12 +1723,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 ctx.fillText('— BOSS —', canvas.width/2, canvas.height/2 - 14);
                 ctx.font = 'bold 13px "Special Elite", monospace';
                 ctx.fillStyle = `rgba(200,200,200,${alpha})`;
-                ctx.fillText(BOSS_NAMES[level], canvas.width/2, canvas.height/2 + 10);
+                const bossName = gameMode === 'arcade' && wave > 1 
+                    ? `${BOSS_NAMES[effectiveLevel]} MK.${wave}` 
+                    : BOSS_NAMES[effectiveLevel];
+                ctx.fillText(bossName, canvas.width/2, canvas.height/2 + 10);
 
             } else if (gameState === 'boss') {
                 ctx.font = '10px "Special Elite", monospace';
                 ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fillText(BOSS_NAMES[level], canvas.width/2, 13);
+                const bossName = gameMode === 'arcade' && wave > 1 
+                    ? `${BOSS_NAMES[effectiveLevel]} MK.${wave}` 
+                    : BOSS_NAMES[effectiveLevel];
+                ctx.fillText(bossName, canvas.width/2, 13);
                 const bw = 200, bx = canvas.width/2 - bw/2;
                 ctx.fillStyle = 'rgba(0,0,0,0.5)';
                 ctx.fillRect(bx - 1, 17, bw + 2, 9);
@@ -1058,12 +1748,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             } else if (gameState === 'level_clear') {
                 const alpha = Math.min(1, (130 - stateTimer) / 18);
+                const nextLevel = level % 3;
+                const nextWave = Math.floor(level / 3) + 1;
                 ctx.font = 'bold 20px "Playfair Display", serif';
                 ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-                ctx.fillText('STAGE CLEAR!', canvas.width/2, canvas.height/2 - 10);
+                ctx.fillText(gameMode === 'arcade' ? 'WAVE CLEAR!' : 'STAGE CLEAR!', canvas.width/2, canvas.height/2 - 10);
                 ctx.font = '12px "Special Elite", monospace';
                 ctx.fillStyle = `rgba(180,180,180,${alpha})`;
-                ctx.fillText(`Entering ${LEVELS[level].name}: ${LEVELS[level].sub}`, canvas.width/2, canvas.height/2 + 14);
+                const nextText = gameMode === 'arcade' 
+                    ? `Wave ${nextWave} · ${LEVELS[nextLevel].sub}` 
+                    : `Entering ${LEVELS[nextLevel].name}: ${LEVELS[nextLevel].sub}`;
+                ctx.fillText(nextText, canvas.width/2, canvas.height/2 + 14);
             }
 
             // Active powerup indicator (bottom left)
@@ -1088,15 +1783,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── Game loop ──────────────────────────────────────────────
         function gameLoop() {
-            if (!gameRunning) return;
+            if (!gameRunning || gamePaused) return;
             update(); draw();
             requestAnimationFrame(gameLoop);
         }
 
-        function startGame() {
+        function startGame(mode = 'story') {
+            initAudio();
+            playSound('menu_select');
+            gameMode = mode;
             gameRunning = true;
+            gamePaused = false;
             gameState = 'playing';
-            score = 0; level = 0; lives = 3; killCount = 0;
+            score = 0; level = 0; lives = gameMode === 'arcade' ? 5 : 3; killCount = 0;
             invincible = false; invTimer = 0; flashTimer = 0;
             shootCooldown = 0; frameCount = 0; stateTimer = 0;
             enemies = []; bullets = []; particles = []; powerups = [];
@@ -1106,17 +1805,90 @@ document.addEventListener('DOMContentLoaded', function() {
             player.x = canvas.width/2 - player.w/2;
             player.y = canvas.height - 60;
             scoreEl.textContent = 0;
+            // Update display
+            if (modeDisplayEl) modeDisplayEl.textContent = gameMode === 'arcade' ? 'ARCADE' : 'STORY';
+            if (stageContainer) stageContainer.style.display = gameMode === 'arcade' ? 'none' : 'flex';
             if (levelEl) levelEl.textContent = 1;
             updateLives();
             gameOverlay.style.display = 'none';
             gameOverOverlay.style.display = 'none';
             if (gameWinOverlay) gameWinOverlay.style.display = 'none';
+            if (gamePauseOverlay) gamePauseOverlay.style.display = 'none';
+            startMusic();
             gameLoop();
         }
 
-        startBtn.addEventListener('click', startGame);
-        restartBtn.addEventListener('click', startGame);
-        if (playAgainWinBtn) playAgainWinBtn.addEventListener('click', startGame);
+        function showMenu() {
+            gameRunning = false;
+            gamePaused = false;
+            gameState = 'idle';
+            stopMusic();
+            gameOverlay.style.display = 'flex';
+            gameOverOverlay.style.display = 'none';
+            if (gameWinOverlay) gameWinOverlay.style.display = 'none';
+            if (gamePauseOverlay) gamePauseOverlay.style.display = 'none';
+            draw();
+        }
+
+        function pauseGame() {
+            if (!gameRunning || gamePaused) return;
+            gamePaused = true;
+            playSound('menu_select');
+            if (gamePauseOverlay) {
+                gamePauseOverlay.style.display = 'flex';
+                updatePauseLabels();
+            }
+        }
+        
+        function resumeGame() {
+            if (!gamePaused) return;
+            gamePaused = false;
+            playSound('menu_select');
+            if (gamePauseOverlay) gamePauseOverlay.style.display = 'none';
+            gameLoop();
+        }
+        
+        function updatePauseLabels() {
+            const sfxLabel = document.querySelector('.pause-sfx-label');
+            const musicLabel = document.querySelector('.pause-music-label');
+            if (sfxLabel) sfxLabel.textContent = 'SOUND FX: ' + (sfxEnabled ? 'ON' : 'OFF');
+            if (musicLabel) musicLabel.textContent = 'MUSIC: ' + (musicEnabled ? 'ON' : 'OFF');
+        }
+
+        function toggleSfx() {
+            sfxEnabled = !sfxEnabled;
+            if (sfxToggleBtn) {
+                sfxToggleBtn.dataset.enabled = sfxEnabled;
+            }
+            updatePauseLabels();
+            if (sfxEnabled) playSound('menu_select');
+        }
+        
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            if (musicToggleBtn) {
+                musicToggleBtn.dataset.enabled = musicEnabled;
+            }
+            updateMusicVolume();
+            updatePauseLabels();
+            playSound('menu_select');
+        }
+
+        // Event listeners
+        if (startStoryBtn) startStoryBtn.addEventListener('click', () => startGame('story'));
+        if (startArcadeBtn) startArcadeBtn.addEventListener('click', () => startGame('arcade'));
+        if (restartBtn) restartBtn.addEventListener('click', () => startGame(gameMode));
+        if (playAgainWinBtn) playAgainWinBtn.addEventListener('click', () => startGame(gameMode));
+        if (backToMenuBtn) backToMenuBtn.addEventListener('click', showMenu);
+        if (backToMenuWinBtn) backToMenuWinBtn.addEventListener('click', showMenu);
+        if (sfxToggleBtn) sfxToggleBtn.addEventListener('click', toggleSfx);
+        if (musicToggleBtn) musicToggleBtn.addEventListener('click', toggleMusic);
+        
+        // Pause menu listeners
+        if (resumeBtn) resumeBtn.addEventListener('click', resumeGame);
+        if (pauseSfxBtn) pauseSfxBtn.addEventListener('click', toggleSfx);
+        if (pauseMusicBtn) pauseMusicBtn.addEventListener('click', toggleMusic);
+        if (pauseQuitBtn) pauseQuitBtn.addEventListener('click', showMenu);
 
         // Initial idle frame
         draw();
