@@ -96,5 +96,5 @@ GD.MUSIC_TRACKS = {
     menu: 'assets/audio/menu.mp3',
     stage1: 'assets/audio/stage1.mp3',
     stage2: 'assets/audio/stage2.mp3',
-    stage3: 'assets/audio/stage2.mp3'  // Reuse stage2 if stage3 not available
+    stage3: 'assets/audio/stage3.mp3'
 };
