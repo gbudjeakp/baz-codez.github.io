@@ -267,6 +267,8 @@ GD.updateBullets = function(scoreEl, checkProgressCallback, bossDefeatedCallback
                     // Arcade mode applies score multiplier
                     const pts = GD.gameMode === 'arcade' ? Math.floor(2 * (GD.scoreMultiplier || 1)) : 2;
                     GD.score += pts; GD.killCount++;
+                    // Award coins for kills
+                    GD.coins += GD.SHOP.coinPerKill;
                     if (scoreEl) scoreEl.textContent = GD.score;
                     if (GD.gameState === 'playing' && checkProgressCallback) checkProgressCallback();
                 }
@@ -281,7 +283,10 @@ GD.updateBullets = function(scoreEl, checkProgressCallback, bossDefeatedCallback
         if (GD.boss && GD.gameState === 'boss') {
             const bcx = GD.boss.x + GD.boss.w/2, bcy = GD.boss.y + GD.boss.h/2;
             if (GD.dist2(b.x, b.y, bcx, bcy) < GD.boss.w/2 + 5) {
-                GD.boss.flash = 6; GD.bossHP--;
+                GD.boss.flash = 6;
+                // Apply damage upgrade (2x damage)
+                const dmg = GD.tempUpgrades.damage_up ? 2 : 1;
+                GD.bossHP -= dmg;
                 GD.spawnParticles(b.x, b.y, 5, b.color || '#ffffff');
                 if (!b.pierce) GD.bullets.splice(i, 1);
                 if (GD.bossHP <= 0 && bossDefeatedCallback) { 

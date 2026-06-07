@@ -147,6 +147,58 @@ document.addEventListener('DOMContentLoaded', function() {
     GD.invTimer = 0;
     GD.flashTimer = 0;
     GD.scoreMultiplier = 1; // For arcade mode scoring
+    
+    // ── Shop & Currency ─────────────────────────────────────────────
+    GD.coins = 0;
+    GD.shopSelection = 0;   // Currently selected shop item
+    GD.tempUpgrades = {};   // Temporary buffs for current boss fight
+    GD.permUpgrades = {};   // Permanent upgrades for entire run
+    
+    // ── Shop purchase function ──────────────────────────────────────
+    GD.purchaseShopItem = function(idx) {
+        const item = GD.SHOP.items[idx];
+        if (!item) return;
+        
+        // Check if already owned
+        if (item.type === 'temp' && GD.tempUpgrades[item.id]) {
+            GD.playSound('damage'); // Error sound
+            return;
+        }
+        if (item.type === 'perm') {
+            const count = GD.permUpgrades[item.id] || 0;
+            if (count >= (item.max || 1)) {
+                GD.playSound('damage');
+                return;
+            }
+        }
+        
+        // Check if can afford
+        if (GD.coins < item.cost) {
+            GD.playSound('damage');
+            return;
+        }
+        
+        // Purchase!
+        GD.coins -= item.cost;
+        GD.playSound('powerup');
+        
+        if (item.type === 'temp') {
+            GD.tempUpgrades[item.id] = true;
+        } else {
+            GD.permUpgrades[item.id] = (GD.permUpgrades[item.id] || 0) + 1;
+            
+            // Apply permanent upgrades immediately
+            if (item.id === 'extra_life') {
+                GD.lives++;
+            } else if (item.id === 'speed_up') {
+                GD.player.speed += 0.8;
+            } else if (item.id === 'quick_shot') {
+                // Applied in shoot function via permUpgrades check
+            }
+        }
+        
+        GD.spawnParticles(canvas.width/2, canvas.height/2, 15, '#ffcc00');
+    };
 
     function updateHighScoreDisplay() {
         if (highScoreStoryEl) highScoreStoryEl.textContent = GD.highScoreStory;
@@ -184,13 +236,28 @@ document.addEventListener('DOMContentLoaded', function() {
             : GD.LEVELS[effectiveLevel].kills;
         
         if (GD.killCount >= killsNeeded) {
-            GD.playSound('boss_intro');
-            GD.gameState = 'boss_intro';
-            GD.stateTimer = 100;
+            GD.playSound('level_clear');
+            // Go to shop before boss
+            GD.gameState = 'shop';
+            GD.shopSelection = 0;
+            GD.tempUpgrades = {}; // Clear temp buffs from previous boss
             GD.enemies = []; GD.bullets = []; GD.powerups = [];
-            GD.spawnParticles(canvas.width/2, canvas.height/2, 25, '#ffffff');
+            GD.spawnParticles(canvas.width/2, canvas.height/2, 25, '#ffcc00');
         }
     }
+    
+    function proceedToBoss() {
+        GD.playSound('boss_intro');
+        GD.gameState = 'boss_intro';
+        GD.stateTimer = 100;
+        // Apply temporary shop buffs
+        if (GD.tempUpgrades.shield_boost) {
+            GD.invincible = true;
+            GD.invTimer = 300; // 5 seconds
+        }
+        GD.spawnParticles(canvas.width/2, canvas.height/2, 25, '#ffffff');
+    }
+    GD.proceedToBoss = proceedToBoss; // Expose for input.js
 
     function bossDefeated() {
         GD.playSound('boss_defeat');
@@ -198,6 +265,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ? Math.floor((15 + GD.level * 5) * GD.scoreMultiplier) 
             : 15;
         GD.score += bossBonus;
+        GD.coins += GD.SHOP.coinPerBoss; // Coin reward for defeating boss
+        GD.tempUpgrades = {}; // Clear temp buffs after boss
         GD.spawnParticles(GD.boss.x + GD.boss.w/2, GD.boss.y + GD.boss.h/2, 45, '#ffffff');
         GD.boss = null; GD.enemies = []; GD.bullets = []; GD.powerups = [];
         
@@ -333,6 +402,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     : GD.LEVELS[effectiveLevel].spawnStart;
                 GD.spawnTimer = 0;
             }
+        } else if (GD.gameState === 'shop') {
+            // Shop state - just update particles, input handled separately
+            GD.updateParticles();
         }
     }
 
@@ -352,6 +424,11 @@ document.addEventListener('DOMContentLoaded', function() {
         GD.drawPlayer(ctx);
         GD.drawParticles(ctx);
         GD.drawHUD(ctx, canvas);
+        
+        // Draw shop overlay when in shop state
+        if (GD.gameState === 'shop') {
+            GD.drawShop(ctx, canvas);
+        }
     }
 
     // ── Game loop ──────────────────────────────────────────────────
@@ -373,6 +450,11 @@ document.addEventListener('DOMContentLoaded', function() {
         GD.arcadeWave = 0; GD.scoreMultiplier = 1; // Reset arcade-specific state
         GD.invincible = false; GD.invTimer = 0; GD.flashTimer = 0;
         GD.shootCooldown = 0; GD.frameCount = 0; GD.stateTimer = 0;
+        // Reset shop state
+        GD.coins = 0; GD.shopSelection = 0;
+        GD.tempUpgrades = {}; GD.permUpgrades = {};
+        GD.player.speed = 5; // Reset player speed
+        GD.baseCooldown = 14; // Reset base cooldown
         GD.resetEntities();
         GD.spawnTimer = 0; 
         GD.spawnInterval = mode === 'arcade' ? GD.ARCADE.baseSpawnInterval : GD.LEVELS[0].spawnStart;

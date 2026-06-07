@@ -546,10 +546,19 @@ GD.drawHUD = function(ctx, canvas) {
     if (GD.gameState === 'playing' || GD.gameState === 'boss' || GD.gameState === 'boss_intro' || GD.gameState === 'level_clear') {
         const padding = 12;
         
-        // Semi-transparent background for readability
+        // Calculate hearts width for dynamic bottom-left HUD size
+        const baseMaxLives = GD.gameMode === 'arcade' ? 5 : 3;
+        const extraLives = GD.permUpgrades?.extra_life || 0;
+        const maxLives = baseMaxLives + extraLives;
+        ctx.font = '14px sans-serif';
+        const allHeartsText = '♥'.repeat(maxLives);
+        const heartsWidth = ctx.measureText(allHeartsText).width;
+        const bottomLeftWidth = Math.max(75, 38 + heartsWidth + 8); // 38 for stage area + hearts + padding
+        
+        // Semi-transparent background for readability (extended for coins)
         ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-        ctx.fillRect(canvas.width - 90, padding - 4, 82, 80);
-        ctx.fillRect(padding - 4, canvas.height - 52, 75, 40);
+        ctx.fillRect(canvas.width - 90, padding - 4, 82, 100);
+        ctx.fillRect(padding - 4, canvas.height - 52, bottomLeftWidth, 40);
         
         // Right side - Score & Best
         ctx.textAlign = 'right';
@@ -568,6 +577,14 @@ GD.drawHUD = function(ctx, canvas) {
         const highScore = GD.gameMode === 'arcade' ? GD.highScoreArcade : GD.highScoreStory;
         ctx.fillText(highScore.toString(), canvas.width - padding, padding + 58);
         
+        // Coins (inside the HUD box)
+        ctx.font = '9px "Special Elite", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillText('COINS', canvas.width - padding, padding + 76);
+        ctx.font = 'bold 12px "Playfair Display", serif';
+        ctx.fillStyle = '#ffcc00';
+        ctx.fillText(GD.coins.toString(), canvas.width - padding, padding + 90);
+        
         // Bottom left - Lives, Stage
         ctx.textAlign = 'left';
         ctx.font = '9px "Special Elite", monospace';
@@ -578,11 +595,11 @@ GD.drawHUD = function(ctx, canvas) {
         const stageNum = GD.gameMode === 'arcade' ? Math.floor(GD.level / 3) + 1 : GD.level + 1;
         ctx.fillText(stageNum.toString(), padding, canvas.height - 24);
         
-        // Lives - hearts
+        // Lives - hearts (account for extra_life upgrades)
         ctx.font = '14px sans-serif';
         ctx.fillStyle = '#ff6688';
         const hearts = '♥'.repeat(Math.max(0, GD.lives));
-        const emptyHearts = '♡'.repeat(Math.max(0, (GD.gameMode === 'arcade' ? 5 : 3) - GD.lives));
+        const emptyHearts = '♡'.repeat(Math.max(0, maxLives - GD.lives));
         ctx.fillText(hearts, padding + 30, canvas.height - 24);
         ctx.fillStyle = 'rgba(255,102,136,0.3)';
         ctx.fillText(emptyHearts, padding + 30 + ctx.measureText(hearts).width, canvas.height - 24);
@@ -602,5 +619,127 @@ GD.drawHUD = function(ctx, canvas) {
         ctx.fillText(GD.activePowerup.type.toUpperCase(), 12, canvas.height - 58);
     }
 
+    ctx.restore();
+};
+
+// ── Shop drawing ───────────────────────────────────────────────
+GD.drawShop = function(ctx, canvas) {
+    // Dark overlay
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.save();
+    
+    // Title
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 22px "Playfair Display", serif';
+    ctx.fillStyle = '#ffcc00';
+    ctx.fillText('PREPARE FOR BATTLE', canvas.width / 2, 40);
+    
+    // Coins display
+    ctx.font = 'bold 14px "Special Elite", monospace';
+    ctx.fillStyle = '#ffcc00';
+    ctx.fillText('COINS: ' + GD.coins, canvas.width / 2, 62);
+    
+    // Items grid (2 columns)
+    const items = GD.SHOP.items;
+    const startY = 85;
+    const itemHeight = 56;
+    const colWidth = 270;
+    const gap = 12;
+    const leftCol = canvas.width / 2 - colWidth - gap / 2;
+    const rightCol = canvas.width / 2 + gap / 2;
+    
+    items.forEach((item, idx) => {
+        const col = idx % 2;
+        const row = Math.floor(idx / 2);
+        const x = col === 0 ? leftCol : rightCol;
+        const y = startY + row * itemHeight;
+        const w = colWidth;
+        const h = itemHeight - 4;
+        
+        const isSelected = idx === GD.shopSelection;
+        const owned = GD.tempUpgrades[item.id] || 
+                      (item.type === 'perm' && (GD.permUpgrades[item.id] || 0) >= (item.max || 1));
+        const canAfford = GD.coins >= item.cost && !owned;
+        
+        // Item background - simple solid colors
+        ctx.beginPath();
+        if (isSelected) {
+            ctx.fillStyle = canAfford ? '#2a4a2a' : owned ? '#2a2a4a' : '#4a2a2a';
+        } else {
+            ctx.fillStyle = '#1a1a24';
+        }
+        ctx.fillRect(x, y, w, h);
+        
+        // Selection border
+        if (isSelected) {
+            ctx.strokeStyle = '#ffcc00';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, w, h);
+        }
+        
+        // Icon circle background
+        ctx.beginPath();
+        ctx.arc(x + 24, y + h/2, 16, 0, Math.PI * 2);
+        ctx.fillStyle = owned ? '#3a3a5a' : canAfford ? '#3a3a3a' : '#2a2a2a';
+        ctx.fill();
+        
+        // Icon
+        ctx.font = '18px sans-serif';
+        ctx.fillStyle = owned ? '#88aaff' : canAfford ? '#ffffff' : '#555555';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(item.icon, x + 24, y + h/2 + 1);
+        
+        // Reset text baseline
+        ctx.textBaseline = 'alphabetic';
+        ctx.textAlign = 'left';
+        
+        // Name
+        ctx.font = 'bold 12px "Special Elite", monospace';
+        ctx.fillStyle = owned ? '#88aaff' : canAfford ? '#ffffff' : '#555555';
+        ctx.fillText(item.name, x + 48, y + 18);
+        
+        // Description
+        ctx.font = '10px "Courier Prime", monospace';
+        ctx.fillStyle = owned ? '#6688aa' : canAfford ? '#888888' : '#444444';
+        ctx.fillText(item.desc, x + 48, y + 32);
+        
+        // Type badge + upgrade count
+        ctx.font = '8px "Courier Prime", monospace';
+        ctx.fillStyle = item.type === 'temp' ? '#ff9955' : '#5599ff';
+        let badgeText = item.type === 'temp' ? 'BOSS ONLY' : 'PERMANENT';
+        if (item.type === 'perm' && item.max > 1) {
+            const count = GD.permUpgrades[item.id] || 0;
+            badgeText += ` (${count}/${item.max})`;
+        }
+        ctx.fillText(badgeText, x + 48, y + 44);
+        
+        // Cost or status (right side)
+        ctx.textAlign = 'right';
+        if (owned) {
+            ctx.font = 'bold 10px "Special Elite", monospace';
+            ctx.fillStyle = '#88aaff';
+            ctx.fillText('OWNED', x + w - 10, y + h/2 + 4);
+        } else {
+            ctx.font = 'bold 12px "Special Elite", monospace';
+            ctx.fillStyle = canAfford ? '#ffcc00' : '#ff5555';
+            ctx.fillText(item.cost + ' ●', x + w - 10, y + h/2 + 4);
+        }
+    });
+    
+    // Instructions at bottom
+    ctx.textAlign = 'center';
+    ctx.font = '10px "Special Elite", monospace';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.fillText('ARROWS: SELECT  |  SPACE: BUY  |  ESC/P: FIGHT', canvas.width / 2, canvas.height - 18);
+    
+    // Continue hint
+    ctx.font = 'bold 13px "Special Elite", monospace';
+    const pulse = Math.sin(Date.now() * 0.005) * 0.3 + 0.7;
+    ctx.fillStyle = `rgba(255, 136, 100, ${pulse})`;
+    ctx.fillText('PRESS ESC OR P TO FIGHT BOSS', canvas.width / 2, canvas.height - 38);
+    
     ctx.restore();
 };

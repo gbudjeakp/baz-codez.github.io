@@ -76,7 +76,9 @@ GD.collectPowerup = function(p, updateLivesCallback) {
     GD.playSound('powerup');
     GD.spawnParticles(p.x + 10, p.y + 10, 10, GD.POWERUP_COLORS[p.type]);
     if (p.type === 'heart') {
-        GD.lives = Math.min(GD.lives + 1, 5);
+        const baseMax = GD.gameMode === 'arcade' ? 5 : 3;
+        const extraLives = GD.permUpgrades?.extra_life || 0;
+        GD.lives = Math.min(GD.lives + 1, baseMax + extraLives);
         if (updateLivesCallback) updateLivesCallback();
     } else if (p.type === 'shield') {
         GD.invincible = true;
@@ -194,10 +196,13 @@ GD.shoot = function() {
     const maxBullets = GD.activePowerup?.type === 'spread' ? 12 : 6;
     if (GD.shootCooldown > 0 || GD.bullets.length >= maxBullets) return;
     
+    // Check for rapid fire from powerup OR shop temp upgrade
+    const hasRapid = GD.activePowerup?.type === 'rapid' || GD.tempUpgrades?.rapid_fire;
+    
     // Different sounds for different bullet types
     if (GD.activePowerup?.type === 'spread') {
         GD.playSound('shoot_spread');
-    } else if (GD.activePowerup?.type === 'rapid') {
+    } else if (hasRapid) {
         GD.playSound('shoot_rapid');
     } else if (GD.activePowerup?.type === 'pierce') {
         GD.playSound('shoot_pierce');
@@ -208,7 +213,8 @@ GD.shoot = function() {
     const cx = GD.player.x + GD.player.w/2;
     const cy = GD.player.y;
     const pierce = GD.activePowerup?.type === 'pierce';
-    const color = GD.activePowerup ? GD.POWERUP_COLORS[GD.activePowerup.type] : '#ffffff';
+    const color = GD.activePowerup ? GD.POWERUP_COLORS[GD.activePowerup.type] : 
+                  GD.tempUpgrades?.rapid_fire ? '#ffaa33' : '#ffffff';
     
     if (GD.activePowerup?.type === 'spread') {
         GD.bullets.push({ x: cx, y: cy, vx: 0, vy: -8, pierce, color });
@@ -218,7 +224,10 @@ GD.shoot = function() {
         GD.bullets.push({ x: cx, y: cy, vx: 0, vy: -9, pierce, color });
     }
     
-    GD.shootCooldown = GD.activePowerup?.type === 'rapid' ? 6 : GD.baseCooldown;
+    // Calculate cooldown: base - quick_shot upgrades, halved if rapid
+    let cooldown = GD.baseCooldown - (GD.permUpgrades?.quick_shot || 0) * 2;
+    if (hasRapid) cooldown = Math.floor(cooldown * 0.5);
+    GD.shootCooldown = Math.max(4, cooldown);
 };
 
 // ── Reset entities ─────────────────────────────────────────────

@@ -11,10 +11,11 @@ GD.CANVAS_HEIGHT = 480;
 GD.renderScale = 1; // Scale factor for fullscreen rendering
 
 // ── Level definitions ──────────────────────────────────────────
+// Boss HP increased to make shop upgrades more meaningful
 GD.LEVELS = [
-    { name: 'STAGE 1', sub: 'THE DINER',    kills: 12, spawnStart: 65, spawnMin: 30, bossHP: 15 },
-    { name: 'STAGE 2', sub: 'THE WORKSHOP', kills: 18, spawnStart: 52, spawnMin: 24, bossHP: 25 },
-    { name: 'STAGE 3', sub: 'THE ARCADE',   kills: 24, spawnStart: 42, spawnMin: 18, bossHP: 40 }
+    { name: 'STAGE 1', sub: 'THE DINER',    kills: 12, spawnStart: 65, spawnMin: 30, bossHP: 22 },
+    { name: 'STAGE 2', sub: 'THE WORKSHOP', kills: 18, spawnStart: 52, spawnMin: 24, bossHP: 35 },
+    { name: 'STAGE 3', sub: 'THE ARCADE',   kills: 24, spawnStart: 42, spawnMin: 18, bossHP: 55 }
 ];
 
 GD.BOSS_NAMES = ['BIG BREW', 'GEAR KING', 'THE MACHINE'];
@@ -90,6 +91,23 @@ GD.ARCADE = {
     // Bonus scoring
     waveBonus: 50,          // Bonus points per wave survived
     killMultiplier: 1.1,    // Score multiplier increase per wave (compounding)
+};
+
+// ── Shop configuration ─────────────────────────────────────────
+GD.SHOP = {
+    // Coins earned per enemy kill (base amount)
+    coinPerKill: 3,
+    coinPerBoss: 25,
+    
+    // Shop items - temporary buffs last for boss fight only
+    items: [
+        { id: 'shield_boost', name: 'SHIELD', desc: '5s invincibility', cost: 12, type: 'temp', icon: '★' },
+        { id: 'damage_up', name: 'POWER', desc: '2x boss damage', cost: 18, type: 'temp', icon: '⚡' },
+        { id: 'rapid_fire', name: 'RAPID', desc: 'Fast shooting', cost: 15, type: 'temp', icon: 'R' },
+        { id: 'extra_life', name: '+LIFE', desc: '+1 maximum life', cost: 28, type: 'perm', icon: '♥', max: 2 },
+        { id: 'speed_up', name: 'SPEED', desc: 'Move faster', cost: 22, type: 'perm', icon: '»', max: 2 },
+        { id: 'quick_shot', name: 'QUICK', desc: 'Shorter cooldown', cost: 22, type: 'perm', icon: '↑', max: 2 },
+    ]
 };
 
 // ── Audio configuration ────────────────────────────────────────
