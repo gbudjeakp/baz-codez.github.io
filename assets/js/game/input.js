@@ -18,6 +18,42 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
     document.addEventListener('keydown', e => {
         const k = e.key === ' ' ? ' ' : e.key.toLowerCase();
         
+        // Shop state input handling
+        if (GD.gameState === 'shop') {
+            e.preventDefault();
+            
+            // ESC or P to proceed to boss
+            if (e.key === 'Escape' || k === 'p') {
+                if (GD.proceedToBoss) GD.proceedToBoss();
+                return;
+            }
+            
+            // Navigation
+            if (k === 'arrowup' || k === 'w') {
+                GD.shopSelection = Math.max(0, GD.shopSelection - 2);
+                GD.playSound('menu_select');
+            } else if (k === 'arrowdown' || k === 's') {
+                GD.shopSelection = Math.min(GD.SHOP.items.length - 1, GD.shopSelection + 2);
+                GD.playSound('menu_select');
+            } else if (k === 'arrowleft' || k === 'a') {
+                if (GD.shopSelection % 2 === 1) {
+                    GD.shopSelection--;
+                    GD.playSound('menu_select');
+                }
+            } else if (k === 'arrowright' || k === 'd') {
+                if (GD.shopSelection % 2 === 0 && GD.shopSelection < GD.SHOP.items.length - 1) {
+                    GD.shopSelection++;
+                    GD.playSound('menu_select');
+                }
+            }
+            
+            // Purchase
+            if (k === ' ' || k === 'enter') {
+                GD.purchaseShopItem(GD.shopSelection);
+            }
+            return;
+        }
+        
         // Handle ESC or P for pause (P works in fullscreen where ESC exits fullscreen)
         if (e.key === 'Escape' || k === 'p') {
             e.preventDefault();
