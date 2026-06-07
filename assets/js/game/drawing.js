@@ -542,18 +542,64 @@ GD.drawHUD = function(ctx, canvas) {
         ctx.fillText(nextText, canvas.width/2, canvas.height/2 + 14);
     }
 
-    // Active powerup indicator
+    // ── In-game stats HUD (visible in fullscreen) ──────────────────
+    if (GD.gameState === 'playing' || GD.gameState === 'boss' || GD.gameState === 'boss_intro' || GD.gameState === 'level_clear') {
+        const padding = 12;
+        
+        // Semi-transparent background for readability
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+        ctx.fillRect(canvas.width - 90, padding - 4, 82, 80);
+        ctx.fillRect(padding - 4, canvas.height - 52, 75, 40);
+        
+        // Right side - Score & Best
+        ctx.textAlign = 'right';
+        ctx.font = '9px "Special Elite", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillText('SCORE', canvas.width - padding, padding + 8);
+        ctx.font = 'bold 16px "Playfair Display", serif';
+        ctx.fillStyle = '#f5f0e6';
+        ctx.fillText(GD.score.toString(), canvas.width - padding, padding + 26);
+        
+        ctx.font = '9px "Special Elite", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillText('BEST', canvas.width - padding, padding + 44);
+        ctx.font = 'bold 12px "Playfair Display", serif';
+        ctx.fillStyle = 'rgba(245,240,230,0.7)';
+        const highScore = GD.gameMode === 'arcade' ? GD.highScoreArcade : GD.highScoreStory;
+        ctx.fillText(highScore.toString(), canvas.width - padding, padding + 58);
+        
+        // Bottom left - Lives, Stage
+        ctx.textAlign = 'left';
+        ctx.font = '9px "Special Elite", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillText(GD.gameMode === 'arcade' ? 'WAVE' : 'STAGE', padding, canvas.height - 38);
+        ctx.font = 'bold 14px "Playfair Display", serif';
+        ctx.fillStyle = '#88aaff';
+        const stageNum = GD.gameMode === 'arcade' ? Math.floor(GD.level / 3) + 1 : GD.level + 1;
+        ctx.fillText(stageNum.toString(), padding, canvas.height - 24);
+        
+        // Lives - hearts
+        ctx.font = '14px sans-serif';
+        ctx.fillStyle = '#ff6688';
+        const hearts = '♥'.repeat(Math.max(0, GD.lives));
+        const emptyHearts = '♡'.repeat(Math.max(0, (GD.gameMode === 'arcade' ? 5 : 3) - GD.lives));
+        ctx.fillText(hearts, padding + 30, canvas.height - 24);
+        ctx.fillStyle = 'rgba(255,102,136,0.3)';
+        ctx.fillText(emptyHearts, padding + 30 + ctx.measureText(hearts).width, canvas.height - 24);
+    }
+
+    // Active powerup indicator - positioned above stage/lives area
     if (GD.activePowerup && (GD.gameState === 'playing' || GD.gameState === 'boss')) {
         const pct = GD.activePowerup.timer / GD.POWERUP_DURATION;
         const pcolor = GD.POWERUP_COLORS[GD.activePowerup.type];
         ctx.textAlign = 'left';
-        ctx.font = 'bold 11px "Courier Prime", monospace';
+        ctx.font = 'bold 10px "Courier Prime", monospace';
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(8, canvas.height - 42, 52, 14);
+        ctx.fillRect(8, canvas.height - 68, 52, 14);
         ctx.fillStyle = pcolor;
-        ctx.fillRect(9, canvas.height - 41, 50 * pct, 12);
+        ctx.fillRect(9, canvas.height - 67, 50 * pct, 12);
         ctx.fillStyle = '#fff';
-        ctx.fillText(GD.activePowerup.type.toUpperCase(), 12, canvas.height - 32);
+        ctx.fillText(GD.activePowerup.type.toUpperCase(), 12, canvas.height - 58);
     }
 
     ctx.restore();

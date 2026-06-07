@@ -8,6 +8,7 @@ var GD = window.GD;
 // ── Canvas dimensions ──────────────────────────────────────────
 GD.CANVAS_WIDTH = 600;
 GD.CANVAS_HEIGHT = 480;
+GD.renderScale = 1; // Scale factor for fullscreen rendering
 
 // ── Level definitions ──────────────────────────────────────────
 GD.LEVELS = [

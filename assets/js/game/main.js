@@ -120,14 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const pauseMusicBtn = document.getElementById('pause-music-toggle');
     const pauseQuitBtn = document.getElementById('pause-quit');
     const pauseBtn = document.getElementById('pause-btn');
-    const scoreEl = document.getElementById('score');
-    const highScoreEl = document.getElementById('high-score');
+    const highScoreStoryEl = document.getElementById('high-score-story');
+    const highScoreArcadeEl = document.getElementById('high-score-arcade');
     const finalScoreEl = document.getElementById('final-score');
     const winScoreEl = document.getElementById('win-score');
-    const levelEl = document.getElementById('level-display');
-    const livesEl = document.getElementById('lives-display');
-    const modeDisplayEl = document.getElementById('mode-display');
-    const stageContainer = document.getElementById('stage-display-container');
     const gameWrapper = document.querySelector('.game-wrapper');
 
     // ── Game state ─────────────────────────────────────────────────
@@ -153,14 +149,14 @@ document.addEventListener('DOMContentLoaded', function() {
     GD.scoreMultiplier = 1; // For arcade mode scoring
 
     function updateHighScoreDisplay() {
-        const hs = GD.gameMode === 'arcade' ? GD.highScoreArcade : GD.highScoreStory;
-        if (highScoreEl) highScoreEl.textContent = hs;
+        if (highScoreStoryEl) highScoreStoryEl.textContent = GD.highScoreStory;
+        if (highScoreArcadeEl) highScoreArcadeEl.textContent = GD.highScoreArcade;
     }
     updateHighScoreDisplay();
 
     // ── Helper functions ───────────────────────────────────────────
     function updateLives() {
-        if (livesEl) livesEl.textContent = '\u2665'.repeat(Math.max(0, GD.lives));
+        // Lives now displayed on canvas HUD only
     }
 
     function shake() {
@@ -202,7 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ? Math.floor((15 + GD.level * 5) * GD.scoreMultiplier) 
             : 15;
         GD.score += bossBonus;
-        if (scoreEl) scoreEl.textContent = GD.score;
         GD.spawnParticles(GD.boss.x + GD.boss.w/2, GD.boss.y + GD.boss.h/2, 45, '#ffffff');
         GD.boss = null; GD.enemies = []; GD.bullets = []; GD.powerups = [];
         
@@ -219,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 GD.arcadeWave = newWave;
                 GD.scoreMultiplier *= GD.ARCADE.killMultiplier;
                 GD.score += GD.ARCADE.waveBonus * GD.arcadeWave;
-                if (scoreEl) scoreEl.textContent = GD.score;
             }
             
             // Scale spawn interval with wave
@@ -304,8 +298,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const effectiveLevel = GD.gameMode === 'arcade' ? GD.level % 3 : GD.level;
                 if (GD.spawnInterval > GD.LEVELS[effectiveLevel].spawnMin) GD.spawnInterval -= 0.2;
             }
-            GD.updateEnemies(takeDamage, scoreEl);
-            GD.updateBullets(scoreEl, checkProgress, bossDefeated);
+            GD.updateEnemies(takeDamage, null);
+            GD.updateBullets(null, checkProgress, bossDefeated);
             GD.updatePowerups(updateLives);
             GD.updateParticles();
 
@@ -316,8 +310,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } else if (GD.gameState === 'boss') {
             GD.updateBoss();
-            GD.updateEnemies(takeDamage, scoreEl);
-            GD.updateBullets(scoreEl, checkProgress, bossDefeated);
+            GD.updateEnemies(takeDamage, null);
+            GD.updateBullets(null, checkProgress, bossDefeated);
             GD.updatePowerups(updateLives);
             GD.updateParticles();
             if (GD.boss && !GD.invincible) {
@@ -338,7 +332,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     ? Math.max(GD.ARCADE.minSpawnInterval, GD.ARCADE.baseSpawnInterval - GD.arcadeWave * GD.ARCADE.spawnReduction)
                     : GD.LEVELS[effectiveLevel].spawnStart;
                 GD.spawnTimer = 0;
-                if (levelEl) levelEl.textContent = GD.gameMode === 'arcade' ? GD.arcadeWave + 1 : GD.level + 1;
             }
         }
     }
@@ -383,13 +376,6 @@ document.addEventListener('DOMContentLoaded', function() {
         GD.resetEntities();
         GD.spawnTimer = 0; 
         GD.spawnInterval = mode === 'arcade' ? GD.ARCADE.baseSpawnInterval : GD.LEVELS[0].spawnStart;
-        if (scoreEl) scoreEl.textContent = 0;
-        if (modeDisplayEl) modeDisplayEl.textContent = mode === 'arcade' ? 'ARCADE' : 'STORY';
-        // Update stage/wave label
-        const stageLabel = stageContainer?.querySelector('.score-label');
-        if (stageLabel) stageLabel.textContent = mode === 'arcade' ? 'WAVE' : 'STAGE';
-        if (levelEl) levelEl.textContent = mode === 'arcade' ? '1' : '1';
-        updateLives();
         updateHighScoreDisplay();
         gameOverlay.style.display = 'none';
         gameOverOverlay.style.display = 'none';
