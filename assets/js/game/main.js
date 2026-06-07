@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pauseSfxBtn = document.getElementById('pause-sfx-toggle');
     const pauseMusicBtn = document.getElementById('pause-music-toggle');
     const pauseQuitBtn = document.getElementById('pause-quit');
+    const pauseBtn = document.getElementById('pause-btn');
     const scoreEl = document.getElementById('score');
     const highScoreEl = document.getElementById('high-score');
     const finalScoreEl = document.getElementById('final-score');
@@ -262,6 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         GD.gameRunning = false;
         GD.stopMusic();
         saveHighScore();
+        if (pauseBtn) pauseBtn.classList.remove('visible');
         if (win) {
             GD.gameState = 'win';
             GD.playSound('level_clear');
@@ -394,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (gameWinOverlay) gameWinOverlay.style.display = 'none';
         if (gamePauseOverlay) gamePauseOverlay.style.display = 'none';
         GD.playMusic('stage1');
+        if (pauseBtn) pauseBtn.classList.add('visible');
         gameLoop();
     }
 
@@ -407,6 +410,7 @@ document.addEventListener('DOMContentLoaded', function() {
         gameOverOverlay.style.display = 'none';
         if (gameWinOverlay) gameWinOverlay.style.display = 'none';
         if (gamePauseOverlay) gamePauseOverlay.style.display = 'none';
+        if (pauseBtn) pauseBtn.classList.remove('visible');
         draw();
     }
 
@@ -450,6 +454,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ── Initialize input ───────────────────────────────────────────
     GD.initInput(canvas, pauseGame, resumeGame);
+    
+    // ── Initialize fullscreen ──────────────────────────────────────
+    GD.initFullscreen(gameWrapper);
 
     // ── Event listeners ────────────────────────────────────────────
     if (startStoryBtn) startStoryBtn.addEventListener('click', () => startGame('story'));
@@ -464,6 +471,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pauseSfxBtn) pauseSfxBtn.addEventListener('click', toggleSfx);
     if (pauseMusicBtn) pauseMusicBtn.addEventListener('click', toggleMusic);
     if (pauseQuitBtn) pauseQuitBtn.addEventListener('click', showMenu);
+    if (pauseBtn) pauseBtn.addEventListener('click', () => {
+        if (GD.gameRunning && GD.gameState === 'playing' && !GD.gamePaused) {
+            pauseGame();
+        }
+    });
 
     // Start menu music on first interaction with game area
     function startMenuMusicOnce() {

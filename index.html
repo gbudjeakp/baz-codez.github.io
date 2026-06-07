@@ -364,7 +364,23 @@
                 <h2 class="section-title centered">ARCADE</h2>
                 <p class="game-intro">Dodge enemies & shoot back. 3 stages, 3 bosses. Can you beat The Machine?</p>
                 <div class="game-container">
-                    <div class="game-wrapper">
+                    <div class="game-wrapper" id="game-wrapper">
+                        <!-- Fullscreen toggle button -->
+                        <button class="fullscreen-btn" id="fullscreen-btn" title="Toggle Fullscreen">
+                            <svg class="fs-expand" viewBox="0 0 24 24">
+                                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/>
+                            </svg>
+                            <svg class="fs-compress" viewBox="0 0 24 24">
+                                <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <!-- Pause button (visible during gameplay) -->
+                        <button class="pause-btn" id="pause-btn" title="Pause (P)">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                            </svg>
+                        </button>
                         <canvas id="cuphead-game" width="600" height="480"></canvas>
                         <!-- Mobile touch controls -->
                         <div class="touch-controls" id="touch-controls">
@@ -391,10 +407,17 @@
                                     <span class="mode-desc">Endless</span>
                                 </button>
                             </div>
-                            <div class="menu-controls-hint">
+                            <div class="menu-controls-hint desktop-hint">
                                 <span>WASD / Arrows</span>
                                 <span class="separator"></span>
                                 <span>Space to shoot</span>
+                                <span class="separator"></span>
+                                <span>P to pause</span>
+                            </div>
+                            <div class="menu-controls-hint mobile-hint">
+                                <span>D-pad to move</span>
+                                <span class="separator"></span>
+                                <span>Tap FIRE to shoot</span>
                             </div>
                             <div class="menu-audio-controls">
                                 <button class="audio-btn" id="sfx-toggle" data-enabled="true" title="Sound Effects">
@@ -450,7 +473,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="pause-hint">ESC to resume</div>
+                            <div class="pause-hint">P or ESC to resume</div>
                         </div>
                     </div>
                     <div class="game-info">

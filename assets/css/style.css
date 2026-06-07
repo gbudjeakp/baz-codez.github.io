@@ -1394,12 +1394,188 @@ body,
         4px 4px 0 var(--ink),
         8px 8px 0 var(--accent);
     background: #111111;
+    /* Larger default size for desktop/laptop */
+    max-width: 640px;
+    width: 100%;
+}
+
+/* Fullscreen button */
+.fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 70;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(245, 240, 230, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: rgba(245, 240, 230, 0.7);
+    padding: 0;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: rgba(245, 240, 230, 0.6);
+    color: #f5f0e6;
+}
+
+.fullscreen-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.fullscreen-btn .fs-compress {
+    display: none;
+}
+
+/* Pause button */
+.pause-btn {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    z-index: 70;
+    width: 32px;
+    height: 32px;
+    display: none; /* Hidden by default, shown during gameplay */
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(245, 240, 230, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: rgba(245, 240, 230, 0.7);
+    padding: 0;
+}
+
+.pause-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: rgba(245, 240, 230, 0.6);
+    color: #f5f0e6;
+}
+
+.pause-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.pause-btn.visible {
+    display: flex;
+}
+
+/* Fullscreen mode styles */
+.game-wrapper.fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    z-index: 99999 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000 !important;
+}
+
+.game-wrapper.fullscreen #cuphead-game {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    /* Maintain aspect ratio and center */
+    object-fit: contain;
+}
+
+/* In fullscreen, fit canvas to screen while maintaining aspect ratio */
+.game-wrapper.fullscreen #cuphead-game {
+    width: min(100vw, calc(100vh * 1.25));
+    height: min(100vh, calc(100vw * 0.8));
+}
+
+.game-wrapper.fullscreen .fullscreen-btn {
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+}
+
+.game-wrapper.fullscreen .fullscreen-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.game-wrapper.fullscreen .fullscreen-btn .fs-expand {
+    display: none;
+}
+
+.game-wrapper.fullscreen .fullscreen-btn .fs-compress {
+    display: block;
+}
+
+.game-wrapper.fullscreen .pause-btn {
+    top: 15px;
+    left: 65px;
+    width: 40px;
+    height: 40px;
+}
+
+.game-wrapper.fullscreen .pause-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Touch controls in fullscreen */
+.game-wrapper.fullscreen .touch-controls {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+}
+
+.game-wrapper.fullscreen .touch-dpad {
+    width: 120px;
+    height: 120px;
+}
+
+.game-wrapper.fullscreen .dpad-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.game-wrapper.fullscreen .touch-fire {
+    width: 85px;
+    height: 85px;
+    font-size: 14px;
+}
+
+/* Overlays in fullscreen */
+.game-wrapper.fullscreen .game-overlay,
+.game-wrapper.fullscreen .game-over-overlay,
+.game-wrapper.fullscreen .game-win-overlay,
+.game-wrapper.fullscreen .game-pause-overlay {
+    border-radius: 0;
 }
 
 #cuphead-game {
     display: block;
     image-rendering: pixelated;
     background: #111111;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 600 / 480;
 }
 
 .game-overlay,
@@ -1420,6 +1596,7 @@ body,
     padding: 15px;
     box-sizing: border-box;
     overflow-y: auto;
+    z-index: 60; /* Above touch controls (z-index: 50) */
 }
 
 .game-pause-overlay {
@@ -1548,6 +1725,20 @@ body,
     border-radius: 50%;
 }
 
+/* Desktop vs mobile hints */
+.menu-controls-hint.mobile-hint {
+    display: none;
+}
+
+@media (pointer: coarse) {
+    .menu-controls-hint.desktop-hint {
+        display: none;
+    }
+    .menu-controls-hint.mobile-hint {
+        display: flex;
+    }
+}
+
 /* Audio controls */
 .menu-audio-controls {
     position: absolute;
@@ -1569,6 +1760,16 @@ body,
     cursor: pointer;
     transition: all 0.2s ease;
     color: rgba(245,240,230,0.6);
+}
+
+/* On mobile, move audio controls away from fire button area */
+@media (pointer: coarse), (max-width: 600px) {
+    .menu-audio-controls {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        bottom: auto;
+    }
 }
 
 .audio-btn:hover {
@@ -1732,6 +1933,24 @@ body,
     margin-bottom: 15px;
 }
 
+/* On mobile, give pause audio controls more prominence */
+@media (pointer: coarse), (max-width: 600px) {
+    .pause-audio-controls {
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .pause-audio-controls .audio-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .pause-audio-controls .audio-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
 .pause-hint {
     font-family: 'Special Elite', cursive;
     font-size: 0.65rem;
@@ -1866,6 +2085,10 @@ body,
     opacity: 0.7;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE & TABLET RESPONSIVE GAME STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
 /* Show touch controls on touch devices */
 @media (pointer: coarse) {
     .touch-controls {
@@ -1877,87 +2100,625 @@ body,
     #cuphead-game {
         touch-action: none;
     }
+    .menu-controls-hint {
+        display: none;
+    }
 }
 
-/* Responsive game */
-@media (max-width: 450px) {
+/* ── Base responsive game container ─────────────────────────────── */
+@media (max-width: 768px) {
+    .game-section {
+        padding: 15px 10px;
+    }
+    
+    .game-intro {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        padding: 0 10px;
+    }
+    
+    .game-container {
+        gap: 15px;
+        width: 100%;
+    }
+    
     .game-wrapper {
         max-width: 100%;
+        width: 100%;
+        border-width: 3px;
+        box-shadow: 
+            3px 3px 0 var(--ink),
+            6px 6px 0 var(--accent);
     }
     
     #cuphead-game {
         width: 100%;
         height: auto;
+        aspect-ratio: 600 / 480;
+    }
+    
+    .game-info {
+        flex-wrap: wrap;
+        gap: 15px 25px;
+        padding: 0 10px;
+    }
+    
+    .score-display {
+        min-width: 50px;
+    }
+    
+    .score-label {
+        font-size: 0.6rem;
+    }
+    
+    .score-value {
+        font-size: 1.2rem;
+    }
+}
+
+/* ── Mobile Portrait (phones < 480px) ───────────────────────────── */
+@media (max-width: 480px) and (orientation: portrait) {
+    .game-section {
+        padding: 10px 5px;
+    }
+    
+    .game-intro {
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+    }
+    
+    .game-wrapper {
+        border-width: 2px;
+        box-shadow: 
+            2px 2px 0 var(--ink),
+            4px 4px 0 var(--accent);
+    }
+    
+    /* Touch controls - larger for portrait */
+    .touch-controls {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+    }
+    
+    .touch-dpad {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .dpad-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+    
+    .touch-fire {
+        width: 80px;
+        height: 80px;
+        font-size: 13px;
+    }
+    
+    /* Menu overlay adjustments */
+    .game-overlay,
+    .game-over-overlay,
+    .game-win-overlay,
+    .game-pause-overlay {
+        padding: 20px 15px;
+        gap: 12px;
     }
     
     .game-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         letter-spacing: 2px;
     }
     
     .game-subtitle {
-        font-size: 0.65rem;
-    }
-    
-    .menu-title-decoration {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
         letter-spacing: 2px;
     }
     
     .menu-modes {
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
+        width: 100%;
+        max-width: 200px;
     }
     
     .game-mode-btn {
-        min-width: 180px;
-        padding: 14px 18px 12px;
+        width: 100%;
+        min-width: unset;
+        padding: 14px 20px 12px;
     }
     
-    .mode-icon-frame {
-        width: 40px;
-        height: 40px;
+    .mode-name {
+        font-size: 0.95rem;
     }
     
-    .mode-icon-svg {
-        width: 22px;
-        height: 22px;
+    .mode-desc {
+        font-size: 0.55rem;
+    }
+    
+    .menu-audio-controls {
+        gap: 12px;
+    }
+    
+    .menu-audio-controls .audio-btn {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .menu-audio-controls .audio-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .game-over-text,
+    .game-win-text {
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+    }
+    
+    .final-score {
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+    
+    .game-over-buttons {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 180px;
+    }
+    
+    .game-start-btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+    }
+    
+    /* Pause menu */
+    .pause-title {
+        font-size: 1.4rem;
+    }
+    
+    .pause-menu {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 180px;
+    }
+    
+    .pause-menu-btn {
+        width: 100%;
+        padding: 12px 20px;
+    }
+    
+    /* Game info */
+    .game-info {
+        gap: 12px 20px;
+    }
+    
+    .score-display {
+        min-width: 45px;
+    }
+    
+    .score-label {
+        font-size: 0.55rem;
+    }
+    
+    .score-value {
+        font-size: 1.1rem;
+    }
+}
+
+/* ── Mobile Landscape (phones in landscape) ─────────────────────── */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+    .game-section {
+        padding: 10px 15px;
+    }
+    
+    .game-intro {
+        font-size: 0.75rem;
+        margin-bottom: 10px;
+    }
+    
+    .game-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px 20px;
+    }
+    
+    .game-wrapper {
+        max-width: min(95vw, calc((100vh - 80px) * 1.25));
+        width: 100%;
+        height: auto;
+        min-height: 200px;
+    }
+    
+    #cuphead-game {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 600 / 480;
+    }
+    
+    /* Touch controls - compact for landscape */
+    .touch-controls {
+        bottom: 8px;
+        left: 12px;
+        right: 12px;
+    }
+    
+    .touch-dpad {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .dpad-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .touch-fire {
+        width: 60px;
+        height: 60px;
+        font-size: 10px;
+    }
+    
+    /* Compact overlay for landscape */
+    .game-overlay,
+    .game-over-overlay,
+    .game-win-overlay,
+    .game-pause-overlay {
+        padding: 10px;
+        gap: 6px;
+    }
+    
+    .menu-header {
+        margin-bottom: 10px;
+    }
+    
+    .game-title {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+    
+    .game-subtitle {
+        font-size: 0.5rem;
+        margin-top: 3px;
+    }
+    
+    .menu-modes {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .game-mode-btn {
+        padding: 10px 20px 8px;
+        min-width: 90px;
     }
     
     .mode-name {
         font-size: 0.85rem;
     }
     
-    .settings-row {
-        gap: 10px;
+    .mode-desc {
+        font-size: 0.5rem;
     }
     
-    .setting-toggle {
-        padding: 6px 10px;
+    .game-over-text,
+    .game-win-text {
+        font-size: 1.2rem;
     }
     
-    .setting-icon {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .setting-label {
-        font-size: 0.6rem;
-    }
-    
-    .game-instructions {
-        font-size: 0.7rem;
-        padding: 0 10px;
+    .final-score {
+        font-size: 1.5rem;
+        margin: 8px 0;
     }
     
     .game-over-buttons {
-        flex-direction: column;
         gap: 8px;
+        margin-top: 10px;
     }
     
     .game-start-btn {
-        padding: 8px 20px;
-        font-size: 0.8rem;
+        padding: 8px 16px;
+        font-size: 0.75rem;
+    }
+    
+    .pause-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .pause-menu {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .pause-menu-btn {
+        padding: 8px 16px;
+    }
+    
+    /* Game info alongside game */
+    .game-info {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        padding: 5px 0;
+    }
+    
+    .score-display {
+        flex-direction: row;
+        gap: 8px;
+        min-width: unset;
+    }
+    
+    .score-label {
+        font-size: 0.55rem;
+    }
+    
+    .score-value {
+        font-size: 1rem;
+    }
+}
+
+/* ── Tablet Portrait (768px - 1024px) ───────────────────────────── */
+@media (min-width: 481px) and (max-width: 1024px) and (orientation: portrait) {
+    .game-section {
+        padding: 20px 15px;
+    }
+    
+    .game-wrapper {
+        max-width: 90%;
+    }
+    
+    /* Touch controls - comfortable size for tablets */
+    .touch-controls {
+        bottom: 20px;
+        left: 25px;
+        right: 25px;
+    }
+    
+    .touch-dpad {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .dpad-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+    
+    .touch-fire {
+        width: 90px;
+        height: 90px;
+        font-size: 14px;
+        border-width: 4px;
+    }
+    
+    .game-overlay,
+    .game-over-overlay,
+    .game-win-overlay,
+    .game-pause-overlay {
+        padding: 25px 20px;
+        gap: 15px;
+    }
+    
+    .game-title {
+        font-size: 1.8rem;
+    }
+    
+    .menu-modes {
+        gap: 15px;
+    }
+    
+    .game-mode-btn {
+        padding: 16px 30px 14px;
+        min-width: 130px;
+    }
+    
+    .mode-name {
+        font-size: 1.1rem;
+    }
+    
+    .menu-audio-controls .audio-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .menu-audio-controls .audio-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .game-over-text,
+    .game-win-text {
+        font-size: 2rem;
+    }
+    
+    .final-score {
+        font-size: 2.5rem;
+    }
+    
+    .game-start-btn {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+    }
+    
+    .game-info {
+        gap: 25px;
+    }
+    
+    .score-label {
+        font-size: 0.7rem;
+    }
+    
+    .score-value {
+        font-size: 1.3rem;
+    }
+}
+
+/* ── Tablet Landscape (768px - 1024px) ──────────────────────────── */
+@media (min-width: 481px) and (max-width: 1024px) and (orientation: landscape) {
+    .game-section {
+        padding: 15px 20px;
+    }
+    
+    .game-intro {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+    
+    .game-wrapper {
+        max-width: min(95vw, calc((100vh - 60px) * 1.25));
+        width: 100%;
+    }
+    
+    /* Touch controls - balanced for landscape tablets */
+    .touch-controls {
+        bottom: 15px;
+        left: 20px;
+        right: 20px;
+    }
+    
+    .touch-dpad {
+        width: 115px;
+        height: 115px;
+    }
+    
+    .dpad-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+    
+    .touch-fire {
+        width: 80px;
+        height: 80px;
+        font-size: 12px;
+    }
+    
+    .game-overlay,
+    .game-over-overlay,
+    .game-win-overlay,
+    .game-pause-overlay {
+        padding: 20px;
+        gap: 12px;
+    }
+    
+    .game-title {
+        font-size: 1.6rem;
+    }
+    
+    .game-over-text,
+    .game-win-text {
+        font-size: 1.8rem;
+    }
+    
+    .final-score {
+        font-size: 2.2rem;
+    }
+    
+    .game-info {
+        gap: 20px;
+    }
+}
+
+/* ── Small phones (< 360px width) ───────────────────────────────── */
+@media (max-width: 360px) {
+    .game-title {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    
+    .game-subtitle {
+        font-size: 0.5rem;
+    }
+    
+    .touch-dpad {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .dpad-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .touch-fire {
+        width: 65px;
+        height: 65px;
+        font-size: 11px;
+    }
+    
+    .game-mode-btn {
+        padding: 12px 16px 10px;
+    }
+    
+    .mode-name {
+        font-size: 0.85rem;
+    }
+    
+    .game-over-text {
+        font-size: 1.3rem;
+    }
+    
+    .final-score {
+        font-size: 1.8rem;
+    }
+    
+    .game-info {
+        gap: 10px 15px;
+    }
+    
+    .score-display {
+        min-width: 40px;
+    }
+    
+    .score-label {
+        font-size: 0.5rem;
+    }
+    
+    .score-value {
+        font-size: 1rem;
+    }
+}
+
+/* ── Ensure overlays properly cover touch controls ──────────────── */
+@media (pointer: coarse) {
+    .game-overlay,
+    .game-over-overlay,
+    .game-win-overlay,
+    .game-pause-overlay {
+        z-index: 60;
+    }
+    
+    /* Hide touch controls when overlays are visible */
+    .game-overlay ~ .touch-controls,
+    .game-over-overlay:not([style*="none"]) ~ .touch-controls,
+    .game-win-overlay:not([style*="none"]) ~ .touch-controls,
+    .game-pause-overlay:not([style*="none"]) ~ .touch-controls {
+        pointer-events: none;
+        opacity: 0.3;
+    }
+}
+
+/* ── Large Desktop (1200px+) ────────────────────────────────────── */
+@media (min-width: 1200px) {
+    .game-wrapper {
+        max-width: 900px;
+    }
+}
+
+/* ── Extra Large Desktop (1600px+) ──────────────────────────────── */
+@media (min-width: 1600px) {
+    .game-wrapper {
+        max-width: 1000px;
     }
 }
 
