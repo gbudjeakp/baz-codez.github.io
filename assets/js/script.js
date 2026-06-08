@@ -524,26 +524,116 @@ document.addEventListener('DOMContentLoaded', function() {
         // ── Touch controls ─────────────────────────────────────────
         const touchControls = document.getElementById('touch-controls');
         const touchFire     = document.getElementById('touch-fire');
-        const dpadBtns      = document.querySelectorAll('.dpad-btn');
+        const analogStick   = document.getElementById('analog-stick');
+        const analogKnob    = document.getElementById('analog-knob');
 
-        // D-pad buttons
-        dpadBtns.forEach(btn => {
-            const key = btn.dataset.key;
-            btn.addEventListener('touchstart', e => {
+        // Analog stick state
+        let analogActive = false;
+        let analogTouchId = null;
+        let analogCenterX = 0;
+        let analogCenterY = 0;
+        let analogMaxRadius = 0;
+        
+        // Joystick tuning constants
+        const DEAD_ZONE = 0.12;
+        const DIRECTION_THRESHOLD = 0.38;
+        
+        function handleAnalogTouch(touch, isStart) {
+            if (!analogStick) return;
+            
+            // Cache rect on start for performance
+            if (isStart) {
+                const rect = analogStick.getBoundingClientRect();
+                analogCenterX = rect.left + rect.width / 2;
+                analogCenterY = rect.top + rect.height / 2;
+                analogMaxRadius = rect.width / 2 - 8;
+            }
+            
+            let dx = touch.clientX - analogCenterX;
+            let dy = touch.clientY - analogCenterY;
+            
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const normalizedDist = Math.min(distance / analogMaxRadius, 1);
+            
+            let clampedDx = dx;
+            let clampedDy = dy;
+            if (distance > analogMaxRadius) {
+                clampedDx = (dx / distance) * analogMaxRadius;
+                clampedDy = (dy / distance) * analogMaxRadius;
+            }
+            
+            if (analogKnob) {
+                analogKnob.style.left = `calc(50% + ${clampedDx}px)`;
+                analogKnob.style.top = `calc(50% + ${clampedDy}px)`;
+            }
+            
+            keys['arrowup'] = false;
+            keys['arrowdown'] = false;
+            keys['arrowleft'] = false;
+            keys['arrowright'] = false;
+            
+            if (normalizedDist > DEAD_ZONE && distance > 0) {
+                const normX = dx / distance;
+                const normY = dy / distance;
+                
+                if (normX < -DIRECTION_THRESHOLD) keys['arrowleft'] = true;
+                if (normX > DIRECTION_THRESHOLD) keys['arrowright'] = true;
+                if (normY < -DIRECTION_THRESHOLD) keys['arrowup'] = true;
+                if (normY > DIRECTION_THRESHOLD) keys['arrowdown'] = true;
+            }
+        }
+        
+        function resetAnalog() {
+            analogActive = false;
+            analogTouchId = null;
+            if (analogKnob) {
+                analogKnob.style.left = '50%';
+                analogKnob.style.top = '50%';
+                analogKnob.classList.remove('active');
+            }
+            keys['arrowup'] = false;
+            keys['arrowdown'] = false;
+            keys['arrowleft'] = false;
+            keys['arrowright'] = false;
+        }
+        
+        if (analogStick) {
+            analogStick.addEventListener('touchstart', e => {
                 e.preventDefault();
-                keys[key] = true;
-                btn.classList.add('active');
+                e.stopPropagation();
+                if (!analogActive) {
+                    analogActive = true;
+                    analogTouchId = e.touches[0].identifier;
+                    if (analogKnob) analogKnob.classList.add('active');
+                    handleAnalogTouch(e.touches[0], true);
+                }
             }, { passive: false });
-            btn.addEventListener('touchend', e => {
+            
+            analogStick.addEventListener('touchmove', e => {
                 e.preventDefault();
-                keys[key] = false;
-                btn.classList.remove('active');
+                e.stopPropagation();
+                for (let i = 0; i < e.touches.length; i++) {
+                    if (e.touches[i].identifier === analogTouchId) {
+                        handleAnalogTouch(e.touches[i], false);
+                        break;
+                    }
+                }
             }, { passive: false });
-            btn.addEventListener('touchcancel', e => {
-                keys[key] = false;
-                btn.classList.remove('active');
-            });
-        });
+            
+            analogStick.addEventListener('touchend', e => {
+                e.preventDefault();
+                let found = false;
+                for (let i = 0; i < e.touches.length; i++) {
+                    if (e.touches[i].identifier === analogTouchId) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) resetAnalog();
+            }, { passive: false });
+            
+            analogStick.addEventListener('touchcancel', resetAnalog);
+        }
 
         // Fire button
         if (touchFire) {

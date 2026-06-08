@@ -1,0 +1,6 @@
+# robots.txt for baz-codez.github.io
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://baz-codez.github.io/sitemap.xml
