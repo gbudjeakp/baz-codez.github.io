@@ -236,6 +236,8 @@ GD.drawEnemy = function(ctx, e) {
         case 'homing': GD.drawEye(ctx); break;
         case 'bossshot': GD.drawBossShot(ctx); break;
         case 'tracking_eye': GD.drawTrackingEye(ctx, e); break;
+        case 'diver': GD.drawDiver(ctx, e.diving); break;
+        case 'sweeper': GD.drawSweeper(ctx); break;
     }
     ctx.restore();
 };
@@ -298,6 +300,49 @@ GD.drawEye = function(ctx) {
     ctx.beginPath(); ctx.arc(2,0,5,0,Math.PI*2); ctx.fill();
     ctx.fillStyle = '#fff';
     ctx.beginPath(); ctx.arc(4,-2,2,0,Math.PI*2); ctx.fill();
+};
+
+GD.drawDiver = function(ctx, diving) {
+    // Arrow/chevron shape that dives at player
+    ctx.fillStyle = diving ? '#ff4444' : '#666';
+    ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, -14);      // top point
+    ctx.lineTo(-12, 8);      // bottom left
+    ctx.lineTo(-4, 4);       // inner left
+    ctx.lineTo(0, 14);       // bottom center point
+    ctx.lineTo(4, 4);        // inner right  
+    ctx.lineTo(12, 8);       // bottom right
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    // Angry eyes when diving
+    ctx.fillStyle = diving ? '#fff' : '#333';
+    ctx.beginPath(); ctx.arc(-4, -4, 3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(4, -4, 3, 0, Math.PI*2); ctx.fill();
+    if (diving) {
+        ctx.fillStyle = '#1a1a1a';
+        ctx.beginPath(); ctx.arc(-4, -3, 2, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(4, -3, 2, 0, Math.PI*2); ctx.fill();
+    }
+};
+
+GD.drawSweeper = function(ctx) {
+    // Horizontal bar/beam that sweeps across
+    ctx.fillStyle = '#aa5500';
+    ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 2;
+    // Main body - horizontal bar
+    ctx.beginPath();
+    ctx.roundRect(-14, -8, 28, 16, 4);
+    ctx.fill(); ctx.stroke();
+    // Side thrusters
+    ctx.fillStyle = '#666';
+    ctx.beginPath(); ctx.roundRect(-18, -4, 6, 8, 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.roundRect(12, -4, 6, 8, 2); ctx.fill(); ctx.stroke();
+    // Eye in center
+    ctx.fillStyle = '#ffcc00';
+    ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.arc(1, 0, 3, 0, Math.PI*2); ctx.fill();
 };
 
 GD.drawBossShot = function(ctx) {

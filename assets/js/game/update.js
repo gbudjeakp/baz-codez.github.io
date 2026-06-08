@@ -162,6 +162,7 @@ GD.updateEnemies = function(takeDamageCallback, scoreEl) {
                     GD.enemies.splice(i, 1);
                     continue;
                 }
+                // Continuously track the player
                 const px = GD.player.x + GD.player.w/2, py = GD.player.y + GD.player.h/2;
                 const ecx = e.x + e.w/2, ecy = e.y + e.h/2;
                 const ang = Math.atan2(py - ecy, px - ecx);
@@ -193,13 +194,42 @@ GD.updateEnemies = function(takeDamageCallback, scoreEl) {
             if (e.x < 0 || e.x + e.w > canvas.width) e.vx *= -1;
             e.rot += 0.1;
         } else if (e.type === 'homing') {
-            const px = GD.player.x + GD.player.w/2, py = GD.player.y + GD.player.h/2;
-            const ecx = e.x + e.w/2, ecy = e.y + e.h/2;
-            const ang = Math.atan2(py - ecy, px - ecx);
-            e.vx = e.vx * 0.88 + Math.cos(ang) * e.homespd * 0.12;
-            e.vy = e.vy * 0.88 + Math.sin(ang) * e.homespd * 0.12;
-            const spd = Math.hypot(e.vx, e.vy);
-            if (spd > e.homespd) { e.vx /= spd/e.homespd; e.vy /= spd/e.homespd; }
+            // Battery enemy: drifts briefly, then locks onto player position once
+            if (!e.locked) {
+                e.lockDelay--;
+                if (e.lockDelay <= 0) {
+                    const px = GD.player.x + GD.player.w/2, py = GD.player.y + GD.player.h/2;
+                    const ecx = e.x + e.w/2, ecy = e.y + e.h/2;
+                    const ang = Math.atan2(py - ecy, px - ecx);
+                    e.vx = Math.cos(ang) * e.homespd;
+                    e.vy = Math.sin(ang) * e.homespd;
+                    e.locked = true;
+                }
+            }
+            e.x += e.vx; e.y += e.vy;
+        } else if (e.type === 'diver') {
+            // Diver: dives fast when aligned with player
+            const px = GD.player.x + GD.player.w/2;
+            const ecx = e.x + e.w/2;
+            if (!e.diving && Math.abs(px - ecx) < 40 && e.y < GD.player.y) {
+                e.diving = true;
+                e.vx = 0;
+                e.vy = e.diveSpeed;
+            }
+            e.x += e.vx; e.y += e.vy;
+            if (e.x < 0 || e.x + e.w > canvas.width) e.vx *= -1;
+        } else if (e.type === 'sweeper') {
+            // Sweeper: moves toward locked Y position, then travels horizontally
+            if (!e.lockedY) {
+                const ecy = e.y + e.h/2;
+                const yDiff = e.targetY - ecy;
+                if (Math.abs(yDiff) < 5) {
+                    e.vy = 0;
+                    e.lockedY = true;
+                } else {
+                    e.vy = Math.sign(yDiff) * Math.min(Math.abs(yDiff) * 0.15, 3.5);
+                }
+            }
             e.x += e.vx; e.y += e.vy;
         } else {
             e.x += (e.vx || 0); e.y += e.vy;
@@ -207,7 +237,7 @@ GD.updateEnemies = function(takeDamageCallback, scoreEl) {
         e.rot += (e.rotSpd || 0);
 
         let gone = false;
-        if (e.type === 'missile') {
+        if (e.type === 'missile' || e.type === 'sweeper') {
             if ((e.vx > 0 && e.x > canvas.width + 40) || (e.vx < 0 && e.x < -e.w - 40)) gone = true;
         } else if (e.y > canvas.height + 40 || e.y < -canvas.height) {
             gone = true;

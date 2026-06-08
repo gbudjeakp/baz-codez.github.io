@@ -13,9 +13,9 @@ GD.renderScale = 1; // Scale factor for fullscreen rendering
 // ── Level definitions ──────────────────────────────────────────
 // Boss HP increased to make shop upgrades more meaningful
 GD.LEVELS = [
-    { name: 'STAGE 1', sub: 'THE DINER',    kills: 12, spawnStart: 65, spawnMin: 30, bossHP: 22 },
-    { name: 'STAGE 2', sub: 'THE WORKSHOP', kills: 18, spawnStart: 52, spawnMin: 24, bossHP: 35 },
-    { name: 'STAGE 3', sub: 'THE ARCADE',   kills: 24, spawnStart: 42, spawnMin: 18, bossHP: 55 }
+    { name: 'STAGE 1', sub: 'THE DINER',    kills: 12, spawnStart: 50, spawnMin: 22, bossHP: 22 },
+    { name: 'STAGE 2', sub: 'THE WORKSHOP', kills: 18, spawnStart: 42, spawnMin: 18, bossHP: 35 },
+    { name: 'STAGE 3', sub: 'THE ARCADE',   kills: 24, spawnStart: 35, spawnMin: 14, bossHP: 55 }
 ];
 
 GD.BOSS_NAMES = ['BIG BREW', 'GEAR KING', 'THE MACHINE'];
@@ -77,14 +77,14 @@ GD.STAGE_BACKGROUNDS = {
 // ── Arcade mode difficulty scaling ─────────────────────────────
 GD.ARCADE = {
     // Base values
-    baseSpawnInterval: 65,
+    baseSpawnInterval: 50,
     basePowerupChance: 0.20,
-    baseEnemySpeed: 1.4,
+    baseEnemySpeed: 1.8,
     
     // Scaling per wave (every 3 levels = 1 wave)
-    spawnReduction: 4,      // Reduce spawn interval by this much per wave
-    minSpawnInterval: 18,   // Minimum spawn interval
-    speedIncrease: 0.25,    // Speed increase per wave
+    spawnReduction: 5,      // Reduce spawn interval by this much per wave
+    minSpawnInterval: 12,   // Minimum spawn interval
+    speedIncrease: 0.35,    // Speed increase per wave
     powerupDecay: 0.015,    // Reduce powerup chance per wave
     minPowerupChance: 0.08, // Minimum powerup drop rate
     

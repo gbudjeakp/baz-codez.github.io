@@ -98,12 +98,12 @@ GD.spawnEnemy = function() {
     // Calculate enemy speed with arcade scaling
     let spd;
     if (GD.gameMode === 'arcade') {
-        const baseSpd = GD.ARCADE.baseEnemySpeed + effectiveLevel * 0.5;
+        const baseSpd = GD.ARCADE.baseEnemySpeed + effectiveLevel * 0.6;
         const waveBonus = wave * GD.ARCADE.speedIncrease;
-        const killBonus = Math.min(GD.killCount * 0.02, 0.8);
+        const killBonus = Math.min(GD.killCount * 0.03, 1.0);
         spd = baseSpd + waveBonus + killBonus;
     } else {
-        spd = 1.4 + effectiveLevel * 0.5 + Math.min(GD.killCount * 0.025, 1.2);
+        spd = 1.8 + effectiveLevel * 0.6 + Math.min(GD.killCount * 0.03, 1.5);
     }
     
     const r = Math.random();
@@ -111,17 +111,22 @@ GD.spawnEnemy = function() {
 
     // Arcade mode introduces harder enemies sooner at higher waves
     if (GD.gameMode === 'arcade' && wave >= 2) {
-        // More homing and bouncers at high waves
-        type = r < 0.10 ? 'cup' : r < 0.22 ? 'sine' : r < 0.34 ? 'zigzag' :
-               r < 0.48 ? 'dropper' : r < 0.60 ? 'missile' : r < 0.78 ? 'bouncer' : 'homing';
+        // More homing, divers and bouncers at high waves
+        type = r < 0.08 ? 'cup' : r < 0.16 ? 'sine' : r < 0.26 ? 'zigzag' :
+               r < 0.36 ? 'dropper' : r < 0.46 ? 'missile' : r < 0.58 ? 'bouncer' : 
+               r < 0.72 ? 'diver' : r < 0.86 ? 'sweeper' : 'homing';
     } else if (effectiveLevel === 0) {
-        type = r < 0.50 ? 'cup' : r < 0.75 ? 'sine' : r < 0.90 ? 'zigzag' : 'missile';
+        // More aggressive mix even at level 0
+        type = r < 0.35 ? 'cup' : r < 0.50 ? 'sine' : r < 0.65 ? 'zigzag' : 
+               r < 0.80 ? 'diver' : r < 0.90 ? 'sweeper' : 'homing';
     } else if (effectiveLevel === 1) {
-        type = r < 0.25 ? 'cup' : r < 0.45 ? 'sine' : r < 0.62 ? 'zigzag' :
-               r < 0.76 ? 'missile' : r < 0.88 ? 'bouncer' : 'dropper';
+        type = r < 0.18 ? 'cup' : r < 0.32 ? 'sine' : r < 0.44 ? 'zigzag' :
+               r < 0.54 ? 'missile' : r < 0.64 ? 'bouncer' : r < 0.74 ? 'dropper' :
+               r < 0.84 ? 'diver' : r < 0.92 ? 'sweeper' : 'homing';
     } else {
-        type = r < 0.15 ? 'cup' : r < 0.30 ? 'sine' : r < 0.44 ? 'zigzag' :
-               r < 0.56 ? 'dropper' : r < 0.68 ? 'missile' : r < 0.80 ? 'bouncer' : 'homing';
+        type = r < 0.10 ? 'cup' : r < 0.20 ? 'sine' : r < 0.30 ? 'zigzag' :
+               r < 0.40 ? 'dropper' : r < 0.50 ? 'missile' : r < 0.60 ? 'bouncer' : 
+               r < 0.72 ? 'diver' : r < 0.84 ? 'sweeper' : 'homing';
     }
 
     // Arcade: enemies get +1 HP at wave 3+
@@ -156,10 +161,29 @@ GD.spawnEnemy = function() {
         e.vx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
         e.vy = spd * 0.8 + Math.random();
     } else if (type === 'homing') {
-        const side = Math.random() > 0.5;
-        e.x = side ? (Math.random() > 0.5 ? -24 : canvas.width) : Math.random() * (canvas.width - 24);
-        e.y = side ? Math.random() * (canvas.height / 2) : -24;
-        e.vx = 0; e.vy = 0; e.homespd = 1.2 + GD.level * 0.35;
+        // Battery enemy - spawns at top, locks on to player once
+        e.x = 30 + Math.random() * (canvas.width - 60); 
+        e.y = -24;
+        e.vx = 0; e.vy = 1.5; // Drift down first
+        e.homespd = 2.2 + GD.level * 0.4;
+        e.locked = false; // Will lock onto player after entering screen
+        e.lockDelay = 30; // Wait 30 frames before locking
+    } else if (type === 'diver') {
+        // Diver: starts at top, dives toward player when horizontally aligned
+        e.x = Math.random() * (canvas.width - 24); e.y = -24;
+        e.vx = (Math.random() > 0.5 ? 1 : -1) * (1.5 + Math.random());
+        e.vy = spd * 0.6;
+        e.diving = false;
+        e.diveSpeed = spd * 2.5 + Math.random() * 2;
+    } else if (type === 'sweeper') {
+        // Sweeper: enters from side, locks onto player Y once then sweeps across
+        const left = Math.random() > 0.5;
+        e.x = left ? -30 : canvas.width + 6;
+        e.y = 50 + Math.random() * (canvas.height * 0.4);
+        e.vx = (left ? 1 : -1) * (spd * 1.4 + Math.random());
+        e.vy = 0;
+        e.targetY = GD.player.y + GD.player.h/2; // Lock Y once at spawn
+        e.lockedY = false;
     } else {
         e.x = Math.random() * (canvas.width - 24); e.y = -24;
         e.vx = 0; e.vy = spd + Math.random() * 1.5;
