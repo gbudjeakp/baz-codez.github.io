@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentTheme === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
-                toggleIcon.textContent = '\u2600';
+                toggleIcon.textContent = '★';
                 toggleText.textContent = 'LIGHTS';
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
-                toggleIcon.textContent = '\u263E';
+                toggleIcon.textContent = '☾';
                 toggleText.textContent = 'LIGHTS';
             }
         });

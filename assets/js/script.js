@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentTheme === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
-                toggleIcon.textContent = '☀';
+                toggleIcon.textContent = '★';
                 toggleText.textContent = 'LIGHTS';
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');

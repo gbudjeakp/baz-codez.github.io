@@ -733,13 +733,13 @@ GD.drawShop = function(ctx, canvas) {
     ctx.textAlign = 'center';
     ctx.font = '10px "Special Elite", monospace';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.fillText('ARROWS: SELECT  |  SPACE: BUY  |  ESC/P: FIGHT', canvas.width / 2, canvas.height - 18);
+    ctx.fillText('D-PAD: SELECT  |  FIRE: BUY', canvas.width / 2, canvas.height - 18);
     
     // Continue hint
     ctx.font = 'bold 13px "Special Elite", monospace';
     const pulse = Math.sin(Date.now() * 0.005) * 0.3 + 0.7;
     ctx.fillStyle = `rgba(255, 136, 100, ${pulse})`;
-    ctx.fillText('PRESS ESC OR P TO FIGHT BOSS', canvas.width / 2, canvas.height - 38);
+    ctx.fillText('TAP HERE OR PRESS P TO FIGHT BOSS', canvas.width / 2, canvas.height - 38);
     
     ctx.restore();
 };

@@ -27,8 +27,8 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
                 return;
             }
             
-            // ESC or P to proceed to boss
-            if (e.key === 'Escape' || k === 'p') {
+            // P to proceed to boss (not ESC - ESC exits fullscreen)
+            if (k === 'p') {
                 if (GD.proceedToBoss) GD.proceedToBoss();
                 return;
             }
@@ -59,10 +59,12 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
             return;
         }
         
-        // Handle ESC or P for pause (P works in fullscreen where ESC exits fullscreen)
-        if (e.key === 'Escape' || k === 'p') {
+        // Handle P for pause (not ESC - ESC exits fullscreen)
+        // Allow pausing during playing, boss, and boss_intro states
+        if (k === 'p') {
             e.preventDefault();
-            if (GD.gameRunning && GD.gameState === 'playing' && !GD.gamePaused) {
+            const pausableStates = ['playing', 'boss', 'boss_intro'];
+            if (GD.gameRunning && pausableStates.includes(GD.gameState) && !GD.gamePaused) {
                 pauseCallback();
             } else if (GD.gamePaused) {
                 resumeCallback();
@@ -92,6 +94,27 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
             e.preventDefault();
             GD.keys[key] = true;
             btn.classList.add('active');
+            
+            // Handle shop navigation on touch
+            if (GD.gameState === 'shop' && GD.shopInputDelay <= 0) {
+                if (key === 'arrowup' || key === 'w') {
+                    GD.shopSelection = Math.max(0, GD.shopSelection - 2);
+                    GD.playSound('menu_select');
+                } else if (key === 'arrowdown' || key === 's') {
+                    GD.shopSelection = Math.min(GD.SHOP.items.length - 1, GD.shopSelection + 2);
+                    GD.playSound('menu_select');
+                } else if (key === 'arrowleft' || key === 'a') {
+                    if (GD.shopSelection % 2 === 1) {
+                        GD.shopSelection--;
+                        GD.playSound('menu_select');
+                    }
+                } else if (key === 'arrowright' || key === 'd') {
+                    if (GD.shopSelection % 2 === 0 && GD.shopSelection < GD.SHOP.items.length - 1) {
+                        GD.shopSelection++;
+                        GD.playSound('menu_select');
+                    }
+                }
+            }
         }, { passive: false });
         btn.addEventListener('touchend', e => {
             e.preventDefault();
@@ -110,6 +133,11 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
             e.preventDefault();
             GD.keys[' '] = true;
             touchFire.classList.add('active');
+            
+            // Handle shop purchase on touch
+            if (GD.gameState === 'shop' && GD.shopInputDelay <= 0) {
+                GD.purchaseShopItem(GD.shopSelection);
+            }
         }, { passive: false });
         touchFire.addEventListener('touchend', e => {
             e.preventDefault();
@@ -122,8 +150,23 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
         });
     }
     
-    // Prevent canvas touch from scrolling
-    canvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+    // Prevent canvas touch from scrolling and handle shop proceed
+    canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        
+        // In shop state, tap on bottom area to proceed to boss
+        if (GD.gameState === 'shop' && GD.shopInputDelay <= 0) {
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const y = touch.clientY - rect.top;
+            const canvasHeight = rect.height;
+            
+            // Tap on bottom 15% of canvas to fight boss
+            if (y > canvasHeight * 0.85) {
+                if (GD.proceedToBoss) GD.proceedToBoss();
+            }
+        }
+    }, { passive: false });
     canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
 };
 
