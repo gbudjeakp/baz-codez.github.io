@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // DARK MODE TOGGLE
     // ═══════════════════════════════════════════════════════════════
     const themeToggle = document.getElementById('theme-toggle');
-    const toggleIcon = themeToggle?.querySelector('.toggle-icon');
-    const toggleText = themeToggle?.querySelector('.toggle-text');
     
     // Check for saved theme preference or system preference
     const savedTheme = localStorage.getItem('theme');
@@ -18,8 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Apply initial theme
     if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
         document.documentElement.setAttribute('data-theme', 'dark');
-        if (toggleIcon) toggleIcon.textContent = '☾';
-        if (toggleText) toggleText.textContent = 'LIGHTS';
     }
     
     // Toggle theme on button click
@@ -30,13 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentTheme === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
-                toggleIcon.textContent = '★';
-                toggleText.textContent = 'LIGHTS';
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
-                toggleIcon.textContent = '☾';
-                toggleText.textContent = 'LIGHTS';
             }
         });
     }
@@ -44,6 +36,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // ═══════════════════════════════════════════════════════════════
     // SMOOTH SCROLLING
     // ═══════════════════════════════════════════════════════════════
+    // Mobile hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking a nav link
+        navLinks.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+    
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
