@@ -633,12 +633,12 @@ GD.drawShop = function(ctx, canvas) {
     // Title
     ctx.textAlign = 'center';
     ctx.font = 'bold 22px "Playfair Display", serif';
-    ctx.fillStyle = '#ffcc00';
+    ctx.fillStyle = '#ffffff';
     ctx.fillText('PREPARE FOR BATTLE', canvas.width / 2, 40);
     
     // Coins display
     ctx.font = 'bold 14px "Special Elite", monospace';
-    ctx.fillStyle = '#ffcc00';
+    ctx.fillStyle = '#ffffff';
     ctx.fillText('COINS: ' + GD.coins, canvas.width / 2, 62);
     
     // Items grid (2 columns)
@@ -674,7 +674,7 @@ GD.drawShop = function(ctx, canvas) {
         
         // Selection border
         if (isSelected) {
-            ctx.strokeStyle = '#ffcc00';
+            ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, w, h);
         }
@@ -724,7 +724,7 @@ GD.drawShop = function(ctx, canvas) {
             ctx.fillText('OWNED', x + w - 10, y + h/2 + 4);
         } else {
             ctx.font = 'bold 12px "Special Elite", monospace';
-            ctx.fillStyle = canAfford ? '#ffcc00' : '#ff5555';
+            ctx.fillStyle = canAfford ? '#ffffff' : '#ff5555';
             ctx.fillText(item.cost + ' ●', x + w - 10, y + h/2 + 4);
         }
     });

@@ -22,6 +22,11 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
         if (GD.gameState === 'shop') {
             e.preventDefault();
             
+            // Block all input during shop opening delay
+            if (GD.shopInputDelay > 0) {
+                return;
+            }
+            
             // ESC or P to proceed to boss
             if (e.key === 'Escape' || k === 'p') {
                 if (GD.proceedToBoss) GD.proceedToBoss();

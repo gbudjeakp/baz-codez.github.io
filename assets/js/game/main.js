@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ── Shop & Currency ─────────────────────────────────────────────
     GD.coins = 0;
     GD.shopSelection = 0;   // Currently selected shop item
+    GD.shopInputDelay = 0;  // Delay before accepting input in shop
     GD.tempUpgrades = {};   // Temporary buffs for current boss fight
     GD.permUpgrades = {};   // Permanent upgrades for entire run
     
@@ -240,9 +241,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Go to shop before boss
             GD.gameState = 'shop';
             GD.shopSelection = 0;
+            GD.shopInputDelay = 30; // ~0.5 second delay to prevent accidental purchases
             GD.tempUpgrades = {}; // Clear temp buffs from previous boss
             GD.enemies = []; GD.bullets = []; GD.powerups = [];
-            GD.spawnParticles(canvas.width/2, canvas.height/2, 25, '#ffcc00');
+            GD.spawnParticles(canvas.width/2, canvas.height/2, 25, '#ffffff');
         }
     }
     
@@ -405,6 +407,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (GD.gameState === 'shop') {
             // Shop state - just update particles, input handled separately
             GD.updateParticles();
+            // Decrement shop input delay to prevent accidental purchases
+            if (GD.shopInputDelay > 0) GD.shopInputDelay--;
         }
     }
 
@@ -451,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
         GD.invincible = false; GD.invTimer = 0; GD.flashTimer = 0;
         GD.shootCooldown = 0; GD.frameCount = 0; GD.stateTimer = 0;
         // Reset shop state
-        GD.coins = 0; GD.shopSelection = 0;
+        GD.coins = 0; GD.shopSelection = 0; GD.shopInputDelay = 0;
         GD.tempUpgrades = {}; GD.permUpgrades = {};
         GD.player.speed = 5; // Reset player speed
         GD.baseCooldown = 14; // Reset base cooldown
