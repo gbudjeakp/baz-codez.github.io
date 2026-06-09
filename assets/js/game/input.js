@@ -219,6 +219,21 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
             for (let i = 0; i < e.touches.length; i++) {
                 if (e.touches[i].identifier === analogTouchId) {
                     handleAnalogTouch(e.touches[i], false);
+                    // Apply partial movement immediately - rest handled by game loop
+                    // 0.4 = 40% instant response, 60% from game loop (small smoothing)
+                    if (GD.player && (GD.gameState === 'playing' || GD.gameState === 'boss')) {
+                        const INSTANT_FACTOR = 0.4;
+                        let dx = 0, dy = 0;
+                        if (GD.keys['arrowleft']) dx = -GD.player.speed * INSTANT_FACTOR;
+                        if (GD.keys['arrowright']) dx = GD.player.speed * INSTANT_FACTOR;
+                        if (GD.keys['arrowup']) dy = -GD.player.speed * INSTANT_FACTOR;
+                        if (GD.keys['arrowdown']) dy = GD.player.speed * INSTANT_FACTOR;
+                        if (dx !== 0 && dy !== 0) { dx *= 0.707; dy *= 0.707; }
+                        if (dx !== 0 || dy !== 0) {
+                            GD.player.x = GD.clamp(GD.player.x + dx, 0, GD.canvas.width - GD.player.w);
+                            GD.player.y = GD.clamp(GD.player.y + dy, 0, GD.canvas.height - GD.player.h);
+                        }
+                    }
                     break;
                 }
             }
@@ -266,19 +281,59 @@ GD.initInput = function(canvas, pauseCallback, resumeCallback) {
         });
     }
     
-    // Prevent canvas touch from scrolling and handle shop proceed
+    // Prevent canvas touch from scrolling and handle shop interaction
     canvas.addEventListener('touchstart', e => {
         e.preventDefault();
         
-        // In shop state, tap on bottom area to proceed to boss
+        // In shop state, handle tap-to-select items and proceed
         if (GD.gameState === 'shop' && GD.shopInputDelay <= 0) {
             const touch = e.touches[0];
             const rect = canvas.getBoundingClientRect();
-            const y = touch.clientY - rect.top;
-            const canvasHeight = rect.height;
+            
+            // Convert touch coordinates to canvas coordinates
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const touchX = (touch.clientX - rect.left) * scaleX;
+            const touchY = (touch.clientY - rect.top) * scaleY;
+            
+            // Check if tapping on a shop item
+            const items = GD.SHOP.items;
+            const startY = 85;
+            const itemHeight = 56;
+            const colWidth = 270;
+            const gap = 12;
+            const leftCol = canvas.width / 2 - colWidth - gap / 2;
+            const rightCol = canvas.width / 2 + gap / 2;
+            
+            let tappedItem = -1;
+            for (let idx = 0; idx < items.length; idx++) {
+                const col = idx % 2;
+                const row = Math.floor(idx / 2);
+                const x = col === 0 ? leftCol : rightCol;
+                const y = startY + row * itemHeight;
+                const w = colWidth;
+                const h = itemHeight - 4;
+                
+                if (touchX >= x && touchX <= x + w && touchY >= y && touchY <= y + h) {
+                    tappedItem = idx;
+                    break;
+                }
+            }
+            
+            if (tappedItem >= 0) {
+                // If tapping already selected item, purchase it
+                if (tappedItem === GD.shopSelection) {
+                    GD.purchaseShopItem(GD.shopSelection);
+                } else {
+                    // Select the tapped item
+                    GD.shopSelection = tappedItem;
+                    GD.playSound('menu_select');
+                }
+                return;
+            }
             
             // Tap on bottom 15% of canvas to fight boss
-            if (y > canvasHeight * 0.85) {
+            if (touchY > canvas.height * 0.85) {
                 if (GD.proceedToBoss) GD.proceedToBoss();
             }
         }
