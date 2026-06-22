@@ -756,6 +756,8 @@ body,
     transition: all 0.15s ease;
     position: relative;
     animation: card-idle 4s ease-in-out infinite;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:nth-child(1) { animation-delay: 0s; }
@@ -841,6 +843,8 @@ body,
     padding: 8px 0;
     border-bottom: 2px solid var(--accent);
     transition: all 0.2s ease;
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 .card-link:hover {
